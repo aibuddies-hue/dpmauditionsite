@@ -285,6 +285,53 @@
 .delay-4 { animation-delay: 0.4s; opacity: 0; }
 .delay-5 { animation-delay: 0.5s; opacity: 0; }
 
+/* Countdown timer */
+.countdown-box {
+  background: #181818;
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 8px;
+  padding: 12px 20px;
+  text-align: center;
+  min-width: 70px;
+}
+.countdown-box .num {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #C9A84C;
+  line-height: 1;
+}
+.countdown-box .label {
+  font-size: 0.5rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #857d6e;
+  margin-top: 4px;
+}
+
+/* Trust badges */
+.trust-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.7rem;
+  color: #857d6e;
+  letter-spacing: 0.05em;
+}
+
+/* Spots remaining pulse */
+@keyframes spotsPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+.spots-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ef4444;
+  animation: spotsPulse 1.5s ease infinite;
+}
+
 /* Mobile responsive */
 @media (max-width: 768px) {
   .hero-grid {

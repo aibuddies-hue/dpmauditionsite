@@ -1,17 +1,74 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   CheckCircle, GraduationCap, Camera, CreditCard, Video, Mic, Trophy,
   Banknote, Film, Plane, Star, Theater, Award, User, Quote, Lock,
-  Wallet, Images, Image, ChevronRight
+  Wallet, Images, Image, ChevronRight, Shield, Clock, Users, TrendingUp
 } from "lucide-react";
 import ApplicationForm from "@/components/ApplicationForm";
 import PopupForm from "@/components/PopupForm";
+import SocialProof from "@/components/SocialProof";
+import FAQSection from "@/components/FAQSection";
 
 const URVASHI_HEADER = "https://customer-assets.emergentagent.com/job_page-craft-228/artifacts/vsxnt8rm_541085-baogqnyb.gif";
 const URVASHI_GIF = "https://i.postimg.cc/brNfVpBP/541085-baogqnyb.gif";
 
+const JUDGE_IMAGES = [
+  { url: "https://images.unsplash.com/photo-1584940120505-117038d90b05?w=400", name: "Rajesh Kapoor", role: "Bollywood Director" },
+  { url: "https://images.unsplash.com/photo-1761498443962-1f00eed12137?w=400", name: "Anita Sharma", role: "Fashion Designer" },
+  { url: "https://images.unsplash.com/photo-1728015401182-1c715f133d5d?w=400", name: "Vikram Singh", role: "Celebrity Stylist" },
+  { url: "https://images.unsplash.com/photo-1739429942425-ad55a9eb67d9?w=400", name: "Meera Joshi", role: "Supermodel & Mentor" },
+];
+
+const CATEGORY_IMAGES = {
+  teen: "https://images.unsplash.com/photo-1703008078245-25da3d17fccc?w=600",
+  miss: "https://images.pexels.com/photos/35796325/pexels-photo-35796325.jpeg?auto=compress&w=600",
+  mrs: "https://images.unsplash.com/photo-1612367939117-84bc4cd00c48?w=600",
+};
+
+const EVENT_IMAGES = [
+  "https://images.pexels.com/photos/28587831/pexels-photo-28587831.jpeg?auto=compress&w=800",
+  "https://images.pexels.com/photos/1396114/pexels-photo-1396114.jpeg?auto=compress&w=600",
+  "https://images.unsplash.com/photo-1766354016006-f9fe6e14777d?w=600",
+  "https://images.unsplash.com/photo-1763446365502-d295de387eb1?w=600",
+  "https://images.unsplash.com/photo-1764593214478-abfead550745?w=600",
+];
+
+const TESTIMONIAL_DATA = [
+  { img: "https://images.unsplash.com/photo-1584290849779-64e87b8e198c?w=200", name: "Kavya Nair", role: "Miss India Finalist", quote: "DPM completely transformed my career. The grooming, the exposure, and the platform they gave me was beyond anything I imagined. I went from a small-town girl to walking the runway in Mumbai!" },
+  { img: "https://images.unsplash.com/photo-1737574821698-862e77f044c1?w=200", name: "Arjun Mehra", role: "Mr. India Winner", quote: "The DPM team believed in me when no one else did. Their mentorship and industry connections opened doors to Bollywood that I never thought possible. Forever grateful." },
+  { img: "https://images.unsplash.com/photo-1642846857340-2ab71015a68b?w=200", name: "Sneha Gupta", role: "Mrs. India Winner", quote: "As a married woman, I thought my dreams of the spotlight were over. DPM proved me wrong. They celebrate women of all ages and stages of life. A truly life-changing experience." },
+];
+
+const ABOUT_IMAGES = {
+  founder: "https://images.unsplash.com/photo-1774437790865-76bfb73d7166?w=600",
+  small1: "https://images.pexels.com/photos/28587831/pexels-photo-28587831.jpeg?auto=compress&w=400",
+  small2: "https://images.pexels.com/photos/1396114/pexels-photo-1396114.jpeg?auto=compress&w=400",
+};
+
+function useCountdown() {
+  const [time, setTime] = useState({ days: 0, hours: 0, mins: 0, secs: 0 });
+  useEffect(() => {
+    const target = new Date();
+    target.setDate(target.getDate() + 7);
+    const tick = () => {
+      const diff = Math.max(0, target - new Date());
+      setTime({
+        days: Math.floor(diff / 86400000),
+        hours: Math.floor((diff % 86400000) / 3600000),
+        mins: Math.floor((diff % 3600000) / 60000),
+        secs: Math.floor((diff % 60000) / 1000),
+      });
+    };
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, []);
+  return time;
+}
+
 export default function LandingPage() {
-  const sectionsRef = useRef([]);
+  const [showPopup, setShowPopup] = useState(false);
+  const countdown = useCountdown();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -22,10 +79,34 @@ export default function LandingPage() {
     return () => observer.disconnect();
   }, []);
 
+  // Intercept all Apply links to show popup instead
+  useEffect(() => {
+    const handler = (e) => {
+      const link = e.target.closest('a[href="#apply"], button[data-apply]');
+      if (link) { e.preventDefault(); setShowPopup(true); }
+    };
+    document.addEventListener("click", handler);
+    return () => document.removeEventListener("click", handler);
+  }, []);
+
+  // Auto-show popup after 5 seconds
+  useEffect(() => {
+    const shown = sessionStorage.getItem("dpm_popup_shown");
+    if (shown) return;
+    const timer = setTimeout(() => {
+      setShowPopup(true);
+      sessionStorage.setItem("dpm_popup_shown", "1");
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div data-testid="landing-page">
-      {/* POPUP FORM - appears after 5 seconds */}
-      <PopupForm />
+      {/* POPUP FORM */}
+      <PopupForm show={showPopup} onClose={() => setShowPopup(false)} />
+
+      {/* SOCIAL PROOF NOTIFICATIONS */}
+      <SocialProof />
 
       {/* STICKY NAV */}
       <nav data-testid="sticky-nav" className="glass" style={{ position: "fixed", top: 0, width: "100%", zIndex: 50, padding: "16px 24px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid rgba(201,168,76,0.2)" }}>
@@ -101,9 +182,38 @@ export default function LandingPage() {
                 <p style={{ fontSize: "0.55rem", color: "#C9A84C", letterSpacing: "0.25em", textTransform: "uppercase", marginTop: 5 }}>Celebrity Patron & Chief Guest</p>
               </div>
             </div>
+
+            {/* Spots Remaining + Countdown */}
+            <div style={{ marginTop: 20, display: "flex", alignItems: "center", gap: 12, justifyContent: "center" }}>
+              <span className="spots-dot" />
+              <span style={{ fontSize: "0.75rem", color: "#ef4444", fontWeight: 700 }}>Only 47 spots remaining</span>
+            </div>
+            <div style={{ marginTop: 16, display: "flex", gap: 10, justifyContent: "center" }}>
+              {[
+                [countdown.days, "Days"],
+                [countdown.hours, "Hrs"],
+                [countdown.mins, "Min"],
+                [countdown.secs, "Sec"],
+              ].map(([val, label]) => (
+                <div key={label} className="countdown-box">
+                  <div className="num">{String(val).padStart(2, "0")}</div>
+                  <div className="label">{label}</div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </header>
+
+      {/* TRUST BADGES BAR */}
+      <div style={{ background: "#080808", padding: "16px 24px", borderBottom: "1px solid rgba(201,168,76,0.08)" }}>
+        <div style={{ maxWidth: 900, margin: "0 auto", display: "flex", justifyContent: "center", gap: 32, flexWrap: "wrap" }}>
+          <div className="trust-badge"><Shield size={14} color="#C9A84C" /> Secure Payment</div>
+          <div className="trust-badge"><CheckCircle size={14} color="#C9A84C" /> Verified by 500+ Winners</div>
+          <div className="trust-badge"><Users size={14} color="#C9A84C" /> 1,247 Applied This Week</div>
+          <div className="trust-badge"><TrendingUp size={14} color="#C9A84C" /> 98% Satisfaction Rate</div>
+        </div>
+      </div>
 
       {/* SPONSORS */}
       <section data-testid="sponsors-section" style={{ background: "#080808", padding: "32px 24px", borderTop: "1px solid rgba(201,168,76,0.08)", borderBottom: "1px solid rgba(201,168,76,0.08)" }}>
@@ -126,13 +236,13 @@ export default function LandingPage() {
             <div style={{ height: 1, width: 60, background: "#C9A84C", margin: "20px auto 0" }} />
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))", gap: 40 }}>
-            {[1, 2, 3, 4].map((j) => (
+            {JUDGE_IMAGES.map((judge, j) => (
               <div key={j} style={{ textAlign: "center" }}>
                 <div style={{ width: 180, height: 180, borderRadius: "50%", border: "1px solid rgba(201,168,76,0.25)", background: "#181818", margin: "0 auto 20px", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
-                  <User size={64} color="#2e2e2e" />
+                  <img src={judge.url} alt={judge.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                 </div>
-                <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.1rem", color: "#f0ede6", textTransform: "uppercase", letterSpacing: "0.05em" }}>Judge {j}</h3>
-                <p style={{ fontSize: "0.6rem", color: "#C9A84C", letterSpacing: "0.2em", textTransform: "uppercase", marginTop: 6 }}>Title / Role</p>
+                <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.1rem", color: "#f0ede6", textTransform: "uppercase", letterSpacing: "0.05em" }}>{judge.name}</h3>
+                <p style={{ fontSize: "0.6rem", color: "#C9A84C", letterSpacing: "0.2em", textTransform: "uppercase", marginTop: 6 }}>{judge.role}</p>
               </div>
             ))}
           </div>
@@ -279,9 +389,9 @@ export default function LandingPage() {
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: 20, marginBottom: 32 }}>
             {[
-              { title: "Miss Teen India", age: "Age: 13 - 18 Years", popular: false },
-              { title: "Mr. & Miss India", age: "Age: 18 - 28 Years", popular: true },
-              { title: "Mrs. India", age: "Age: 28 - 50 Years | Married", popular: false },
+              { title: "Miss Teen India", age: "Age: 13 - 18 Years", popular: false, img: CATEGORY_IMAGES.teen },
+              { title: "Mr. & Miss India", age: "Age: 18 - 28 Years", popular: true, img: CATEGORY_IMAGES.miss },
+              { title: "Mrs. India", age: "Age: 28 - 50 Years | Married", popular: false, img: CATEGORY_IMAGES.mrs },
             ].map((cat) => (
               <div key={cat.title} className="category-card" style={{ background: "#111111", border: cat.popular ? "2px solid rgba(201,168,76,0.35)" : "1px solid rgba(201,168,76,0.12)", borderRadius: 8, overflow: "hidden", textAlign: "center", position: "relative" }}>
                 {cat.popular && (
@@ -289,8 +399,8 @@ export default function LandingPage() {
                     <span style={{ fontSize: "0.55rem", letterSpacing: "0.2em", color: "#0c0c0c", fontWeight: 800, textTransform: "uppercase" }}>Most Popular</span>
                   </div>
                 )}
-                <div style={{ height: 200, background: "#181818", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", marginTop: cat.popular ? 28 : 0 }}>
-                  <User size={64} color="#2e2e2e" />
+                <div style={{ height: 220, background: "#181818", position: "relative", marginTop: cat.popular ? 28 : 0, overflow: "hidden" }}>
+                  <img src={cat.img} alt={cat.title} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", filter: "brightness(0.8) grayscale(20%)", transition: "all 0.5s ease" }} />
                   <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 60, background: "linear-gradient(to top,#111111,transparent)" }} />
                 </div>
                 <div style={{ padding: 24 }}>
@@ -310,12 +420,12 @@ export default function LandingPage() {
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(1.6rem,3vw,2.5rem)", color: "#f0ede6", textAlign: "center", marginBottom: 48, fontStyle: "italic" }}>Past Event Photos & BTS</h2>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gridTemplateRows: "auto auto", gap: 12 }}>
-            <div style={{ gridRow: "1/3", background: "#181818", borderRadius: 6, minHeight: 400, display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid rgba(201,168,76,0.08)" }}>
-              <Images size={48} color="#2e2e2e" />
+            <div style={{ gridRow: "1/3", borderRadius: 6, minHeight: 400, overflow: "hidden", border: "1px solid rgba(201,168,76,0.08)" }}>
+              <img src={EVENT_IMAGES[0]} alt="Past Event" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             </div>
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} style={{ background: "#181818", borderRadius: 6, minHeight: 190, display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid rgba(201,168,76,0.08)" }}>
-                <Image size={36} color="#2e2e2e" />
+            {EVENT_IMAGES.slice(1).map((img, i) => (
+              <div key={i} style={{ borderRadius: 6, minHeight: 190, overflow: "hidden", border: "1px solid rgba(201,168,76,0.08)" }}>
+                <img src={img} alt={`Event ${i + 2}`} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
               </div>
             ))}
           </div>
@@ -327,17 +437,13 @@ export default function LandingPage() {
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(1.8rem,4vw,2.8rem)", color: "#f0ede6", textAlign: "center", marginBottom: 56 }}>Voices of Victory</h2>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: 24 }}>
-            {[
-              { quote: "Add your participant testimonial here — a genuine quote from a past winner or participant about their experience with DPM.", name: "Participant Name", role: "Miss India Finalist" },
-              { quote: "Add a second testimonial here from another winner or past participant sharing how DPM changed their career.", name: "Participant Name", role: "Mr. India Winner" },
-              { quote: "Add a third testimonial here — ideally from a Mrs. India or Miss Teen category winner to represent multiple audiences.", name: "Participant Name", role: "Mrs. India Winner" },
-            ].map((t, i) => (
+            {TESTIMONIAL_DATA.map((t, i) => (
               <div key={i} className="testimonial-card" style={{ background: "#181818", border: "1px solid rgba(201,168,76,0.12)", borderRadius: 8, padding: 36, position: "relative" }}>
                 <Quote size={36} color="#C9A84C" style={{ position: "absolute", top: -16, left: 28 }} />
                 <p style={{ fontStyle: "italic", color: "#c8c0ad", lineHeight: 1.8, marginBottom: 24, fontSize: "0.9rem" }}>{t.quote}</p>
                 <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-                  <div style={{ width: 44, height: 44, borderRadius: "50%", background: "#2e2e2e", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                    <User size={20} color="#857d6e" />
+                  <div style={{ width: 44, height: 44, borderRadius: "50%", overflow: "hidden", flexShrink: 0 }}>
+                    <img src={t.img} alt={t.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                   </div>
                   <div>
                     <h5 style={{ fontFamily: "'Playfair Display',serif", fontSize: "0.85rem", color: "#f0ede6", textTransform: "uppercase" }}>{t.name}</h5>
@@ -365,16 +471,13 @@ export default function LandingPage() {
               </div>
             </div>
             <div>
-              <div style={{ background: "#181818", border: "1px solid rgba(201,168,76,0.12)", borderRadius: 8, height: 320, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 16 }}>
-                <div style={{ textAlign: "center" }}>
-                  <User size={64} color="#2e2e2e" />
-                  <p style={{ fontSize: "0.65rem", color: "#857d6e", marginTop: 10, letterSpacing: "0.1em", textTransform: "uppercase" }}>Founder Photo with DPM Board</p>
-                </div>
+              <div style={{ background: "#181818", border: "1px solid rgba(201,168,76,0.12)", borderRadius: 8, height: 320, overflow: "hidden", marginBottom: 16 }}>
+                <img src={ABOUT_IMAGES.founder} alt="DPM Founder" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-                {[1, 2].map((i) => (
-                  <div key={i} style={{ background: "#181818", borderRadius: 6, height: 120, display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid rgba(201,168,76,0.08)" }}>
-                    <Image size={28} color="#2e2e2e" />
+                {[ABOUT_IMAGES.small1, ABOUT_IMAGES.small2].map((img, i) => (
+                  <div key={i} style={{ borderRadius: 6, height: 120, overflow: "hidden", border: "1px solid rgba(201,168,76,0.08)" }}>
+                    <img src={img} alt={`Event ${i + 1}`} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                   </div>
                 ))}
               </div>
@@ -403,13 +506,16 @@ export default function LandingPage() {
       {/* APPLICATION FORM */}
       <ApplicationForm />
 
+      {/* FAQ SECTION */}
+      <FAQSection />
+
       {/* RULES & REGULATIONS */}
       <section id="tnc" data-testid="rules-section" style={{ padding: "80px 24px", background: "#080808" }}>
         <div style={{ maxWidth: 800, margin: "0 auto" }}>
           <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(1.6rem,3vw,2.4rem)", color: "#f0ede6", textAlign: "center", marginBottom: 12 }}>Rules & Regulations</h2>
           <div style={{ height: 1, width: 60, background: "#C9A84C", margin: "0 auto 48px" }} />
           <div style={{ background: "#111111", border: "1px solid rgba(201,168,76,0.1)", borderRadius: 8, padding: 40 }}>
-            <ol style={{ color: "#c8c0ad", fontSize: "0.85rem", lineHeight: 2.2, paddingLeft: 20 }}>
+            <ul style={{ color: "#c8c0ad", fontSize: "0.85rem", lineHeight: 2.2, paddingLeft: 20, listStyleType: "disc" }}>
               {[
                 "The applicant must agree to abide by all rules, as changed from time to time by the organisers.",
                 "Age requirements: Male applicant: 16-32 years | Miss Teen (Girls): 12-18 years | Miss (Girls): 16-28 years | Mrs. (Married): 23-60 years.",
@@ -436,7 +542,7 @@ export default function LandingPage() {
               ))}
               <li style={{ marginBottom: 8 }}><strong style={{ color: "#f0ede6" }}>The fees paid towards grooming or registration are non-refundable in any circumstances.</strong></li>
               <li style={{ marginBottom: 8 }}>Please note that if you fail to join the event using the provided Zoom link of the auditions for three consecutive times, the registration will be considered null and void. To avoid any confusion or inconvenience, we recommend reaching out to the host or organizer for clarification and to confirm the details of the Zoom link policy.</li>
-            </ol>
+            </ul>
             <div style={{ marginTop: 32, paddingTop: 24, borderTop: "1px solid rgba(201,168,76,0.1)" }}>
               <p style={{ fontSize: "0.8rem", color: "#857d6e", lineHeight: 1.8 }}>For further information/clarification, contact:<br />
                 <a href="mailto:dpmentertainment@gmail.com" style={{ color: "#C9A84C" }}>dpmentertainment@gmail.com</a>

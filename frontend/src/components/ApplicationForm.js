@@ -6,7 +6,7 @@ const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
 const URVASHI_HEADER_IMG = "https://customer-assets.emergentagent.com/job_page-craft-228/artifacts/vsxnt8rm_541085-baogqnyb.gif";
 
-export default function ApplicationForm() {
+export default function ApplicationForm({ isPopup = false, onSuccess }) {
   const [step, setStep] = useState(1);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -52,7 +52,12 @@ export default function ApplicationForm() {
 
   const showThankYou = () => {
     setSubmitted(true);
-    document.getElementById("apply")?.scrollIntoView({ behavior: "smooth" });
+    if (!isPopup) {
+      document.getElementById("apply")?.scrollIntoView({ behavior: "smooth" });
+    }
+    if (onSuccess) {
+      setTimeout(() => onSuccess(), 3000);
+    }
   };
 
   const stepClass = (i) => {

@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-02T10:55:10.449730",
+  "timestamp": "2026-04-02T11:25:20.318836",
   "total_tests": 5,
   "passed_tests": 5,
   "success_rate": "100.0%",
@@ -12,12 +12,12 @@
     {
       "test": "Create Application",
       "status": "PASSED",
-      "details": "Status: 200, Application ID: ad516c53-d5fb-4e72-be67-f38a37611af3, Status: pending"
+      "details": "Status: 200, Application ID: 4873b617-e6d7-4c89-8105-372ee099448c, Status: pending"
     },
     {
       "test": "Get Applications",
       "status": "PASSED",
-      "details": "Status: 200, Found 1 applications"
+      "details": "Status: 200, Found 3 applications"
     },
     {
       "test": "Application Validation",
