@@ -1,0 +1,33 @@
+{
+  "timestamp": "2026-04-02T10:55:10.449730",
+  "total_tests": 5,
+  "passed_tests": 5,
+  "success_rate": "100.0%",
+  "results": [
+    {
+      "test": "Root API Endpoint",
+      "status": "PASSED",
+      "details": "Status: 200, Response: {'message': 'DPM Beauty Pageant 2026 API'}"
+    },
+    {
+      "test": "Create Application",
+      "status": "PASSED",
+      "details": "Status: 200, Application ID: ad516c53-d5fb-4e72-be67-f38a37611af3, Status: pending"
+    },
+    {
+      "test": "Get Applications",
+      "status": "PASSED",
+      "details": "Status: 200, Found 1 applications"
+    },
+    {
+      "test": "Application Validation",
+      "status": "PASSED",
+      "details": "Status: 422"
+    },
+    {
+      "test": "CORS Headers",
+      "status": "PASSED",
+      "details": "Status: 204, CORS headers: ['access-control-allow-origin', 'access-control-allow-methods', 'access-control-allow-headers']"
+    }
+  ]
+}

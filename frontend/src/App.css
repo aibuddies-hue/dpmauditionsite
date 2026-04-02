@@ -1,34 +1,205 @@
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
+/* ===== DPM BEAUTY PAGEANT STYLES ===== */
+
+/* Gold Button */
+.gold-btn {
+  background: linear-gradient(135deg, #e6c364 0%, #C9A84C 60%, #a07830 100%);
+  color: #0c0c0c;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: all 0.3s;
+  box-shadow: 0 8px 32px rgba(201,168,76,0.3);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+.gold-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px rgba(201,168,76,0.45);
+  filter: brightness(1.08);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
+/* Gold Outline Button */
+.gold-outline-btn {
+  border: 1px solid #C9A84C;
+  color: #C9A84C;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: all 0.3s;
+  background: transparent;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+.gold-outline-btn:hover {
+  background: #C9A84C;
+  color: #0c0c0c;
 }
 
-.App-header {
-    background-color: #0f0f10;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+/* Shimmer Animation */
+.shimmer {
+  background: linear-gradient(90deg, #C9A84C 0%, #ffe08f 40%, #e6c364 60%, #C9A84C 100%);
+  background-size: 200% auto;
+  animation: shimmer 3s linear infinite;
+  color: #0c0c0c;
+}
+@keyframes shimmer {
+  to { background-position: 200% center; }
 }
 
-.App-link {
-    color: #61dafb;
+/* Section fade-in animation */
+.section-fade {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.section-fade.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+/* Glass morphism */
+.glass {
+  background: rgba(12,12,12,0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* Prize card hover */
+.prize-card {
+  transition: all 0.3s ease;
+  border-top: 2px solid transparent;
+}
+.prize-card:hover {
+  transform: translateY(-6px);
+  border-top-color: #C9A84C;
+}
+
+/* Category card */
+.category-card {
+  transition: all 0.3s ease;
+}
+.category-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(201,168,76,0.35) !important;
+}
+
+/* Form inputs */
+.dpm-input {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  background: #1e1e1e !important;
+  border: 1px solid rgba(201,168,76,0.25) !important;
+  color: #f0ede6 !important;
+  font-family: 'Montserrat', sans-serif !important;
+  transition: border-color 0.2s;
+  outline: none;
+}
+.dpm-input:focus {
+  border-color: #C9A84C !important;
+  box-shadow: 0 0 0 2px rgba(201,168,76,0.15) !important;
+}
+.dpm-input::placeholder {
+  color: #857d6e !important;
+}
+
+.dpm-select {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  background: #1e1e1e !important;
+  border: 1px solid rgba(201,168,76,0.25) !important;
+  color: #f0ede6 !important;
+  font-family: 'Montserrat', sans-serif !important;
+  transition: border-color 0.2s;
+  outline: none;
+  appearance: auto;
+}
+.dpm-select:focus {
+  border-color: #C9A84C !important;
+  box-shadow: 0 0 0 2px rgba(201,168,76,0.15) !important;
+}
+
+/* Progress steps */
+.progress-step-done {
+  background: #C9A84C;
+  color: #0c0c0c;
+}
+.progress-step-active {
+  border: 2px solid #C9A84C;
+  color: #C9A84C;
+}
+.progress-step-todo {
+  border: 1px solid #2e2e2e;
+  color: #857d6e;
+}
+
+/* Checkbox */
+.checkbox-gold {
+  accent-color: #C9A84C;
+}
+
+/* Testimonial card */
+.testimonial-card {
+  transition: all 0.3s ease;
+}
+.testimonial-card:hover {
+  border-color: rgba(201,168,76,0.3) !important;
+  transform: translateY(-2px);
+}
+
+/* Hero image animation */
+@keyframes heroFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.hero-image-wrapper {
+  animation: heroFloat 4s ease-in-out infinite;
+}
+
+/* Stagger animation for hero stats */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-in-up {
+  animation: fadeInUp 0.6s ease forwards;
+}
+.delay-1 { animation-delay: 0.1s; opacity: 0; }
+.delay-2 { animation-delay: 0.2s; opacity: 0; }
+.delay-3 { animation-delay: 0.3s; opacity: 0; }
+.delay-4 { animation-delay: 0.4s; opacity: 0; }
+.delay-5 { animation-delay: 0.5s; opacity: 0; }
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .hero-grid {
+    grid-template-columns: 1fr !important;
+    text-align: center;
+  }
+  .hero-image-col {
+    display: none;
+  }
+  .celebrity-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .about-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .footer-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .stats-strip {
+    gap: 16px !important;
+  }
+  .stats-divider {
+    display: none;
+  }
 }
