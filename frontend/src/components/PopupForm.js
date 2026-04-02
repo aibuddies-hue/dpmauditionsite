@@ -14,6 +14,12 @@ export default function PopupForm({ show, onClose }) {
     }
   }, [show]);
 
+  useEffect(() => {
+    const esc = (e) => { if (e.key === "Escape" && visible) handleClose(); };
+    document.addEventListener("keydown", esc);
+    return () => document.removeEventListener("keydown", esc);
+  });
+
   const handleClose = () => {
     setClosing(true);
     document.body.style.overflow = "";
@@ -52,7 +58,7 @@ export default function PopupForm({ show, onClose }) {
           data-testid="popup-close-btn"
           className="popup-close"
           onClick={handleClose}
-          style={{ position: "sticky", top: 16, float: "right", marginRight: 16, marginTop: 16, zIndex: 10 }}
+          style={{ position: "fixed", top: "calc(5vh + 16px)", right: "calc(50% - 330px)", zIndex: 110 }}
         >
           <X size={18} />
         </button>

@@ -446,7 +446,7 @@ export default function LandingPage() {
                     <img src={t.img} alt={t.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                   </div>
                   <div>
-                    <h5 style={{ fontFamily: "'Playfair Display',serif", fontSize: "0.85rem", color: "#f0ede6", textTransform: "uppercase" }}>{t.name}</h5>
+                    <h5 style={{ fontFamily: "'Playfair Display',serif", fontSize: "0.85rem", color: "#f0ede6" }}>{t.name}</h5>
                     <p style={{ fontSize: "0.6rem", color: "#C9A84C", letterSpacing: "0.15em", textTransform: "uppercase", marginTop: 2 }}>{t.role}</p>
                   </div>
                 </div>
