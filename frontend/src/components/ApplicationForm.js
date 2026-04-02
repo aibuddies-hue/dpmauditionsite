@@ -82,7 +82,7 @@ export default function ApplicationForm() {
   }
 
   return (
-    <section id="apply" data-testid="application-form-section" style={{ padding: "80px 24px", background: "#0c0c0c" }}>
+    <section id="apply" data-testid="application-form-section" style={{ padding: "80px 24px 120px", background: "#0c0c0c", position: "relative", zIndex: 10 }}>
       <div style={{ maxWidth: 640, margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: 48 }}>
           <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(1.6rem,3vw,2.4rem)", color: "#f0ede6", marginBottom: 8 }}>Apply for Online Auditions</h2>
