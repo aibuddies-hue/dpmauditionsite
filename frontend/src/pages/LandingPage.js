@@ -45,7 +45,7 @@ export default function LandingPage() {
           <div>
             <div className="fade-in-up delay-1" style={{ display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 32, background: "rgba(201,168,76,0.08)", border: "1px solid rgba(201,168,76,0.2)", borderRadius: 50, padding: "8px 20px" }}>
               <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#C9A84C", flexShrink: 0 }} />
-              <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: "0.6rem", letterSpacing: "0.35em", color: "#C9A84C", textTransform: "uppercase", fontWeight: 600 }}>Limited Entry &middot; 2026 Edition &middot; Online Auditions Open</span>
+              <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: "0.6rem", letterSpacing: "0.35em", color: "#C9A84C", textTransform: "uppercase", fontWeight: 600 }}>Limited Entry &middot; 2025 Edition &middot; Online Auditions Open</span>
             </div>
 
             <h1 className="fade-in-up delay-2" style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2.4rem,5.5vw,4.4rem)", lineHeight: 1.12, fontWeight: 900, color: "#f0ede6", marginBottom: 20, letterSpacing: "-0.01em" }}>
@@ -58,7 +58,7 @@ export default function LandingPage() {
 
             <p className="fade-in-up delay-3" style={{ fontSize: "0.95rem", color: "#c8c0ad", marginBottom: 40, lineHeight: 1.8, letterSpacing: "0.02em" }}>
               Become the Next{" "}
-              <strong style={{ color: "#f0ede6", fontWeight: 700 }}>DPM Mr. & Miss, Miss Teen, and Mrs. India 2026</strong>
+              <strong style={{ color: "#f0ede6", fontWeight: 700 }}>DPM Mr. & Miss, Miss Teen, and Mrs. India 2025</strong>
             </p>
 
             <div className="fade-in-up delay-4" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
@@ -182,12 +182,12 @@ export default function LandingPage() {
             <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
               <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2rem,3.5vw,3.2rem)", color: "#f0ede6", lineHeight: 1.15, marginBottom: 36 }}>
                 Get Crowned by<br />
-                <em style={{ color: "#C9A84C" }}>Urvashi Rautela</em>
+                <em style={{ color: "#C9A84C" }}>Miss Universe Urvashi Rautela</em>
               </h2>
               <div style={{ borderLeft: "2px solid #C9A84C", paddingLeft: 24, marginBottom: 40, display: "flex", flexDirection: "column", gap: 12 }}>
                 {[
                   ["Actor & Model", true],
-                  ["Miss Universe India 2015", false],
+                  ["Winner Universe", false],
                   ["Miss Diva Universe 2015", false],
                   ["Femina Miss India 2015", false],
                   ["International Film Star", false],
@@ -279,10 +279,9 @@ export default function LandingPage() {
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: 20, marginBottom: 32 }}>
             {[
-              { title: "Miss Teen India", age: "Age: 12 - 18 Years", popular: false },
-              { title: "Miss India", age: "Age: 16 - 28 Years", popular: true },
-              { title: "Mrs. India", age: "Age: 23 - 60 Years | Married", popular: false },
-              { title: "Mr. India", age: "Age: 16 - 32 Years", popular: false },
+              { title: "Miss Teen India", age: "Age: 13 - 18 Years", popular: false },
+              { title: "Mr. & Miss India", age: "Age: 18 - 28 Years", popular: true },
+              { title: "Mrs. India", age: "Age: 28 - 50 Years | Married", popular: false },
             ].map((cat) => (
               <div key={cat.title} className="category-card" style={{ background: "#111111", border: cat.popular ? "2px solid rgba(201,168,76,0.35)" : "1px solid rgba(201,168,76,0.12)", borderRadius: 8, overflow: "hidden", textAlign: "center", position: "relative" }}>
                 {cat.popular && (
@@ -388,7 +387,7 @@ export default function LandingPage() {
       <section data-testid="final-cta-section" className="section-fade" style={{ padding: "100px 24px", background: "#080808", textAlign: "center", position: "relative", overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at center,rgba(201,168,76,0.08) 0%,transparent 70%)", pointerEvents: "none" }} />
         <div style={{ position: "relative", zIndex: 2, maxWidth: 700, margin: "0 auto" }}>
-          <p style={{ fontSize: "0.65rem", letterSpacing: "0.4em", color: "#C9A84C", textTransform: "uppercase", marginBottom: 20 }}>Limited Slots Remaining for the Auditions</p>
+          <p style={{ fontSize: "0.65rem", letterSpacing: "0.4em", color: "#C9A84C", textTransform: "uppercase", marginBottom: 20 }}>What are you waiting for? &bull; Limited Slots Remaining for the Auditions</p>
           <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2rem,5vw,4rem)", color: "#f0ede6", lineHeight: 1.15, marginBottom: 20 }}>Take Your First Step Today<br />to Break Through Your<br /><em style={{ color: "#C9A84C" }}>Bollywood / Modelling / Fashion Career</em></h2>
           <p style={{ color: "#c8c0ad", marginBottom: 48, fontSize: "1rem" }}>Are You the Next Winner?</p>
           <div style={{ display: "flex", justifyContent: "center", gap: 12, flexWrap: "wrap", marginBottom: 40 }}>
@@ -436,7 +435,7 @@ export default function LandingPage() {
                 <li key={i} style={{ marginBottom: 8 }}>{rule}</li>
               ))}
               <li style={{ marginBottom: 8 }}><strong style={{ color: "#f0ede6" }}>The fees paid towards grooming or registration are non-refundable in any circumstances.</strong></li>
-              <li style={{ marginBottom: 8 }}>Please note that if you fail to join the event using the provided Zoom link of the auditions for three consecutive times, the registration will be considered null and void.</li>
+              <li style={{ marginBottom: 8 }}>Please note that if you fail to join the event using the provided Zoom link of the auditions for three consecutive times, the registration will be considered null and void. To avoid any confusion or inconvenience, we recommend reaching out to the host or organizer for clarification and to confirm the details of the Zoom link policy.</li>
             </ol>
             <div style={{ marginTop: 32, paddingTop: 24, borderTop: "1px solid rgba(201,168,76,0.1)" }}>
               <p style={{ fontSize: "0.8rem", color: "#857d6e", lineHeight: 1.8 }}>For further information/clarification, contact:<br />
@@ -480,7 +479,7 @@ export default function LandingPage() {
           </div>
           <div style={{ borderTop: "1px solid rgba(201,168,76,0.08)", paddingTop: 24, textAlign: "center" }}>
             <p style={{ fontSize: "0.6rem", color: "#2e2e2e", letterSpacing: "0.1em" }}>Please go through the Rules and Regulations of the contest before registration. By registering and paying the fee, you agree to all Terms & Conditions.</p>
-            <p style={{ fontSize: "0.6rem", color: "#2e2e2e", marginTop: 8 }}>&copy; 2026 DPM Entertainment. All Rights Reserved.</p>
+            <p style={{ fontSize: "0.6rem", color: "#2e2e2e", marginTop: 8 }}>&copy; 2025 DPM Entertainment. All Rights Reserved.</p>
           </div>
         </div>
       </footer>
