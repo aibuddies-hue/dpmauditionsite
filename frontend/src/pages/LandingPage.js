@@ -5,6 +5,7 @@ import {
   Wallet, Images, Image, ChevronRight
 } from "lucide-react";
 import ApplicationForm from "@/components/ApplicationForm";
+import PopupForm from "@/components/PopupForm";
 
 const URVASHI_HEADER = "https://customer-assets.emergentagent.com/job_page-craft-228/artifacts/vsxnt8rm_541085-baogqnyb.gif";
 const URVASHI_GIF = "https://i.postimg.cc/brNfVpBP/541085-baogqnyb.gif";
@@ -23,6 +24,9 @@ export default function LandingPage() {
 
   return (
     <div data-testid="landing-page">
+      {/* POPUP FORM - appears after 5 seconds */}
+      <PopupForm />
+
       {/* STICKY NAV */}
       <nav data-testid="sticky-nav" className="glass" style={{ position: "fixed", top: 0, width: "100%", zIndex: 50, padding: "16px 24px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid rgba(201,168,76,0.2)" }}>
         <div style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.4rem", fontWeight: 700, color: "#C9A84C", letterSpacing: "0.15em" }}>DPM</div>
@@ -58,7 +62,7 @@ export default function LandingPage() {
             </p>
 
             <div className="fade-in-up delay-4" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-              <a href="#apply" className="gold-btn" style={{ padding: "18px 48px", borderRadius: 50, fontSize: "0.78rem", textDecoration: "none", letterSpacing: "0.14em", textAlign: "center" }}>
+              <a href="#apply" className="gold-btn gold-btn-pulse" style={{ padding: "18px 48px", borderRadius: 50, fontSize: "0.78rem", textDecoration: "none", letterSpacing: "0.14em", textAlign: "center" }}>
                 Yes, Apply for Online Auditions
               </a>
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
@@ -392,7 +396,7 @@ export default function LandingPage() {
               <span key={cat} style={{ background: "#111111", border: "1px solid rgba(201,168,76,0.3)", color: "#C9A84C", padding: "10px 20px", borderRadius: 4, fontSize: "0.65rem", letterSpacing: "0.15em", textTransform: "uppercase", fontFamily: "'Playfair Display',serif" }}>{cat}</span>
             ))}
           </div>
-          <a href="#apply" className="gold-btn shimmer" style={{ padding: "20px 56px", borderRadius: 50, fontSize: "0.85rem" }}>Apply for Online Auditions — &#8377;999</a>
+          <a href="#apply" className="gold-btn shimmer gold-btn-pulse" style={{ padding: "20px 56px", borderRadius: 50, fontSize: "0.85rem" }}>Apply for Online Auditions — &#8377;999</a>
           <p style={{ marginTop: 20, fontSize: "0.65rem", color: "#857d6e" }}>Grooming Support Provided &bull; Portfolio Shoot Guaranteed &bull; No Prior Experience Required</p>
         </div>
       </section>
