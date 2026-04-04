@@ -418,8 +418,8 @@ export default function LandingPage() {
                 <Quote size={36} color="#C9A84C" style={{ position: "absolute", top: -16, left: 28 }} />
                 <p style={{ fontStyle: "italic", color: "#c8c0ad", lineHeight: 1.8, marginBottom: 24, fontSize: "0.9rem" }}>{t.quote}</p>
                 <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-                  <div style={{ width: 44, height: 44, borderRadius: "50%", overflow: "hidden", flexShrink: 0 }}>
-                    <img src={t.img} alt={t.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  <div style={{ width: 44, height: 44, borderRadius: "50%", background: "linear-gradient(135deg,#C9A84C,#e6c364)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: "0.9rem", fontWeight: 700, color: "#0c0c0c" }}>
+                    {t.name.charAt(0)}
                   </div>
                   <div>
                     <h5 style={{ fontFamily: "'Playfair Display',serif", fontSize: "0.85rem", color: "#f0ede6" }}>{t.name}</h5>
