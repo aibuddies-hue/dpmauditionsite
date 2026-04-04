@@ -14,36 +14,36 @@ const URVASHI_GIF = "https://i.postimg.cc/brNfVpBP/541085-baogqnyb.gif";
 const DPM_LOGO = "https://customer-assets.emergentagent.com/job_page-craft-228/artifacts/oarhbp7n_dpm%20entertainment%20logo%20final%20.png";
 
 const JUDGE_IMAGES = [
-  { url: "https://images.unsplash.com/photo-1584940120505-117038d90b05?w=400", name: "Rajesh Kapoor", role: "Bollywood Director" },
-  { url: "https://images.unsplash.com/photo-1761498443962-1f00eed12137?w=400", name: "Anita Sharma", role: "Fashion Designer" },
-  { url: "https://images.unsplash.com/photo-1728015401182-1c715f133d5d?w=400", name: "Vikram Singh", role: "Celebrity Stylist" },
-  { url: "https://images.unsplash.com/photo-1739429942425-ad55a9eb67d9?w=400", name: "Meera Joshi", role: "Supermodel & Mentor" },
+  { url: "https://drive.google.com/thumbnail?id=13YVUeycDGDCd-dljyJaeyQIl7Tk68bfQ&sz=w400", name: "Judge 1", role: "Bollywood Director" },
+  { url: "https://drive.google.com/thumbnail?id=1YXGBu25FrT8yqq1UuNhVQgsbZ9pTsg-h&sz=w400", name: "Judge 2", role: "Fashion Designer" },
+  { url: "https://drive.google.com/thumbnail?id=1LdF5LbCMi8q7bVKBmfZK9XF4-zP2oX7m&sz=w400", name: "Judge 3", role: "Celebrity Stylist" },
+  { url: "https://drive.google.com/thumbnail?id=1V3ZPfYOWDcTCYY4sGkTWmGOiqjQv8X4e&sz=w400", name: "Judge 4", role: "Supermodel & Mentor" },
 ];
 
 const CATEGORY_IMAGES = {
-  teen: "https://images.unsplash.com/photo-1703008078245-25da3d17fccc?w=600",
-  miss: "https://images.pexels.com/photos/35796325/pexels-photo-35796325.jpeg?auto=compress&w=600",
-  mrs: "https://images.unsplash.com/photo-1612367939117-84bc4cd00c48?w=600",
+  teen: "https://drive.google.com/thumbnail?id=14VntIA-XDOqHAEg7tVhmlOTbAjdPR7xy&sz=w600",
+  miss: "https://drive.google.com/thumbnail?id=11fCS6n8jXZCG_zk_IB3zAZVTu15iX6pm&sz=w600",
+  mrs: "https://drive.google.com/thumbnail?id=1BPNSiA2li55xmpQa49mGZTNP7fK2qyg8&sz=w600",
 };
 
 const EVENT_IMAGES = [
-  "https://images.pexels.com/photos/28587831/pexels-photo-28587831.jpeg?auto=compress&w=800",
-  "https://images.pexels.com/photos/1396114/pexels-photo-1396114.jpeg?auto=compress&w=600",
-  "https://images.unsplash.com/photo-1766354016006-f9fe6e14777d?w=600",
-  "https://images.unsplash.com/photo-1763446365502-d295de387eb1?w=600",
-  "https://images.unsplash.com/photo-1764593214478-abfead550745?w=600",
+  "https://drive.google.com/thumbnail?id=19Q62DLfljzI_4tidlfYqSGaVN6A0qPzD&sz=w800",
+  "https://drive.google.com/thumbnail?id=13wORJaUUaPivsPaTXg8_VXx00BDoXeTX&sz=w600",
+  "https://drive.google.com/thumbnail?id=15v-wOqW67ST0zUOajKsfR0wIuouHy3Ic&sz=w600",
+  "https://drive.google.com/thumbnail?id=17jeak-g8op9gSjtkhOwAgBEdL53iyxZQ&sz=w600",
+  "https://drive.google.com/thumbnail?id=18_m6V4-ZcblOaOadhUTKp4lRGF-h1MR4&sz=w600",
 ];
 
 const TESTIMONIAL_DATA = [
-  { img: "https://images.unsplash.com/photo-1584290849779-64e87b8e198c?w=200", name: "Kavya Nair", role: "Miss India Finalist", quote: "DPM completely transformed my career. The grooming, the exposure, and the platform they gave me was beyond anything I imagined. I went from a small-town girl to walking the runway in Mumbai!" },
-  { img: "https://images.unsplash.com/photo-1737574821698-862e77f044c1?w=200", name: "Arjun Mehra", role: "Mr. India Winner", quote: "The DPM team believed in me when no one else did. Their mentorship and industry connections opened doors to Bollywood that I never thought possible. Forever grateful." },
-  { img: "https://images.unsplash.com/photo-1642846857340-2ab71015a68b?w=200", name: "Sneha Gupta", role: "Mrs. India Winner", quote: "As a married woman, I thought my dreams of the spotlight were over. DPM proved me wrong. They celebrate women of all ages and stages of life. A truly life-changing experience." },
+  { img: "https://drive.google.com/thumbnail?id=16wUAd6t2PFTcwg7E0CMR9ovKYBRdFVV1&sz=w200", name: "Kavya Nair", role: "Miss India Finalist", quote: "DPM completely transformed my career. The grooming, the exposure, and the platform they gave me was beyond anything I imagined. I went from a small-town girl to walking the runway in Mumbai!" },
+  { img: "https://drive.google.com/thumbnail?id=17OuLAoeoiqflGTqUfWMRTAsztACsa43e&sz=w200", name: "Arjun Mehra", role: "Mr. India Winner", quote: "The DPM team believed in me when no one else did. Their mentorship and industry connections opened doors to Bollywood that I never thought possible. Forever grateful." },
+  { img: "https://drive.google.com/thumbnail?id=18ibDJUWKbIBlaCp84LB4pEuVdZbMHH-j&sz=w200", name: "Sneha Gupta", role: "Mrs. India Winner", quote: "As a married woman, I thought my dreams of the spotlight were over. DPM proved me wrong. They celebrate women of all ages and stages of life. A truly life-changing experience." },
 ];
 
 const ABOUT_IMAGES = {
   founder: "https://customer-assets.emergentagent.com/job_page-craft-228/artifacts/8r21rmqm_photo1705582827%20%281%29.jpeg",
-  small1: "https://images.pexels.com/photos/28587831/pexels-photo-28587831.jpeg?auto=compress&w=400",
-  small2: "https://images.pexels.com/photos/1396114/pexels-photo-1396114.jpeg?auto=compress&w=400",
+  small1: "https://drive.google.com/thumbnail?id=1QaTIx-YX6ubCBCzw5u9ofR6NisfgQXHs&sz=w400",
+  small2: "https://drive.google.com/thumbnail?id=1WTfXtt02skeRTIQfG9sAFUW2o_lFMzGE&sz=w400",
 };
 
 function useCountdown() {
