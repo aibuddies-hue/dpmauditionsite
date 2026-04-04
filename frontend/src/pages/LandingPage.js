@@ -22,22 +22,22 @@ const JUDGE_IMAGES = [
 
 const CATEGORY_IMAGES = {
   teen: "https://drive.google.com/thumbnail?id=14VntIA-XDOqHAEg7tVhmlOTbAjdPR7xy&sz=w600",
-  miss: "https://drive.google.com/thumbnail?id=11fCS6n8jXZCG_zk_IB3zAZVTu15iX6pm&sz=w600",
+  miss: "https://drive.google.com/thumbnail?id=1CXjC4EYz7uZ1JlVgdOZ5T86G7elDflDh&sz=w600",
   mrs: "https://drive.google.com/thumbnail?id=1BPNSiA2li55xmpQa49mGZTNP7fK2qyg8&sz=w600",
 };
 
 const EVENT_IMAGES = [
-  "https://drive.google.com/thumbnail?id=19Q62DLfljzI_4tidlfYqSGaVN6A0qPzD&sz=w800",
+  "https://drive.google.com/thumbnail?id=17jeak-g8op9gSjtkhOwAgBEdL53iyxZQ&sz=w800",
   "https://drive.google.com/thumbnail?id=13wORJaUUaPivsPaTXg8_VXx00BDoXeTX&sz=w600",
-  "https://drive.google.com/thumbnail?id=15v-wOqW67ST0zUOajKsfR0wIuouHy3Ic&sz=w600",
-  "https://drive.google.com/thumbnail?id=17jeak-g8op9gSjtkhOwAgBEdL53iyxZQ&sz=w600",
-  "https://drive.google.com/thumbnail?id=18_m6V4-ZcblOaOadhUTKp4lRGF-h1MR4&sz=w600",
+  "https://drive.google.com/thumbnail?id=1D59CS5ZeWB6Lg7D4sB69FggbQ9cnwflq&sz=w600",
+  "https://drive.google.com/thumbnail?id=190iQgBhV0uvm4AungqP98NrCV0_FGB1h&sz=w600",
+  "https://drive.google.com/thumbnail?id=1AtijrYX5FW9cWkjGzKBzOi4526LA-Gjk&sz=w600",
 ];
 
 const TESTIMONIAL_DATA = [
-  { img: "https://drive.google.com/thumbnail?id=16wUAd6t2PFTcwg7E0CMR9ovKYBRdFVV1&sz=w200", name: "Kavya Nair", role: "Miss India Finalist", quote: "DPM completely transformed my career. The grooming, the exposure, and the platform they gave me was beyond anything I imagined. I went from a small-town girl to walking the runway in Mumbai!" },
-  { img: "https://drive.google.com/thumbnail?id=17OuLAoeoiqflGTqUfWMRTAsztACsa43e&sz=w200", name: "Arjun Mehra", role: "Mr. India Winner", quote: "The DPM team believed in me when no one else did. Their mentorship and industry connections opened doors to Bollywood that I never thought possible. Forever grateful." },
-  { img: "https://drive.google.com/thumbnail?id=18ibDJUWKbIBlaCp84LB4pEuVdZbMHH-j&sz=w200", name: "Sneha Gupta", role: "Mrs. India Winner", quote: "As a married woman, I thought my dreams of the spotlight were over. DPM proved me wrong. They celebrate women of all ages and stages of life. A truly life-changing experience." },
+  { img: "https://drive.google.com/thumbnail?id=18_m6V4-ZcblOaOadhUTKp4lRGF-h1MR4&sz=w200", name: "Kavya Nair", role: "Miss India Finalist", quote: "DPM completely transformed my career. The grooming, the exposure, and the platform they gave me was beyond anything I imagined. I went from a small-town girl to walking the runway in Mumbai!" },
+  { img: "https://drive.google.com/thumbnail?id=190iQgBhV0uvm4AungqP98NrCV0_FGB1h&sz=w200", name: "Arjun Mehra", role: "Mr. India Winner", quote: "The DPM team believed in me when no one else did. Their mentorship and industry connections opened doors to Bollywood that I never thought possible. Forever grateful." },
+  { img: "https://drive.google.com/thumbnail?id=1AtijrYX5FW9cWkjGzKBzOi4526LA-Gjk&sz=w200", name: "Sneha Gupta", role: "Mrs. India Winner", quote: "As a married woman, I thought my dreams of the spotlight were over. DPM proved me wrong. They celebrate women of all ages and stages of life. A truly life-changing experience." },
 ];
 
 const ABOUT_IMAGES = {
@@ -224,31 +224,6 @@ export default function LandingPage() {
             {["Brand 1", "Brand 2", "Brand 3", "Brand 4"].map((b, i) => (
               <div key={b} style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.3rem", fontWeight: 700, color: "#f0ede6", letterSpacing: "0.1em", fontStyle: i === 1 ? "italic" : "normal" }}>{b}</div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* JUDGES */}
-      <section data-testid="judges-section" className="section-fade" style={{ padding: "80px 24px", background: "#0c0c0c" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: 64 }}>
-            <span style={{ fontSize: "0.6rem", letterSpacing: "0.4em", color: "#C9A84C", textTransform: "uppercase", display: "block", marginBottom: 12 }}>The Grand Jury</span>
-            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2rem,4vw,3rem)", color: "#f0ede6" }}>Meet Our Judges</h2>
-            <div style={{ height: 1, width: 60, background: "#C9A84C", margin: "20px auto 0" }} />
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))", gap: 40 }}>
-            {JUDGE_IMAGES.map((judge, j) => (
-              <div key={j} style={{ textAlign: "center" }}>
-                <div style={{ width: 180, height: 180, borderRadius: "50%", border: "1px solid rgba(201,168,76,0.25)", background: "#181818", margin: "0 auto 20px", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
-                  <img src={judge.url} alt={judge.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                </div>
-                <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.1rem", color: "#f0ede6", textTransform: "uppercase", letterSpacing: "0.05em" }}>{judge.name}</h3>
-                <p style={{ fontSize: "0.6rem", color: "#C9A84C", letterSpacing: "0.2em", textTransform: "uppercase", marginTop: 6 }}>{judge.role}</p>
-              </div>
-            ))}
-          </div>
-          <div style={{ textAlign: "center", marginTop: 56 }}>
-            <a href="#apply" className="gold-outline-btn" style={{ padding: "14px 36px", borderRadius: 50, fontSize: "0.7rem" }}>Apply for Online Auditions</a>
           </div>
         </div>
       </section>
@@ -472,19 +447,12 @@ export default function LandingPage() {
               </div>
             </div>
             <div>
-              <div style={{ background: "#181818", border: "1px solid rgba(201,168,76,0.12)", borderRadius: 8, height: 320, overflow: "hidden", marginBottom: 16, position: "relative" }}>
-                <img src={ABOUT_IMAGES.founder} alt="Shivansh Mishra - Founder, DPM Entertainment" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }} />
-                <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "20px 24px", background: "linear-gradient(to top,rgba(0,0,0,0.85) 0%,rgba(0,0,0,0.4) 60%,transparent 100%)" }}>
-                  <p style={{ fontFamily: "'Playfair Display',serif", fontSize: "1rem", color: "#f0ede6", fontWeight: 700 }}>Shivansh Mishra</p>
+              <div style={{ background: "#181818", border: "1px solid rgba(201,168,76,0.12)", borderRadius: 8, height: 460, overflow: "hidden", position: "relative" }}>
+                <img src={ABOUT_IMAGES.founder} alt="Shivanshu Mishra - Founder, DPM Entertainment" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }} />
+                <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "24px 28px", background: "linear-gradient(to top,rgba(0,0,0,0.85) 0%,rgba(0,0,0,0.4) 60%,transparent 100%)" }}>
+                  <p style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.1rem", color: "#f0ede6", fontWeight: 700 }}>Shivanshu Mishra</p>
                   <p style={{ fontSize: "0.55rem", color: "#C9A84C", letterSpacing: "0.2em", textTransform: "uppercase", marginTop: 4 }}>Founder, DPM Entertainment</p>
                 </div>
-              </div>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-                {[ABOUT_IMAGES.small1, ABOUT_IMAGES.small2].map((img, i) => (
-                  <div key={i} style={{ borderRadius: 6, height: 120, overflow: "hidden", border: "1px solid rgba(201,168,76,0.08)" }}>
-                    <img src={img} alt={`Event ${i + 1}`} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                  </div>
-                ))}
               </div>
             </div>
           </div>
