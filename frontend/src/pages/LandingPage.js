@@ -8,6 +8,7 @@ import ApplicationForm from "@/components/ApplicationForm";
 import PopupForm from "@/components/PopupForm";
 import SocialProof from "@/components/SocialProof";
 import FAQSection from "@/components/FAQSection";
+import TermsContent from "@/components/TermsContent";
 
 const URVASHI_HEADER = "https://customer-assets.emergentagent.com/job_page-craft-228/artifacts/vsxnt8rm_541085-baogqnyb.gif";
 const URVASHI_GIF = "https://i.postimg.cc/brNfVpBP/541085-baogqnyb.gif";
@@ -482,45 +483,13 @@ export default function LandingPage() {
       {/* FAQ SECTION */}
       <FAQSection />
 
-      {/* RULES & REGULATIONS */}
+      {/* TERMS & CONDITIONS */}
       <section id="tnc" data-testid="rules-section" style={{ padding: "80px 24px", background: "#080808" }}>
         <div style={{ maxWidth: 800, margin: "0 auto" }}>
-          <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(1.6rem,3vw,2.4rem)", color: "#f0ede6", textAlign: "center", marginBottom: 12 }}>Rules & Regulations</h2>
+          <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(1.6rem,3vw,2.4rem)", color: "#f0ede6", textAlign: "center", marginBottom: 12 }}>Terms & Conditions</h2>
           <div style={{ height: 1, width: 60, background: "#C9A84C", margin: "0 auto 48px" }} />
-          <div style={{ background: "#111111", border: "1px solid rgba(201,168,76,0.1)", borderRadius: 8, padding: 40 }}>
-            <ul style={{ color: "#c8c0ad", fontSize: "0.85rem", lineHeight: 2.2, paddingLeft: 20, listStyleType: "disc" }}>
-              {[
-                "The applicant must agree to abide by all rules, as changed from time to time by the organisers.",
-                "Age requirements: Mr. India: 16-40 years | Miss India: 16-40 years | Miss Teen (Girls): 12-18 years | Mrs. India: 18+ years (Married).",
-                "The applicant will be required to produce their age proof (Passport, birth certificate, school leaving certificate, driver's license, etc).",
-                "All female applicants should be natural-born females.",
-                "The applicant should be an Indian born.",
-                "The applicant should be in good health.",
-                "The applicant should not be under any commercial contract with any modeling agency at the time of appearing for the auditions.",
-                "The applicant, once short-listed, cannot be a part of any other commercial contract.",
-                "The organisers are not responsible for any delays or non-receipt of applications on any account and for any reason whatsoever.",
-                "The applicant will have to participate in a disciplined and diligent manner throughout as per the schedule given.",
-                "The organisers are not responsible if the sponsors do not make good the prizes promised by them.",
-                "The organisers are not responsible for any loss or physical injury that occurs to the applicant on account of their participation in the event. The applicant will participate at her own risk.",
-                "Incorrect information will result in disqualification, whether discovered prior to, during or after participation.",
-                "The decision of the judges is final in all cases.",
-                "Only persons of good health and moral character can participate.",
-                "Only the applicant will be allowed inside the designated venue of the preliminaries.",
-                "The schedule of events and qualification rounds is subject to change at the discretion of the organisers.",
-                "In the event of any dispute, the organiser's decisions are final and binding on the applicant.",
-                "The courts of Allahabad have jurisdiction over all disputes.",
-                "The organisers have all the right to cancel, reschedule, postpone, or amend the show.",
-              ].map((rule, i) => (
-                <li key={i} style={{ marginBottom: 8 }}>{rule}</li>
-              ))}
-              <li style={{ marginBottom: 8 }}><strong style={{ color: "#f0ede6" }}>The fees paid towards grooming or registration are non-refundable in any circumstances.</strong></li>
-              <li style={{ marginBottom: 8 }}>Please note that if you fail to join the event using the provided Zoom link of the auditions for three consecutive times, the registration will be considered null and void. To avoid any confusion or inconvenience, we recommend reaching out to the host or organizer for clarification and to confirm the details of the Zoom link policy.</li>
-            </ul>
-            <div style={{ marginTop: 32, paddingTop: 24, borderTop: "1px solid rgba(201,168,76,0.1)" }}>
-              <p style={{ fontSize: "0.8rem", color: "#857d6e", lineHeight: 1.8 }}>For further information/clarification, contact:<br />
-                <a href="mailto:dpmentertainment@gmail.com" style={{ color: "#C9A84C" }}>dpmentertainment@gmail.com</a>
-              </p>
-            </div>
+          <div style={{ background: "#111111", border: "1px solid rgba(201,168,76,0.1)", borderRadius: 8, padding: "40px 40px 24px" }}>
+            <TermsContent />
           </div>
         </div>
       </section>
