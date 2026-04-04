@@ -11,6 +11,7 @@ import FAQSection from "@/components/FAQSection";
 
 const URVASHI_HEADER = "https://customer-assets.emergentagent.com/job_page-craft-228/artifacts/vsxnt8rm_541085-baogqnyb.gif";
 const URVASHI_GIF = "https://i.postimg.cc/brNfVpBP/541085-baogqnyb.gif";
+const DPM_LOGO = "https://customer-assets.emergentagent.com/job_page-craft-228/artifacts/oarhbp7n_dpm%20entertainment%20logo%20final%20.png";
 
 const JUDGE_IMAGES = [
   { url: "https://images.unsplash.com/photo-1584940120505-117038d90b05?w=400", name: "Rajesh Kapoor", role: "Bollywood Director" },
@@ -109,8 +110,8 @@ export default function LandingPage() {
       <SocialProof />
 
       {/* STICKY NAV */}
-      <nav data-testid="sticky-nav" className="glass" style={{ position: "fixed", top: 0, width: "100%", zIndex: 50, padding: "16px 24px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid rgba(201,168,76,0.2)" }}>
-        <div style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.4rem", fontWeight: 700, color: "#C9A84C", letterSpacing: "0.15em" }}>DPM</div>
+      <nav data-testid="sticky-nav" className="glass" style={{ position: "fixed", top: 0, width: "100%", zIndex: 50, padding: "8px 24px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid rgba(201,168,76,0.2)" }}>
+        <img src={DPM_LOGO} alt="DPM Entertainment" style={{ height: 56, objectFit: "contain" }} />
         <a href="#apply" className="gold-btn" style={{ padding: "10px 24px", borderRadius: 50, fontSize: "0.7rem", textDecoration: "none" }}>Apply Now — &#8377;999</a>
       </nav>
 
@@ -557,7 +558,7 @@ export default function LandingPage() {
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div className="footer-grid" style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: 48, marginBottom: 48 }}>
             <div>
-              <div style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.5rem", fontWeight: 700, color: "#C9A84C", letterSpacing: "0.15em", marginBottom: 16 }}>DPM</div>
+              <img src={DPM_LOGO} alt="DPM Entertainment" style={{ height: 70, objectFit: "contain", marginBottom: 16 }} />
               <p style={{ fontSize: "0.75rem", color: "#857d6e", lineHeight: 1.8, maxWidth: 280 }}>DPM Entertainment | [Address Line 1] | [City, State, PIN]</p>
               <p style={{ fontSize: "0.75rem", color: "#857d6e", marginTop: 8 }}>dpmentertainment@gmail.com</p>
             </div>
