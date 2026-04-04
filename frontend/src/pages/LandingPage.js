@@ -217,18 +217,6 @@ export default function LandingPage() {
         </div>
       </div>
 
-      {/* SPONSORS */}
-      <section data-testid="sponsors-section" style={{ background: "#080808", padding: "32px 24px", borderTop: "1px solid rgba(201,168,76,0.08)", borderBottom: "1px solid rgba(201,168,76,0.08)" }}>
-        <div style={{ maxWidth: 900, margin: "0 auto" }}>
-          <p style={{ fontSize: "0.6rem", letterSpacing: "0.35em", color: "#857d6e", textTransform: "uppercase", textAlign: "center", marginBottom: 24 }}>Sponsored By</p>
-          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 48, flexWrap: "wrap", opacity: 0.45 }}>
-            {["Brand 1", "Brand 2", "Brand 3", "Brand 4"].map((b, i) => (
-              <div key={b} style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.3rem", fontWeight: 700, color: "#f0ede6", letterSpacing: "0.1em", fontStyle: i === 1 ? "italic" : "normal" }}>{b}</div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* TALENT HUNT */}
       <section data-testid="talent-hunt-section" className="section-fade" style={{ padding: "80px 24px", background: "#111111" }}>
         <div style={{ maxWidth: 900, margin: "0 auto", textAlign: "center" }}>
