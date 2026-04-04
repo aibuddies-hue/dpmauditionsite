@@ -16,11 +16,11 @@ const FAQS = [
   },
   {
     q: "What are the age requirements for each category?",
-    a: "Miss Teen India: 13-18 years | Mr. & Miss India: 18-28 years | Mrs. India: 28-50 years (must be married). Age proof is required at the time of audition.",
+    a: "Miss Teen India: 12-18 years | Mr. & Miss India: 16-40 years | Mrs. India: 18+ years (must be married). Age proof is required at the time of audition.",
   },
   {
     q: "What prizes can I win?",
-    a: "Winners receive cash prizes worth ₹5,00,000+, a 1-year in-house contract for web series, movies & fashion shows, free international trip voucher, brand ambassador opportunities, and a chance to work with Bollywood celebrities.",
+    a: "Winners receive cash prizes worth ₹10,00,000+, a 1-year in-house contract for web series, movies & fashion shows, free international trip voucher, brand ambassador opportunities, and a chance to work with Bollywood celebrities.",
   },
   {
     q: "Can married women participate?",
@@ -40,7 +40,7 @@ const FAQS = [
   },
   {
     q: "Who is the chief guest / celebrity patron?",
-    a: "Miss Universe Urvashi Rautela is the Celebrity Patron and Chief Guest of DPM Beauty Pageant 2025. Winners will have the honor of being crowned by her.",
+    a: "Miss Universe Urvashi Rautela is the Celebrity Patron and Chief Guest of DPM Beauty Pageant 2026. Winners will have the honor of being crowned by her.",
   },
 ];
 

@@ -160,9 +160,9 @@ export default function ApplicationForm({ isPopup = false, onSuccess }) {
                 <label style={{ display: "block", fontSize: "0.65rem", letterSpacing: "0.12em", color: "#857d6e", textTransform: "uppercase", marginBottom: 8 }}>Category *</label>
                 <select data-testid="select-category" className="dpm-select" value={form.category} onChange={e => updateField("category", e.target.value)}>
                   <option value="">Select your category</option>
-                  <option>Miss Teen India (Age 13-18)</option>
-                  <option>Mr. & Miss India (Age 18-28)</option>
-                  <option>Mrs. India (Age 28-50, Married)</option>
+                  <option>Miss Teen India (Age 12-18)</option>
+                  <option>Mr. & Miss India (Age 16-40)</option>
+                  <option>Mrs. India (Age 18+, Married)</option>
                 </select>
               </div>
               <div style={{ display: "flex", alignItems: "flex-start", gap: 12, padding: 16, background: "#111111", borderRadius: 6, border: "1px solid rgba(201,168,76,0.12)" }}>

@@ -127,7 +127,7 @@ export default function LandingPage() {
           <div>
             <div className="fade-in-up delay-1" style={{ display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 32, background: "rgba(201,168,76,0.08)", border: "1px solid rgba(201,168,76,0.2)", borderRadius: 50, padding: "8px 20px" }}>
               <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#C9A84C", flexShrink: 0 }} />
-              <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: "0.6rem", letterSpacing: "0.35em", color: "#C9A84C", textTransform: "uppercase", fontWeight: 600 }}>Limited Entry &middot; 2025 Edition &middot; Online Auditions Open</span>
+              <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: "0.6rem", letterSpacing: "0.35em", color: "#C9A84C", textTransform: "uppercase", fontWeight: 600 }}>Limited Entry &middot; 2026 Edition &middot; Online Auditions Open</span>
             </div>
 
             <h1 className="fade-in-up delay-2" style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2.4rem,5.5vw,4.4rem)", lineHeight: 1.12, fontWeight: 900, color: "#f0ede6", marginBottom: 20, letterSpacing: "-0.01em" }}>
@@ -140,7 +140,7 @@ export default function LandingPage() {
 
             <p className="fade-in-up delay-3" style={{ fontSize: "0.95rem", color: "#c8c0ad", marginBottom: 40, lineHeight: 1.8, letterSpacing: "0.02em" }}>
               Become the Next{" "}
-              <strong style={{ color: "#f0ede6", fontWeight: 700 }}>DPM Mr. & Miss, Miss Teen, and Mrs. India 2025</strong>
+              <strong style={{ color: "#f0ede6", fontWeight: 700 }}>DPM Mr. & Miss, Miss Teen, and Mrs. India 2026</strong>
             </p>
 
             <div className="fade-in-up delay-4" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
@@ -158,7 +158,7 @@ export default function LandingPage() {
             <div className="stats-strip fade-in-up delay-5" style={{ marginTop: 48, display: "flex", gap: 32, flexWrap: "wrap" }}>
               {[
                 ["500+", "Careers Launched"],
-                ["₹5L+", "Prizes"],
+                ["₹10L+", "Prizes"],
                 ["4", "Categories"],
                 ["100%", "Grooming Support"],
               ].map(([val, label], i) => (
@@ -298,12 +298,12 @@ export default function LandingPage() {
       <section data-testid="prizes-section" className="section-fade" style={{ padding: "80px 24px", background: "#080808" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 60 }}>
-            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(1.8rem,4vw,3rem)", color: "#C9A84C", marginBottom: 8 }}>Prizes Worth &#8377;5L+</h2>
+            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(1.8rem,4vw,3rem)", color: "#C9A84C", marginBottom: 8 }}>Prizes Worth &#8377;10L+</h2>
             <p style={{ color: "#c8c0ad", fontSize: "0.95rem" }}>and a Direct Ticket to Bollywood</p>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(180px,1fr))", gap: 16, marginBottom: 56 }}>
             {[
-              [Banknote, "Cash Prize", "Worth ₹5,00,000\n(T&C Apply)"],
+              [Banknote, "Cash Prize", "Worth ₹10,00,000\n(T&C Apply)"],
               [Film, "1-Year In-House Contract", "Web series, movies, music videos, fashion shows & more"],
               [Plane, "International Trip", "Free International Trip Voucher"],
               [Star, "Brand Ambassador", "National & International Brand Ambassador"],
@@ -365,9 +365,9 @@ export default function LandingPage() {
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: 20, marginBottom: 32 }}>
             {[
-              { title: "Miss Teen India", age: "Age: 13 - 18 Years", popular: false, img: CATEGORY_IMAGES.teen },
-              { title: "Mr. & Miss India", age: "Age: 18 - 28 Years", popular: true, img: CATEGORY_IMAGES.miss },
-              { title: "Mrs. India", age: "Age: 28 - 50 Years | Married", popular: false, img: CATEGORY_IMAGES.mrs },
+              { title: "Miss Teen India", age: "Age: 12 - 18 Years", popular: false, img: CATEGORY_IMAGES.teen },
+              { title: "Mr. & Miss India", age: "Age: 16 - 40 Years", popular: true, img: CATEGORY_IMAGES.miss },
+              { title: "Mrs. India", age: "Age: 18+ Years | Married", popular: false, img: CATEGORY_IMAGES.mrs },
             ].map((cat) => (
               <div key={cat.title} className="category-card" style={{ background: "#111111", border: cat.popular ? "2px solid rgba(201,168,76,0.35)" : "1px solid rgba(201,168,76,0.12)", borderRadius: 8, overflow: "hidden", textAlign: "center", position: "relative" }}>
                 {cat.popular && (
@@ -491,7 +491,7 @@ export default function LandingPage() {
             <ul style={{ color: "#c8c0ad", fontSize: "0.85rem", lineHeight: 2.2, paddingLeft: 20, listStyleType: "disc" }}>
               {[
                 "The applicant must agree to abide by all rules, as changed from time to time by the organisers.",
-                "Age requirements: Male applicant: 16-32 years | Miss Teen (Girls): 12-18 years | Miss (Girls): 16-28 years | Mrs. (Married): 23-60 years.",
+                "Age requirements: Mr. India: 16-40 years | Miss India: 16-40 years | Miss Teen (Girls): 12-18 years | Mrs. India: 18+ years (Married).",
                 "The applicant will be required to produce their age proof (Passport, birth certificate, school leaving certificate, driver's license, etc).",
                 "All female applicants should be natural-born females.",
                 "The applicant should be an Indian born.",
@@ -558,7 +558,7 @@ export default function LandingPage() {
           </div>
           <div style={{ borderTop: "1px solid rgba(201,168,76,0.08)", paddingTop: 24, textAlign: "center" }}>
             <p style={{ fontSize: "0.6rem", color: "#2e2e2e", letterSpacing: "0.1em" }}>Please go through the Rules and Regulations of the contest before registration. By registering and paying the fee, you agree to all Terms & Conditions.</p>
-            <p style={{ fontSize: "0.6rem", color: "#2e2e2e", marginTop: 8 }}>&copy; 2025 DPM Entertainment. All Rights Reserved.</p>
+            <p style={{ fontSize: "0.6rem", color: "#2e2e2e", marginTop: 8 }}>&copy; 2026 DPM Entertainment. All Rights Reserved.</p>
           </div>
         </div>
       </footer>
