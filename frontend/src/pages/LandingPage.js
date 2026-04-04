@@ -41,7 +41,7 @@ const TESTIMONIAL_DATA = [
 ];
 
 const ABOUT_IMAGES = {
-  founder: "https://images.unsplash.com/photo-1774437790865-76bfb73d7166?w=600",
+  founder: "https://customer-assets.emergentagent.com/job_page-craft-228/artifacts/8r21rmqm_photo1705582827%20%281%29.jpeg",
   small1: "https://images.pexels.com/photos/28587831/pexels-photo-28587831.jpeg?auto=compress&w=400",
   small2: "https://images.pexels.com/photos/1396114/pexels-photo-1396114.jpeg?auto=compress&w=400",
 };
@@ -472,8 +472,12 @@ export default function LandingPage() {
               </div>
             </div>
             <div>
-              <div style={{ background: "#181818", border: "1px solid rgba(201,168,76,0.12)", borderRadius: 8, height: 320, overflow: "hidden", marginBottom: 16 }}>
-                <img src={ABOUT_IMAGES.founder} alt="DPM Founder" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              <div style={{ background: "#181818", border: "1px solid rgba(201,168,76,0.12)", borderRadius: 8, height: 320, overflow: "hidden", marginBottom: 16, position: "relative" }}>
+                <img src={ABOUT_IMAGES.founder} alt="Shivansh Mishra - Founder, DPM Entertainment" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }} />
+                <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "20px 24px", background: "linear-gradient(to top,rgba(0,0,0,0.85) 0%,rgba(0,0,0,0.4) 60%,transparent 100%)" }}>
+                  <p style={{ fontFamily: "'Playfair Display',serif", fontSize: "1rem", color: "#f0ede6", fontWeight: 700 }}>Shivansh Mishra</p>
+                  <p style={{ fontSize: "0.55rem", color: "#C9A84C", letterSpacing: "0.2em", textTransform: "uppercase", marginTop: 4 }}>Founder, DPM Entertainment</p>
+                </div>
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
                 {[ABOUT_IMAGES.small1, ABOUT_IMAGES.small2].map((img, i) => (
