@@ -1,12 +1,14 @@
 import { useState, useCallback } from "react";
 import axios from "axios";
 import { CheckCircle, Lock, Shield } from "lucide-react";
+import ThankYouForm from "@/components/ThankYouForm";
 
 const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 const RAZORPAY_KEY = process.env.REACT_APP_RAZORPAY_KEY_ID;
 
 export default function ApplicationForm({ isPopup = false, onSuccess }) {
   const [submitted, setSubmitted] = useState(false);
+  const [appData, setAppData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [form, setForm] = useState({ name: "", email: "", phone: "" });
@@ -45,17 +47,17 @@ export default function ApplicationForm({ isPopup = false, onSuccess }) {
         theme: { color: "#C9A84C" },
         handler: async (response) => {
           try {
-            await axios.post(`${API}/verify-payment`, {
+            const { data: appResult } = await axios.post(`${API}/verify-payment`, {
               razorpay_order_id: response.razorpay_order_id,
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_signature: response.razorpay_signature,
               name, email, phone,
             });
+            setAppData(appResult);
             setSubmitted(true);
             if (!isPopup) {
               document.getElementById("apply")?.scrollIntoView({ behavior: "smooth" });
             }
-            if (onSuccess) setTimeout(() => onSuccess(), 3000);
           } catch (e) {
             setError("Payment verification failed. Please contact support.");
           }
@@ -80,18 +82,18 @@ export default function ApplicationForm({ isPopup = false, onSuccess }) {
 
   if (submitted) {
     return (
-      <section id="apply" data-testid="thankyou-section" style={{ padding: "80px 24px", background: "#0c0c0c", textAlign: "center" }}>
-        <div style={{ maxWidth: 600, margin: "0 auto" }}>
-          <div style={{ width: 80, height: 80, borderRadius: "50%", background: "linear-gradient(135deg,#e6c364,#C9A84C)", margin: "0 auto 32px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <CheckCircle size={40} color="#0c0c0c" />
+      <section id="apply" data-testid="thankyou-section" style={{ padding: "80px 24px 120px", background: "#0c0c0c" }}>
+        <div style={{ maxWidth: 680, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 32 }}>
+            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(1.6rem,3vw,2.4rem)", color: "#f0ede6", marginBottom: 8 }}>Complete Your Profile</h2>
+            <p style={{ color: "#857d6e", fontSize: "0.8rem" }}>Fill in your details for the audition process</p>
           </div>
-          <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2rem,4vw,3rem)", color: "#C9A84C", marginBottom: 16 }}>Congratulations!</h2>
-          <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.4rem", color: "#f0ede6", marginBottom: 24 }}>We Have Received Your Application for Online Auditions</h3>
-          <p style={{ color: "#c8c0ad", lineHeight: 1.8, marginBottom: 40 }}>Our Team will reach out to you within <strong style={{ color: "#f0ede6" }}>24 hours</strong> for the next steps and Auditions.<br />Keep an eye on your registered email and WhatsApp.</p>
-          <div style={{ background: "#111111", border: "1px solid rgba(201,168,76,0.15)", borderRadius: 8, padding: 24, textAlign: "left" }}>
-            <p style={{ fontSize: "0.65rem", letterSpacing: "0.15em", color: "#C9A84C", textTransform: "uppercase", marginBottom: 16 }}>For Queries</p>
-            <p style={{ color: "#c8c0ad", fontSize: "0.85rem", marginBottom: 8 }}>Email: <a href="mailto:dpmentertainment@gmail.com" style={{ color: "#C9A84C" }}>dpmentertainment@gmail.com</a></p>
-          </div>
+          <ThankYouForm
+            applicationId={appData?.id || ""}
+            name={form.name}
+            email={form.email}
+            phone={form.phone}
+          />
         </div>
       </section>
     );

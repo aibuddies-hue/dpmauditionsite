@@ -1,4 +1,5 @@
-from fastapi import FastAPI, APIRouter, HTTPException
+from fastapi import FastAPI, APIRouter, HTTPException, File, UploadFile, Form
+from fastapi.staticfiles import StaticFiles
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -6,12 +7,11 @@ import os
 import logging
 from pathlib import Path
 from pydantic import BaseModel, Field, ConfigDict
-from typing import List
+from typing import List, Optional
 import uuid
 from datetime import datetime, timezone
 import razorpay
-import hmac
-import hashlib
+import shutil
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
@@ -27,6 +27,10 @@ razorpay_client = razorpay.Client(auth=(
 
 app = FastAPI()
 api_router = APIRouter(prefix="/api")
+
+UPLOAD_DIR = ROOT_DIR / "uploads"
+UPLOAD_DIR.mkdir(exist_ok=True)
+app.mount("/api/uploads", StaticFiles(directory=str(UPLOAD_DIR)), name="uploads")
 
 class ApplicationCreate(BaseModel):
     name: str
@@ -115,6 +119,60 @@ async def verify_payment(data: PaymentVerify):
 async def get_applications():
     apps = await db.applications.find({}, {"_id": 0}).to_list(1000)
     return apps
+
+@api_router.post("/profile")
+async def submit_profile(
+    application_id: str = Form(...),
+    first_name: str = Form(...),
+    last_name: str = Form(""),
+    age: str = Form(...),
+    marital_status: str = Form(...),
+    address1: str = Form(...),
+    address2: str = Form(""),
+    city: str = Form(...),
+    state: str = Form(...),
+    postal_code: str = Form(...),
+    height: str = Form(...),
+    weight: str = Form(...),
+    bust: str = Form(""),
+    waist: str = Form(""),
+    hips: str = Form(""),
+    photo1: UploadFile = File(...),
+    photo2: UploadFile = File(...),
+):
+    photo1_name = f"{uuid.uuid4()}_{photo1.filename}"
+    photo2_name = f"{uuid.uuid4()}_{photo2.filename}"
+    with open(UPLOAD_DIR / photo1_name, "wb") as f:
+        shutil.copyfileobj(photo1.file, f)
+    with open(UPLOAD_DIR / photo2_name, "wb") as f:
+        shutil.copyfileobj(photo2.file, f)
+
+    profile = {
+        "application_id": application_id,
+        "first_name": first_name,
+        "last_name": last_name,
+        "age": age,
+        "marital_status": marital_status,
+        "address1": address1,
+        "address2": address2,
+        "city": city,
+        "state": state,
+        "postal_code": postal_code,
+        "height": height,
+        "weight": weight,
+        "bust": bust,
+        "waist": waist,
+        "hips": hips,
+        "photo1": photo1_name,
+        "photo2": photo2_name,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+    }
+    await db.profiles.insert_one(profile)
+    await db.applications.update_one(
+        {"id": application_id},
+        {"$set": {"profile_submitted": True}}
+    )
+    return {"status": "success", "message": "Profile submitted successfully"}
 
 app.include_router(api_router)
 
