@@ -1,15 +1,35 @@
 import ThankYouForm from "@/components/ThankYouForm";
 
+const DPM_LOGO = "https://customer-assets.emergentagent.com/job_page-craft-228/artifacts/oarhbp7n_dpm%20entertainment%20logo%20final%20.png";
+
 export default function ThankYouPage() {
   return (
-    <div style={{ background: "#0c0c0c", minHeight: "100vh", padding: "60px 24px 120px" }}>
-      <div style={{ maxWidth: 680, margin: "0 auto" }}>
-        <div style={{ textAlign: "center", marginBottom: 32 }}>
-          <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(1.6rem,3vw,2.4rem)", color: "#f0ede6", marginBottom: 8 }}>Complete Your Profile</h2>
-          <p style={{ color: "#857d6e", fontSize: "0.8rem" }}>Fill in your details for the audition process</p>
+    <div style={{ background: "#0c0c0c", minHeight: "100vh" }}>
+      {/* NAV */}
+      <nav className="glass" style={{ position: "sticky", top: 0, width: "100%", zIndex: 50, padding: "8px 24px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid rgba(201,168,76,0.2)" }}>
+        <a href="/"><img src={DPM_LOGO} alt="DPM Entertainment" style={{ height: 56, objectFit: "contain" }} /></a>
+        <a href="/" className="gold-outline-btn" style={{ padding: "10px 24px", borderRadius: 50, fontSize: "0.7rem", textDecoration: "none" }}>Back to Home</a>
+      </nav>
+
+      {/* FORM */}
+      <div style={{ padding: "60px 24px 120px" }}>
+        <div style={{ maxWidth: 680, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 32 }}>
+            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(1.6rem,3vw,2.4rem)", color: "#f0ede6", marginBottom: 8 }}>Complete Your Profile</h2>
+            <p style={{ color: "#857d6e", fontSize: "0.8rem" }}>Fill in your details for the audition process</p>
+          </div>
+          <ThankYouForm applicationId="" name="" email="" phone="" />
         </div>
-        <ThankYouForm applicationId="" name="" email="" phone="" />
       </div>
+
+      {/* FOOTER */}
+      <footer style={{ background: "#080808", borderTop: "1px solid rgba(201,168,76,0.1)", padding: "40px 24px" }}>
+        <div style={{ maxWidth: 680, margin: "0 auto", textAlign: "center" }}>
+          <img src={DPM_LOGO} alt="DPM Entertainment" style={{ height: 50, objectFit: "contain", marginBottom: 16 }} />
+          <p style={{ fontSize: "0.75rem", color: "#857d6e", marginBottom: 8 }}>dpmentertainment@gmail.com</p>
+          <p style={{ fontSize: "0.6rem", color: "#2e2e2e", marginTop: 16 }}>&copy; 2026 DPM Entertainment. All Rights Reserved.</p>
+        </div>
+      </footer>
     </div>
   );
 }
