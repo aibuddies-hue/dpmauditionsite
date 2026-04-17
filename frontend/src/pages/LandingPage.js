@@ -272,7 +272,7 @@ export default function LandingPage() {
           {/* Featured Jury - Top Row */}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: 24, marginBottom: 32 }}>
             {[
-              { name: "Dishi Bhatnagar", role: "Influencer & Grooming Expert", followers: "220K+", insta: "tauriangirl_16official", bio: "Brand Ambassador for Luxurydot PR, Sattva Sip & SRC Entertainments. Co-founder of BMS Shoots. Fashion, beauty & lifestyle content creator with massive Gen-Z following.", img: "https://images.unsplash.com/photo-1618480012026-208534c3ce00?w=200" },
+              { name: "Dishi Bhatnagar", role: "Influencer & Grooming Expert", followers: "220K+", insta: "tauriangirl_16official", bio: "Brand Ambassador for Luxurydot PR, Sattva Sip & SRC Entertainments. Co-founder of BMS Shoots. Fashion, beauty & lifestyle content creator with massive Gen-Z following.", img: "https://i.ytimg.com/vi/5dGUpk6WRFk/maxresdefault.jpg" },
               { name: "Dinesh Sudarshan Sai", role: "Bollywood Casting Director", followers: "", insta: "", bio: "India's record-breaking casting director with 6,000+ castings. Holds India Book, Asia Book & Bravo International World Records. Founder of DS Creations. Actor in Star Plus shows.", img: "https://dscreations.in/wp-content/uploads/2025/03/unnamed.jpg" },
               { name: "Ishmeet Kaur", role: "Mrs India World 2024", followers: "", insta: "iishmeetkaurr", bio: "Crowned Mrs India World 2024. Professional ramp model & fashion stylist who has styled celebrities including Raveena Tandon. Fitness enthusiast & yoga practitioner.", img: "https://starsunfolded.com/wp-content/uploads/2024/10/Ishmeet-Kaur.jpg" },
             ].map((j, i) => (
