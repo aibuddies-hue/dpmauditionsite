@@ -248,31 +248,55 @@ export default function LandingPage() {
             <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2rem,4vw,3rem)", color: "#f0ede6" }}>Meet Our Esteemed Jury</h2>
             <div style={{ height: 1, width: 60, background: "#C9A84C", margin: "20px auto 0" }} />
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(160px,1fr))", gap: 28 }}>
+
+          {/* Featured Jury - Top Row */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: 24, marginBottom: 32 }}>
             {[
-              { name: "Dishi Bhatnagar", role: "Influencer & Creator", followers: "220K", insta: "tauriangirl_16official" },
-              { name: "Ankit Nagpal", role: "Celebrity Photographer", followers: "19.8K", insta: "rareimprints.ankit.nagpal" },
-              { name: "Allie Sharma", role: "Fashion Expert", followers: "10.3K", insta: "alliesharmaofficial" },
-              { name: "Dr. Akanksha", role: "Mrs. India Title Holder", followers: "", insta: "akanksha_mrsindia" },
-              { name: "Sapna Chauhan", role: "Style Director", followers: "", insta: "sapna.styleframes" },
-              { name: "Ishmeet Kaur", role: "Model & Judge", followers: "", insta: "iishmeetkaurr" },
-              { name: "Dr. Kanchan Vishwakarma", role: "Wellness Expert", followers: "", insta: "" },
-              { name: "Shalini Kashyap", role: "Industry Mentor", followers: "", insta: "" },
-              { name: "Simran Arora", role: "Talent Scout", followers: "", insta: "" },
-              { name: "Dinesh Sudarshan Sai", role: "Entertainment Director", followers: "", insta: "" },
-              { name: "Pratika Sood", role: "Fashion Consultant", followers: "", insta: "" },
+              { name: "Dishi Bhatnagar", role: "Influencer & Content Creator", followers: "500K+", insta: "tauriangirl_16official", bio: "Verified fashion, beauty & lifestyle creator. Known for viral Reels and brand collaborations with Nykaa, Myntra & more." },
+              { name: "Dinesh Sudarshan Sai", role: "Casting Director & Filmmaker", followers: "", insta: "", bio: "India's top casting director with 6,000+ castings. World record holder. Founder of DS Creations. Worked on Bollywood films & web series." },
+              { name: "Ishmeet Kaur", role: "Mrs India World 2024", followers: "", insta: "iishmeetkaurr", bio: "Crowned Mrs India World 2024. Professional ramp model and fashion stylist who has styled celebrities including Raveena Tandon." },
             ].map((j, i) => (
-              <div key={i} style={{ textAlign: "center" }}>
-                <div style={{ width: 110, height: 110, borderRadius: "50%", border: "2px solid rgba(201,168,76,0.3)", background: "linear-gradient(135deg,rgba(201,168,76,0.15),rgba(201,168,76,0.05))", margin: "0 auto 14px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.6rem", fontWeight: 800, color: "#C9A84C", fontFamily: "'Playfair Display',serif" }}>
+              <div key={i} style={{ background: "#111111", border: "1px solid rgba(201,168,76,0.12)", borderRadius: 12, padding: "28px 24px", display: "flex", gap: 20, alignItems: "flex-start", transition: "all 0.3s" }} className="testimonial-card">
+                <div style={{ width: 72, height: 72, borderRadius: "50%", border: "2px solid rgba(201,168,76,0.4)", background: "linear-gradient(135deg,#C9A84C,#a07830)", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.5rem", fontWeight: 800, color: "#0c0c0c", fontFamily: "'Playfair Display',serif" }}>
                   {j.name.charAt(0)}
                 </div>
-                <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: "0.9rem", color: "#f0ede6", letterSpacing: "0.03em", marginBottom: 4 }}>{j.name}</h3>
-                <p style={{ fontSize: "0.6rem", color: "#C9A84C", letterSpacing: "0.15em", textTransform: "uppercase" }}>{j.role}</p>
-                {j.followers && <p style={{ fontSize: "0.55rem", color: "#857d6e", marginTop: 4 }}>{j.followers} followers</p>}
-                {j.insta && <a href={`https://instagram.com/${j.insta}`} target="_blank" rel="noopener noreferrer" style={{ fontSize: "0.55rem", color: "#857d6e", textDecoration: "none", marginTop: 2, display: "inline-block" }}>@{j.insta.length > 18 ? j.insta.substring(0, 18) + "..." : j.insta}</a>}
+                <div>
+                  <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.05rem", color: "#f0ede6", marginBottom: 4 }}>{j.name}</h3>
+                  <p style={{ fontSize: "0.6rem", color: "#C9A84C", letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: 8 }}>{j.role}</p>
+                  <p style={{ fontSize: "0.78rem", color: "#857d6e", lineHeight: 1.6, marginBottom: 8 }}>{j.bio}</p>
+                  <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+                    {j.followers && <span style={{ fontSize: "0.6rem", color: "#c8c0ad", background: "#181818", padding: "4px 10px", borderRadius: 20 }}>{j.followers} followers</span>}
+                    {j.insta && <a href={`https://instagram.com/${j.insta}`} target="_blank" rel="noopener noreferrer" style={{ fontSize: "0.6rem", color: "#C9A84C", textDecoration: "none" }}>@{j.insta.length > 20 ? j.insta.substring(0, 20) + "..." : j.insta}</a>}
+                  </div>
+                </div>
               </div>
             ))}
           </div>
+
+          {/* Other Jury Members - Grid */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))", gap: 20 }}>
+            {[
+              { name: "Ankit Nagpal", role: "PR Expert & Pageant Jury", insta: "rareimprints.ankit.nagpal", bio: "Founder, Bang on Target PR. Awarded by Arbaaz Khan & Kriti Sanon. Jury for Mr & Miss India International." },
+              { name: "Allie Sharma", role: "Brand Strategist", insta: "alliesharmaofficial", bio: "Founder of Mind Studios. Speaker at Brand Innovators. Fashion & branding expert." },
+              { name: "Dr. Akanksha", role: "Mrs India Title Holder", insta: "akanksha_mrsindia", bio: "Doctor & Mrs. Elegant 2021 winner. Pageant organizer & women empowerment advocate." },
+              { name: "Sapna Chauhan", role: "Fashion Stylist", insta: "sapna.styleframes", bio: "Celebrity fashion stylist with expertise in editorial & runway styling." },
+              { name: "Dr. Kanchan Vishwakarma", role: "Wellness Expert", insta: "", bio: "Physician & wellness consultant. Advocate for holistic health & inner beauty." },
+              { name: "Shalini Kashyap", role: "Industry Mentor", insta: "", bio: "Talent development mentor with years of experience grooming pageant contestants." },
+              { name: "Simran Arora", role: "Talent Scout", insta: "", bio: "Talent scout specializing in discovering fresh faces for fashion & entertainment." },
+              { name: "Pratika Sood", role: "Fashion Consultant", insta: "", bio: "Fashion consultant known for styling emerging talent in the Indian fashion circuit." },
+            ].map((j, i) => (
+              <div key={i} style={{ background: "#111111", border: "1px solid rgba(201,168,76,0.08)", borderRadius: 10, padding: "24px 20px", textAlign: "center", transition: "all 0.3s" }} className="testimonial-card">
+                <div style={{ width: 80, height: 80, borderRadius: "50%", border: "2px solid rgba(201,168,76,0.25)", background: "linear-gradient(135deg,rgba(201,168,76,0.2),rgba(201,168,76,0.05))", margin: "0 auto 14px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.4rem", fontWeight: 800, color: "#C9A84C", fontFamily: "'Playfair Display',serif" }}>
+                  {j.name.charAt(0)}
+                </div>
+                <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: "0.9rem", color: "#f0ede6", marginBottom: 4 }}>{j.name}</h3>
+                <p style={{ fontSize: "0.55rem", color: "#C9A84C", letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: 8 }}>{j.role}</p>
+                <p style={{ fontSize: "0.72rem", color: "#857d6e", lineHeight: 1.5, marginBottom: 8 }}>{j.bio}</p>
+                {j.insta && <a href={`https://instagram.com/${j.insta}`} target="_blank" rel="noopener noreferrer" style={{ fontSize: "0.55rem", color: "#C9A84C", textDecoration: "none" }}>@{j.insta}</a>}
+              </div>
+            ))}
+          </div>
+
           <div style={{ textAlign: "center", marginTop: 48 }}>
             <a href="#apply" className="gold-outline-btn" style={{ padding: "14px 36px", borderRadius: 50, fontSize: "0.7rem" }}>Apply for Online Auditions</a>
           </div>
