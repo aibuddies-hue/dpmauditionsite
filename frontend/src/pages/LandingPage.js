@@ -252,13 +252,13 @@ export default function LandingPage() {
           {/* Featured Jury - Top Row */}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: 24, marginBottom: 32 }}>
             {[
-              { name: "Dishi Bhatnagar", role: "Influencer & Content Creator", followers: "500K+", insta: "tauriangirl_16official", bio: "Verified fashion, beauty & lifestyle creator. Known for viral Reels and brand collaborations with Nykaa, Myntra & more." },
-              { name: "Dinesh Sudarshan Sai", role: "Casting Director & Filmmaker", followers: "", insta: "", bio: "India's top casting director with 6,000+ castings. World record holder. Founder of DS Creations. Worked on Bollywood films & web series." },
-              { name: "Ishmeet Kaur", role: "Mrs India World 2024", followers: "", insta: "iishmeetkaurr", bio: "Crowned Mrs India World 2024. Professional ramp model and fashion stylist who has styled celebrities including Raveena Tandon." },
+              { name: "Dishi Bhatnagar", role: "Influencer & Content Creator", followers: "500K+", insta: "tauriangirl_16official", bio: "Verified fashion, beauty & lifestyle creator. Known for viral Reels and brand collaborations with Nykaa, Myntra & more.", img: "https://images.unsplash.com/photo-1772544797306-42ffcda5c63b?w=200" },
+              { name: "Dinesh Sudarshan Sai", role: "Casting Director & Filmmaker", followers: "", insta: "", bio: "India's top casting director with 6,000+ castings. World record holder. Founder of DS Creations. Worked on Bollywood films & web series.", img: "https://dscreations.in/wp-content/uploads/2025/03/unnamed.jpg" },
+              { name: "Ishmeet Kaur", role: "Mrs India World 2024", followers: "", insta: "iishmeetkaurr", bio: "Crowned Mrs India World 2024. Professional ramp model and fashion stylist who has styled celebrities including Raveena Tandon.", img: "https://starsunfolded.com/wp-content/uploads/2024/10/Ishmeet-Kaur.jpg" },
             ].map((j, i) => (
               <div key={i} style={{ background: "#111111", border: "1px solid rgba(201,168,76,0.12)", borderRadius: 12, padding: "28px 24px", display: "flex", gap: 20, alignItems: "flex-start", transition: "all 0.3s" }} className="testimonial-card">
-                <div style={{ width: 72, height: 72, borderRadius: "50%", border: "2px solid rgba(201,168,76,0.4)", background: "linear-gradient(135deg,#C9A84C,#a07830)", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.5rem", fontWeight: 800, color: "#0c0c0c", fontFamily: "'Playfair Display',serif" }}>
-                  {j.name.charAt(0)}
+                <div style={{ width: 72, height: 72, borderRadius: "50%", border: "2px solid rgba(201,168,76,0.4)", flexShrink: 0, overflow: "hidden" }}>
+                  <img src={j.img} alt={j.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                 </div>
                 <div>
                   <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.05rem", color: "#f0ede6", marginBottom: 4 }}>{j.name}</h3>
@@ -276,18 +276,18 @@ export default function LandingPage() {
           {/* Other Jury Members - Grid */}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))", gap: 20 }}>
             {[
-              { name: "Ankit Nagpal", role: "PR Expert & Pageant Jury", insta: "rareimprints.ankit.nagpal", bio: "Founder, Bang on Target PR. Awarded by Arbaaz Khan & Kriti Sanon. Jury for Mr & Miss India International." },
-              { name: "Allie Sharma", role: "Brand Strategist", insta: "alliesharmaofficial", bio: "Founder of Mind Studios. Speaker at Brand Innovators. Fashion & branding expert." },
-              { name: "Dr. Akanksha", role: "Mrs India Title Holder", insta: "akanksha_mrsindia", bio: "Doctor & Mrs. Elegant 2021 winner. Pageant organizer & women empowerment advocate." },
-              { name: "Sapna Chauhan", role: "Fashion Stylist", insta: "sapna.styleframes", bio: "Celebrity fashion stylist with expertise in editorial & runway styling." },
-              { name: "Dr. Kanchan Vishwakarma", role: "Wellness Expert", insta: "", bio: "Physician & wellness consultant. Advocate for holistic health & inner beauty." },
-              { name: "Shalini Kashyap", role: "Industry Mentor", insta: "", bio: "Talent development mentor with years of experience grooming pageant contestants." },
-              { name: "Simran Arora", role: "Talent Scout", insta: "", bio: "Talent scout specializing in discovering fresh faces for fashion & entertainment." },
-              { name: "Pratika Sood", role: "Fashion Consultant", insta: "", bio: "Fashion consultant known for styling emerging talent in the Indian fashion circuit." },
+              { name: "Ankit Nagpal", role: "PR Expert & Pageant Jury", insta: "rareimprints.ankit.nagpal", bio: "Founder, Bang on Target PR. Awarded by Arbaaz Khan & Kriti Sanon. Jury for Mr & Miss India International.", img: "https://www.storyofsouls.com/wp-content/uploads/2020/05/ankit-featured-1.jpg" },
+              { name: "Allie Sharma", role: "Brand Strategist", insta: "alliesharmaofficial", bio: "Founder of Mind Studios. Speaker at Brand Innovators. Fashion & branding expert.", img: "https://brand-innovators.com/wp-content/uploads/2024/01/6511e1f8d28fb7a9ce0b7b96_Sharma-Allie.jpg" },
+              { name: "Dr. Akanksha", role: "Mrs India Title Holder", insta: "akanksha_mrsindia", bio: "Doctor & Mrs. Elegant 2021 winner. Pageant organizer & women empowerment advocate.", img: "https://mrsuttarpradeshqe.com/wp-content/uploads/2025/09/DSC7186-scaled.jpg" },
+              { name: "Sapna Chauhan", role: "Fashion Stylist", insta: "sapna.styleframes", bio: "Celebrity fashion stylist with expertise in editorial & runway styling.", img: "https://s.talentrack.in/uploads/portfolio_thumb_image/280x350/585/39/585039_677d93a5ddb1a.jpeg" },
+              { name: "Dr. Kanchan Vishwakarma", role: "Wellness Expert", insta: "", bio: "Physician & wellness consultant. Advocate for holistic health & inner beauty.", img: "https://images.unsplash.com/photo-1544264796-acfb69e05b37?w=200" },
+              { name: "Shalini Kashyap", role: "Industry Mentor", insta: "", bio: "Talent development mentor with years of experience grooming pageant contestants.", img: "https://images.unsplash.com/photo-1600430665436-d4ff685937eb?w=200" },
+              { name: "Simran Arora", role: "Talent Scout", insta: "", bio: "Talent scout specializing in discovering fresh faces for fashion & entertainment.", img: "https://images.unsplash.com/photo-1732888878731-7e52999af144?w=200" },
+              { name: "Pratika Sood", role: "Fashion Consultant", insta: "", bio: "Fashion consultant known for styling emerging talent in the Indian fashion circuit.", img: "https://images.unsplash.com/photo-1772544797306-42ffcda5c63b?w=200" },
             ].map((j, i) => (
               <div key={i} style={{ background: "#111111", border: "1px solid rgba(201,168,76,0.08)", borderRadius: 10, padding: "24px 20px", textAlign: "center", transition: "all 0.3s" }} className="testimonial-card">
-                <div style={{ width: 80, height: 80, borderRadius: "50%", border: "2px solid rgba(201,168,76,0.25)", background: "linear-gradient(135deg,rgba(201,168,76,0.2),rgba(201,168,76,0.05))", margin: "0 auto 14px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.4rem", fontWeight: 800, color: "#C9A84C", fontFamily: "'Playfair Display',serif" }}>
-                  {j.name.charAt(0)}
+                <div style={{ width: 80, height: 80, borderRadius: "50%", border: "2px solid rgba(201,168,76,0.25)", margin: "0 auto 14px", overflow: "hidden" }}>
+                  <img src={j.img} alt={j.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                 </div>
                 <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: "0.9rem", color: "#f0ede6", marginBottom: 4 }}>{j.name}</h3>
                 <p style={{ fontSize: "0.55rem", color: "#C9A84C", letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: 8 }}>{j.role}</p>
@@ -419,8 +419,9 @@ export default function LandingPage() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: 20, marginBottom: 32 }}>
             {[
               { title: "Miss Teen India", age: "Age: 12 - 18 Years", popular: false, img: CATEGORY_IMAGES.teen },
-              { title: "Mr. & Miss India", age: "Age: 16 - 40 Years", popular: true, img: CATEGORY_IMAGES.miss },
-              { title: "Mrs. India", age: "Age: 18+ Years | Married", popular: false, img: CATEGORY_IMAGES.mrs },
+              { title: "Miss India", age: "Age: 16 - 28 Years", popular: true, img: CATEGORY_IMAGES.miss },
+              { title: "Mrs. India", age: "Age: 23 - 60 Years | Married", popular: false, img: CATEGORY_IMAGES.mrs },
+              { title: "Mr. India", age: "Age: 16 - 32 Years", popular: false, img: CATEGORY_IMAGES.teen },
             ].map((cat) => (
               <div key={cat.title} className="category-card" style={{ background: "#111111", border: cat.popular ? "2px solid rgba(201,168,76,0.35)" : "1px solid rgba(201,168,76,0.12)", borderRadius: 8, overflow: "hidden", textAlign: "center", position: "relative" }}>
                 {cat.popular && (
