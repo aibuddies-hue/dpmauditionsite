@@ -151,6 +151,7 @@ export default function LandingPage() {
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                 <span style={{ fontSize: "0.6rem", letterSpacing: "0.2em", color: "#857d6e", textTransform: "uppercase" }}>Application Fee</span>
                 <span style={{ width: 1, height: 10, background: "#2e2e2e" }} />
+                <span style={{ fontSize: "0.7rem", color: "#857d6e", textDecoration: "line-through" }}>&#8377;4,999</span>
                 <span style={{ fontSize: "0.75rem", color: "#C9A84C", fontWeight: 700, letterSpacing: "0.05em" }}>&#8377;999 Only</span>
               </div>
             </div>
@@ -159,7 +160,7 @@ export default function LandingPage() {
             <div className="stats-strip fade-in-up delay-5" style={{ marginTop: 48, display: "flex", gap: 32, flexWrap: "wrap" }}>
               {[
                 ["500+", "Careers Launched"],
-                ["₹10L+", "Prizes"],
+                ["₹11L+", "Prizes"],
                 ["4", "Categories"],
                 ["100%", "Grooming Support"],
               ].map(([val, label], i) => (
@@ -188,7 +189,7 @@ export default function LandingPage() {
             {/* Spots Remaining + Countdown */}
             <div style={{ marginTop: 20, display: "flex", alignItems: "center", gap: 12, justifyContent: "center" }}>
               <span className="spots-dot" />
-              <span style={{ fontSize: "0.75rem", color: "#ef4444", fontWeight: 700 }}>Only 47 spots remaining</span>
+              <span style={{ fontSize: "0.75rem", color: "#ef4444", fontWeight: 700 }}>Only {Math.floor(Math.random() * 21) + 30} spots remaining</span>
             </div>
             <div style={{ marginTop: 16, display: "flex", gap: 10, justifyContent: "center" }}>
               {[
@@ -239,6 +240,45 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* JURY SECTION */}
+      <section data-testid="jury-section" className="section-fade" style={{ padding: "80px 24px", background: "#0c0c0c" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 56 }}>
+            <span style={{ fontSize: "0.6rem", letterSpacing: "0.4em", color: "#C9A84C", textTransform: "uppercase", display: "block", marginBottom: 12 }}>The Grand Jury</span>
+            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2rem,4vw,3rem)", color: "#f0ede6" }}>Meet Our Esteemed Jury</h2>
+            <div style={{ height: 1, width: 60, background: "#C9A84C", margin: "20px auto 0" }} />
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(160px,1fr))", gap: 28 }}>
+            {[
+              { name: "Dishi Bhatnagar", role: "Influencer & Creator", followers: "220K", insta: "tauriangirl_16official" },
+              { name: "Ankit Nagpal", role: "Celebrity Photographer", followers: "19.8K", insta: "rareimprints.ankit.nagpal" },
+              { name: "Allie Sharma", role: "Fashion Expert", followers: "10.3K", insta: "alliesharmaofficial" },
+              { name: "Dr. Akanksha", role: "Mrs. India Title Holder", followers: "", insta: "akanksha_mrsindia" },
+              { name: "Sapna Chauhan", role: "Style Director", followers: "", insta: "sapna.styleframes" },
+              { name: "Ishmeet Kaur", role: "Model & Judge", followers: "", insta: "iishmeetkaurr" },
+              { name: "Dr. Kanchan Vishwakarma", role: "Wellness Expert", followers: "", insta: "" },
+              { name: "Shalini Kashyap", role: "Industry Mentor", followers: "", insta: "" },
+              { name: "Simran Arora", role: "Talent Scout", followers: "", insta: "" },
+              { name: "Dinesh Sudarshan Sai", role: "Entertainment Director", followers: "", insta: "" },
+              { name: "Pratika Sood", role: "Fashion Consultant", followers: "", insta: "" },
+            ].map((j, i) => (
+              <div key={i} style={{ textAlign: "center" }}>
+                <div style={{ width: 110, height: 110, borderRadius: "50%", border: "2px solid rgba(201,168,76,0.3)", background: "linear-gradient(135deg,rgba(201,168,76,0.15),rgba(201,168,76,0.05))", margin: "0 auto 14px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.6rem", fontWeight: 800, color: "#C9A84C", fontFamily: "'Playfair Display',serif" }}>
+                  {j.name.charAt(0)}
+                </div>
+                <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: "0.9rem", color: "#f0ede6", letterSpacing: "0.03em", marginBottom: 4 }}>{j.name}</h3>
+                <p style={{ fontSize: "0.6rem", color: "#C9A84C", letterSpacing: "0.15em", textTransform: "uppercase" }}>{j.role}</p>
+                {j.followers && <p style={{ fontSize: "0.55rem", color: "#857d6e", marginTop: 4 }}>{j.followers} followers</p>}
+                {j.insta && <a href={`https://instagram.com/${j.insta}`} target="_blank" rel="noopener noreferrer" style={{ fontSize: "0.55rem", color: "#857d6e", textDecoration: "none", marginTop: 2, display: "inline-block" }}>@{j.insta.length > 18 ? j.insta.substring(0, 18) + "..." : j.insta}</a>}
+              </div>
+            ))}
+          </div>
+          <div style={{ textAlign: "center", marginTop: 48 }}>
+            <a href="#apply" className="gold-outline-btn" style={{ padding: "14px 36px", borderRadius: 50, fontSize: "0.7rem" }}>Apply for Online Auditions</a>
+          </div>
+        </div>
+      </section>
+
       {/* CELEBRITY - URVASHI RAUTELA */}
       <section data-testid="celebrity-section" className="section-fade" style={{ background: "#080808", padding: "80px 24px" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
@@ -261,7 +301,7 @@ export default function LandingPage() {
               </h2>
               <div style={{ borderLeft: "2px solid #C9A84C", paddingLeft: 24, marginBottom: 40, display: "flex", flexDirection: "column", gap: 12 }}>
                 {[
-                  ["Actor & Model", true],
+                  ["Bollywood Star", true],
                   ["Winner Universe", false],
                   ["Miss Diva Universe 2015", false],
                   ["Femina Miss India 2015", false],
@@ -287,14 +327,14 @@ export default function LandingPage() {
       <section data-testid="prizes-section" className="section-fade" style={{ padding: "80px 24px", background: "#080808" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 60 }}>
-            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(1.8rem,4vw,3rem)", color: "#C9A84C", marginBottom: 8 }}>Prizes Worth &#8377;10L+</h2>
+            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(1.8rem,4vw,3rem)", color: "#C9A84C", marginBottom: 8 }}>Prizes Worth &#8377;11L+</h2>
             <p style={{ color: "#c8c0ad", fontSize: "0.95rem" }}>and a Direct Ticket to Bollywood</p>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(180px,1fr))", gap: 16, marginBottom: 56 }}>
             {[
-              [Banknote, "Cash Prize", "Worth ₹10,00,000\n(T&C Apply)"],
+              [Banknote, "Cash Prize", "Worth ₹11,00,000\n(T&C Apply)"],
               [Film, "1-Year In-House Contract", "Web series, movies, music videos, fashion shows & more"],
-              [Plane, "International Trip", "Free International Trip Voucher"],
+              [Plane, "International Platform", "Represent India on an International Stage"],
               [Star, "Brand Ambassador", "National & International Brand Ambassador"],
               [Theater, "Bollywood Access", "Chance to Work with Bollywood Celebrities"],
             ].map(([Icon, title, desc]) => (
@@ -460,7 +500,7 @@ export default function LandingPage() {
               <span key={cat} style={{ background: "#111111", border: "1px solid rgba(201,168,76,0.3)", color: "#C9A84C", padding: "10px 20px", borderRadius: 4, fontSize: "0.65rem", letterSpacing: "0.15em", textTransform: "uppercase", fontFamily: "'Playfair Display',serif" }}>{cat}</span>
             ))}
           </div>
-          <a href="#apply" className="gold-btn shimmer gold-btn-pulse" style={{ padding: "20px 56px", borderRadius: 50, fontSize: "0.85rem" }}>Apply for Online Auditions — &#8377;999</a>
+          <a href="#apply" className="gold-btn shimmer gold-btn-pulse" style={{ padding: "20px 56px", borderRadius: 50, fontSize: "0.85rem" }}><span style={{ textDecoration: "line-through", opacity: 0.6, marginRight: 8 }}>&#8377;4,999</span>Apply Now — &#8377;999</a>
           <p style={{ marginTop: 20, fontSize: "0.65rem", color: "#857d6e" }}>Grooming Support Provided &bull; Portfolio Shoot Guaranteed &bull; No Prior Experience Required</p>
         </div>
       </section>
@@ -527,7 +567,7 @@ export default function LandingPage() {
             <span style={{ fontSize: "0.6rem", letterSpacing: "0.2em", color: "#C9A84C", textTransform: "uppercase", display: "block" }}>Apply for Auditions Now</span>
             <span style={{ fontSize: "0.7rem", color: "#857d6e" }}>Grooming Support &bull; Portfolio Shoot &bull; No Experience Needed</span>
           </div>
-          <a href="#apply" className="gold-btn" style={{ padding: "12px 28px", borderRadius: 50, fontSize: "0.7rem", textDecoration: "none", whiteSpace: "nowrap" }}>Apply Now — &#8377;999</a>
+          <a href="#apply" className="gold-btn" style={{ padding: "12px 28px", borderRadius: 50, fontSize: "0.7rem", textDecoration: "none", whiteSpace: "nowrap" }}><span style={{ textDecoration: "line-through", opacity: 0.6, marginRight: 6 }}>&#8377;4,999</span> Apply Now — &#8377;999</a>
         </div>
       </div>
 

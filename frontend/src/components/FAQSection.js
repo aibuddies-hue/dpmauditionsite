@@ -20,7 +20,7 @@ const FAQS = [
   },
   {
     q: "What prizes can I win?",
-    a: "Winners receive cash prizes worth ₹10,00,000+, a 1-year in-house contract for web series, movies & fashion shows, free international trip voucher, brand ambassador opportunities, and a chance to work with Bollywood celebrities.",
+    a: "Winners receive cash prizes worth ₹11,00,000+, a 1-year in-house contract for web series, movies & fashion shows, chance to represent India on an international platform, brand ambassador opportunities, and a chance to work with Bollywood celebrities.",
   },
   {
     q: "Can married women participate?",

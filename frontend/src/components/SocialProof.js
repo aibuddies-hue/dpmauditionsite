@@ -44,8 +44,8 @@ export default function SocialProof() {
       setTimeout(() => setVisible(false), 4000);
     };
 
-    const initialDelay = setTimeout(showNext, 8000);
-    const interval = setInterval(showNext, 12000);
+    const initialDelay = setTimeout(showNext, 4000);
+    const interval = setInterval(showNext, 7000);
     return () => { clearTimeout(initialDelay); clearInterval(interval); };
   }, []);
 
