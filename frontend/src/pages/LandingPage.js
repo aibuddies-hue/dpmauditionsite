@@ -24,7 +24,8 @@ const JUDGE_IMAGES = [
 const CATEGORY_IMAGES = {
   teen: "https://drive.google.com/thumbnail?id=14VntIA-XDOqHAEg7tVhmlOTbAjdPR7xy&sz=w600",
   miss: "https://drive.google.com/thumbnail?id=1CXjC4EYz7uZ1JlVgdOZ5T86G7elDflDh&sz=w600",
-  mrs: "https://drive.google.com/thumbnail?id=1BPNSiA2li55xmpQa49mGZTNP7fK2qyg8&sz=w600",
+  mrs: "https://images.unsplash.com/photo-1639325723366-1759d5d74959?w=600",
+  mr: "https://images.unsplash.com/photo-1584940120505-117038d90b05?w=600",
 };
 
 const EVENT_IMAGES = [
@@ -70,6 +71,7 @@ function useCountdown() {
 
 export default function LandingPage() {
   const [showPopup, setShowPopup] = useState(false);
+  const [showTnc, setShowTnc] = useState(false);
   const countdown = useCountdown();
 
   useEffect(() => {
@@ -84,8 +86,10 @@ export default function LandingPage() {
   // Intercept all Apply links to show popup instead
   useEffect(() => {
     const handler = (e) => {
-      const link = e.target.closest('a[href="#apply"], button[data-apply]');
-      if (link) { e.preventDefault(); setShowPopup(true); }
+      const applyLink = e.target.closest('a[href="#apply"], button[data-apply]');
+      if (applyLink) { e.preventDefault(); setShowPopup(true); }
+      const tncLink = e.target.closest('a[href="#tnc"]');
+      if (tncLink) { e.preventDefault(); setShowTnc(true); }
     };
     document.addEventListener("click", handler);
     return () => document.removeEventListener("click", handler);
@@ -106,6 +110,22 @@ export default function LandingPage() {
     <div data-testid="landing-page">
       {/* POPUP FORM */}
       <PopupForm show={showPopup} onClose={() => setShowPopup(false)} />
+
+      {/* T&C POPUP */}
+      {showTnc && (
+        <div className="popup-overlay" onClick={(e) => { if (e.target === e.currentTarget) setShowTnc(false); }}>
+          <div style={{ background: "#0c0c0c", border: "1px solid rgba(201,168,76,0.25)", borderRadius: 16, maxWidth: 800, width: "95%", maxHeight: "90vh", overflowY: "auto", position: "relative", animation: "popupSlideIn 0.5s cubic-bezier(.34,1.56,.64,1)", boxShadow: "0 32px 80px rgba(0,0,0,0.6)" }}>
+            <button className="popup-close" onClick={() => setShowTnc(false)} style={{ position: "sticky", top: 16, float: "right", marginRight: 16, marginTop: 16, zIndex: 10 }}>
+              <span style={{ fontSize: "1.2rem", lineHeight: 1 }}>&times;</span>
+            </button>
+            <div style={{ padding: "48px 40px 32px" }}>
+              <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.6rem", color: "#f0ede6", textAlign: "center", marginBottom: 8 }}>Terms & Conditions</h2>
+              <div style={{ height: 1, width: 60, background: "#C9A84C", margin: "0 auto 32px" }} />
+              <TermsContent />
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* SOCIAL PROOF NOTIFICATIONS */}
       <SocialProof />
@@ -283,7 +303,6 @@ export default function LandingPage() {
               { name: "Dr. Kanchan Vishwakarma", role: "Wellness Expert", insta: "", bio: "Physician and wellness consultant dedicated to holistic health, inner beauty & confidence building for pageant aspirants.", img: "https://images.unsplash.com/photo-1533594309-525c2892d01c?w=200" },
               { name: "Shalini Kashyap", role: "Industry Mentor", insta: "", bio: "Seasoned talent development mentor with years of experience grooming contestants for national & international pageants.", img: "https://images.unsplash.com/photo-1563567989835-496e19e5b87a?w=200" },
               { name: "Simran Arora", role: "Talent Scout", insta: "", bio: "Talent acquisition specialist focused on discovering fresh faces for fashion, modelling & the entertainment industry.", img: "https://images.unsplash.com/photo-1650017727871-d542a4aa9466?w=200" },
-              { name: "Pratika Sood", role: "Fashion Consultant", insta: "", bio: "Fashion consultant known for curating looks and styling emerging talent across the Indian fashion circuit.", img: "https://images.unsplash.com/photo-1772544797306-42ffcda5c63b?w=200" },
             ].map((j, i) => (
               <div key={i} style={{ background: "#111111", border: "1px solid rgba(201,168,76,0.08)", borderRadius: 10, padding: "24px 20px", textAlign: "center", transition: "all 0.3s" }} className="testimonial-card">
                 <div style={{ width: 80, height: 80, borderRadius: "50%", border: "2px solid rgba(201,168,76,0.25)", margin: "0 auto 14px", overflow: "hidden" }}>
@@ -421,7 +440,7 @@ export default function LandingPage() {
               { title: "Miss Teen India", age: "Age: 12 - 18 Years", popular: false, img: CATEGORY_IMAGES.teen },
               { title: "Miss India", age: "Age: 16 - 28 Years", popular: true, img: CATEGORY_IMAGES.miss },
               { title: "Mrs. India", age: "Age: 23 - 60 Years | Married", popular: false, img: CATEGORY_IMAGES.mrs },
-              { title: "Mr. India", age: "Age: 16 - 32 Years", popular: false, img: CATEGORY_IMAGES.teen },
+              { title: "Mr. India", age: "Age: 16 - 32 Years", popular: false, img: CATEGORY_IMAGES.mr },
             ].map((cat) => (
               <div key={cat.title} className="category-card" style={{ background: "#111111", border: cat.popular ? "2px solid rgba(201,168,76,0.35)" : "1px solid rgba(201,168,76,0.12)", borderRadius: 8, overflow: "hidden", textAlign: "center", position: "relative" }}>
                 {cat.popular && (
@@ -535,17 +554,6 @@ export default function LandingPage() {
 
       {/* FAQ SECTION */}
       <FAQSection />
-
-      {/* TERMS & CONDITIONS */}
-      <section id="tnc" data-testid="rules-section" style={{ padding: "80px 24px", background: "#080808" }}>
-        <div style={{ maxWidth: 800, margin: "0 auto" }}>
-          <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(1.6rem,3vw,2.4rem)", color: "#f0ede6", textAlign: "center", marginBottom: 12 }}>Terms & Conditions</h2>
-          <div style={{ height: 1, width: 60, background: "#C9A84C", margin: "0 auto 48px" }} />
-          <div style={{ background: "#111111", border: "1px solid rgba(201,168,76,0.1)", borderRadius: 8, padding: "40px 40px 24px" }}>
-            <TermsContent />
-          </div>
-        </div>
-      </section>
 
       {/* FOOTER */}
       <footer data-testid="footer-section" style={{ background: "#080808", borderTop: "1px solid rgba(201,168,76,0.1)", padding: "60px 24px 32px" }}>
