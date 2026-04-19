@@ -272,13 +272,13 @@ export default function LandingPage() {
           {/* Featured Jury - Top Row */}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: 24, marginBottom: 32 }}>
             {[
-              { name: "Dishi Bhatnagar", role: "Director, Miss Mrs & Mr Asia International", followers: "220K+", insta: "tauriangirl_16official", bio: "Aviation to fashion icon. Winner - Glammonn Miss & Mrs India (Phuket), Miss & Mrs Eternal Beauty (Malaysia). Femina Miss India Top 5. Face of Tanishq. VP of CTI-New Delhi. Founder adishproductionz.", img: "https://drive.google.com/thumbnail?id=1qBxj0MwXgpTTK53oAU2pwjCBrskQL70c&sz=w400" },
-              { name: "Dinesh Sudarshan Sai", role: "Bollywood Casting Director", followers: "", insta: "", bio: "India's record-breaking casting director with 6,000+ castings. Holds India Book, Asia Book & Bravo International World Records. Founder of DS Creations. Actor in Star Plus shows.", img: "https://dscreations.in/wp-content/uploads/2025/03/unnamed.jpg" },
-              { name: "Ishmeet Kaur", role: "Mrs India World 2024", followers: "", insta: "iishmeetkaurr", bio: "Mrs India World 2024. Her journey celebrates inner strength, resilience & the belief that true beauty comes from within. Styled celebrities including Raveena Tandon.", img: "https://drive.google.com/thumbnail?id=1Cv5OB4QcJ0WR53YeZJ52UPTJA_b0HDy9&sz=w400" },
+              { name: "Dishi Bhatnagar", role: "Director, Miss Mrs & Mr Asia International", followers: "220K+", insta: "tauriangirl_16official", bio: "Aviation to fashion icon. Winner - Glammonn Miss & Mrs India (Phuket), Miss & Mrs Eternal Beauty (Malaysia). Femina Miss India Top 5. Face of Tanishq. VP of CTI-New Delhi. Founder adishproductionz.", img: "https://drive.google.com/thumbnail?id=1qBxj0MwXgpTTK53oAU2pwjCBrskQL70c&sz=w800" },
+              { name: "Ishmeet Kaur", role: "Mrs India World 2024", followers: "", insta: "iishmeetkaurr", bio: "Mrs India World 2024. Her journey celebrates inner strength, resilience & the belief that true beauty comes from within. Styled celebrities including Raveena Tandon.", img: "https://drive.google.com/thumbnail?id=1Cv5OB4QcJ0WR53YeZJ52UPTJA_b0HDy9&sz=w800" },
+              { name: "Dr. Akanksha Massey", role: "Mrs India OIM RU 2023", followers: "", insta: "akanksha_mrsindia", bio: "OBG specialist with 17 years experience. Mrs India One In a Million RU 2023. Also won Mrs India Glamorous Gold, Beautiful Body & Beautiful Skin titles. Author with 60+ publications.", img: "https://drive.google.com/thumbnail?id=17g1rnhT6dZiFQLfKL0XiY3z6rkcBM15V&sz=w800" },
             ].map((j, i) => (
               <div key={i} style={{ background: "#111111", border: "1px solid rgba(201,168,76,0.12)", borderRadius: 12, padding: "28px 24px", display: "flex", gap: 20, alignItems: "flex-start", transition: "all 0.3s" }} className="testimonial-card">
-                <div style={{ width: 72, height: 72, borderRadius: "50%", border: "2px solid rgba(201,168,76,0.4)", flexShrink: 0, overflow: "hidden" }}>
-                  <img src={j.img} alt={j.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                <div style={{ width: 90, height: 90, borderRadius: "50%", border: "2px solid rgba(201,168,76,0.4)", flexShrink: 0, overflow: "hidden" }}>
+                  <img src={j.img} alt={j.name} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }} />
                 </div>
                 <div>
                   <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.05rem", color: "#f0ede6", marginBottom: 4 }}>{j.name}</h3>
@@ -294,19 +294,17 @@ export default function LandingPage() {
           </div>
 
           {/* Other Jury Members - Grid */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))", gap: 20 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: 20 }}>
             {[
-              { name: "Ankit Nagpal", role: "Director, Bang on Target PR", insta: "rareimprints.ankit.nagpal", bio: "Founder of Bang on Target PR & Media Solutions. BR Ambedkar National Award winner. Co-Founder of The Great Indian Youth Fest. Groomer & jury at 15+ national pageants.", img: "https://drive.google.com/thumbnail?id=1Gi9BLumdGubfJ00NwqIMbpEhbiJ8hkDE&sz=w400" },
-              { name: "Allie Sharma", role: "Fashion Designer & Pageant Entrepreneur", insta: "alliesharmaofficial", bio: "Fashion Designer, Pageant Entrepreneur & Educator. Creative Head with expertise in brand building and fashion event curation across India.", img: "https://drive.google.com/thumbnail?id=1zxgjZRLYaNjovflbL7axASyYwJK4rCpj&sz=w400" },
-              { name: "Dr. Akanksha Massey", role: "Mrs India OIM RU 2023", insta: "akanksha_mrsindia", bio: "OBG specialist with 17 years experience. Mrs India One In a Million RU 2023. Also won Mrs India Glamorous Gold, Beautiful Body & Beautiful Skin titles. Author & researcher with 60+ publications.", img: "https://drive.google.com/thumbnail?id=17g1rnhT6dZiFQLfKL0XiY3z6rkcBM15V&sz=w400" },
-              { name: "Sapna Chauhan", role: "Entrepreneur & Filmmaker", insta: "sapna.styleframes", bio: "Entrepreneur, actor, filmmaker. Delhi-based fashion & lifestyle expert. 3+ years as personal stylist. Former IndiGo Airlines flight attendant (6.5 yrs). Originally from Shimla.", img: "https://drive.google.com/thumbnail?id=1bOc-H7upEmCfEEUgvQOvrXXzOauCnvf8&sz=w400" },
-              { name: "Kanchan Vishwakarma", role: "Dellywood Miss India 2016", insta: "", bio: "Crowned Dellywood Miss India 2016. Miss Diva Lucknow Finalist & Top 50 at Miss Diva 2017 finals. Ph.D. Plant & Microbial Scientist. Guest Judge at national pageants.", img: "https://drive.google.com/thumbnail?id=1l3PHmtyoTF1xxKKfdPpd3y1gUN90aTPH&sz=w400" },
-              { name: "Shalini Kashyap", role: "Industry Mentor", insta: "", bio: "Seasoned talent development mentor with years of experience grooming contestants for national & international pageants.", img: "https://drive.google.com/thumbnail?id=1k9OXMe6_Uh0YqB-6IXs9SMkwJ79-6I8F&sz=w400" },
-              { name: "Simran Arora", role: "Talent Scout", insta: "", bio: "Talent acquisition specialist focused on discovering fresh faces for fashion, modelling & the entertainment industry.", img: "https://drive.google.com/thumbnail?id=1N--ZdM5q-tH3b7BvQ49JF_pa7UwntouJ&sz=w400" },
+              { name: "Ankit Nagpal", role: "Director, Bang on Target PR", insta: "rareimprints.ankit.nagpal", bio: "Founder of Bang on Target PR & Media Solutions. BR Ambedkar National Award winner. Co-Founder of The Great Indian Youth Fest. Groomer & jury at 15+ national pageants.", img: "https://drive.google.com/thumbnail?id=1Gi9BLumdGubfJ00NwqIMbpEhbiJ8hkDE&sz=w800" },
+              { name: "Allie Sharma", role: "Fashion Designer & Pageant Entrepreneur", insta: "alliesharmaofficial", bio: "Fashion Designer, Pageant Entrepreneur & Educator. Creative Head with expertise in brand building and fashion event curation across India.", img: "https://drive.google.com/thumbnail?id=1zxgjZRLYaNjovflbL7axASyYwJK4rCpj&sz=w800" },
+              { name: "Sapna Chauhan", role: "Entrepreneur & Filmmaker", insta: "sapna.styleframes", bio: "Entrepreneur, actor, filmmaker. Delhi-based fashion & lifestyle expert. Former IndiGo Airlines flight attendant (6.5 yrs). Originally from Shimla.", img: "https://drive.google.com/thumbnail?id=1bOc-H7upEmCfEEUgvQOvrXXzOauCnvf8&sz=w800" },
+              { name: "Kanchan Vishwakarma", role: "Dellywood Miss India 2016", insta: "", bio: "Crowned Dellywood Miss India 2016. Miss Diva Lucknow Finalist & Top 50 at Miss Diva 2017 finals. Ph.D. Plant & Microbial Scientist.", img: "https://drive.google.com/thumbnail?id=1l3PHmtyoTF1xxKKfdPpd3y1gUN90aTPH&sz=w800" },
+              { name: "Shalini Kashyap", role: "Industry Mentor", insta: "", bio: "Seasoned talent development mentor with years of experience grooming contestants for national & international pageants.", img: "https://drive.google.com/thumbnail?id=1k9OXMe6_Uh0YqB-6IXs9SMkwJ79-6I8F&sz=w800" },
             ].map((j, i) => (
               <div key={i} style={{ background: "#111111", border: "1px solid rgba(201,168,76,0.08)", borderRadius: 10, padding: "24px 20px", textAlign: "center", transition: "all 0.3s" }} className="testimonial-card">
-                <div style={{ width: 80, height: 80, borderRadius: "50%", border: "2px solid rgba(201,168,76,0.25)", margin: "0 auto 14px", overflow: "hidden" }}>
-                  <img src={j.img} alt={j.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                <div style={{ width: 100, height: 100, borderRadius: "50%", border: "2px solid rgba(201,168,76,0.25)", margin: "0 auto 14px", overflow: "hidden" }}>
+                  <img src={j.img} alt={j.name} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }} />
                 </div>
                 <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: "0.9rem", color: "#f0ede6", marginBottom: 4 }}>{j.name}</h3>
                 <p style={{ fontSize: "0.55rem", color: "#C9A84C", letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: 8 }}>{j.role}</p>
