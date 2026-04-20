@@ -22,9 +22,9 @@ const JUDGE_IMAGES = [
 ];
 
 const CATEGORY_IMAGES = {
-  mr: "https://images.unsplash.com/photo-1613509937253-cfd0081794fa?w=600",
+  mr: "https://images.unsplash.com/photo-1721593444860-ecb1400f65ca?w=600",
   mrs: "https://images.unsplash.com/photo-1722561669647-f3c5a5b73e50?w=600",
-  miss: "https://images.pexels.com/photos/10234460/pexels-photo-10234460.jpeg?auto=compress&w=600",
+  miss: "https://images.pexels.com/photos/17820511/pexels-photo-17820511.jpeg?auto=compress&w=600",
   teen: "https://images.unsplash.com/photo-1584290849779-64e87b8e198c?w=600",
 };
 
@@ -131,8 +131,8 @@ export default function LandingPage() {
       <SocialProof />
 
       {/* STICKY NAV */}
-      <nav data-testid="sticky-nav" className="glass" style={{ position: "fixed", top: 0, width: "100%", zIndex: 50, padding: "8px 24px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid rgba(201,168,76,0.2)" }}>
-        <img src={DPM_LOGO} alt="DPM Entertainment" style={{ height: 56, objectFit: "contain" }} />
+      <nav data-testid="sticky-nav" className="glass" style={{ position: "fixed", top: 0, width: "100%", zIndex: 50, padding: "6px 24px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid rgba(201,168,76,0.2)" }}>
+        <img src={DPM_LOGO} alt="DPM Entertainment" style={{ height: 60, objectFit: "contain", filter: "brightness(1.3)", background: "rgba(201,168,76,0.06)", borderRadius: 8, padding: "4px 8px" }} />
         <a href="#apply" className="gold-btn" style={{ padding: "10px 24px", borderRadius: 50, fontSize: "0.7rem", textDecoration: "none" }}>Apply Now — &#8377;999</a>
       </nav>
 
@@ -559,7 +559,7 @@ export default function LandingPage() {
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div className="footer-grid" style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: 48, marginBottom: 48 }}>
             <div>
-              <img src={DPM_LOGO} alt="DPM Entertainment" style={{ height: 70, objectFit: "contain", marginBottom: 16 }} />
+              <img src={DPM_LOGO} alt="DPM Entertainment" style={{ height: 80, objectFit: "contain", marginBottom: 16, filter: "brightness(1.3)" }} />
               <p style={{ fontSize: "0.75rem", color: "#857d6e", lineHeight: 1.8, maxWidth: 280 }}>DPM Entertainment | [Address Line 1] | [City, State, PIN]</p>
               <p style={{ fontSize: "0.75rem", color: "#857d6e", marginTop: 8 }}>dpmentertainment@gmail.com</p>
             </div>
