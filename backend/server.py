@@ -66,6 +66,24 @@ class ApplicationResponse(BaseModel):
 async def root():
     return {"message": "DPM Beauty Pageant 2026 API"}
 
+@api_router.post("/leads")
+async def save_lead(data: ApplicationCreate):
+    doc = {
+        "id": str(uuid.uuid4()),
+        "name": data.name,
+        "email": data.email,
+        "phone": data.phone,
+        "status": "lead",
+        "created_at": datetime.now(timezone.utc).isoformat(),
+    }
+    await db.leads.insert_one(doc)
+    return {"status": "success", "id": doc["id"]}
+
+@api_router.get("/leads")
+async def get_leads():
+    leads = await db.leads.find({}, {"_id": 0}).to_list(10000)
+    return leads
+
 @api_router.post("/create-order", response_model=OrderResponse)
 async def create_order(data: ApplicationCreate):
     try:

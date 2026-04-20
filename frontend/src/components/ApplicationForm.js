@@ -31,6 +31,9 @@ export default function ApplicationForm({ isPopup = false, onSuccess }) {
 
     setLoading(true);
     try {
+      // Save lead (opt-in before payment)
+      await axios.post(`${API}/leads`, { name, email, phone }).catch(() => {});
+
       // Create Razorpay order
       const { data: order } = await axios.post(`${API}/create-order`, { name, email, phone });
 
