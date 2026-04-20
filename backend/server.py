@@ -214,30 +214,44 @@ async def submit_profile(
 ):
     photo1_name = f"{uuid.uuid4()}_{photo1.filename}"
     photo2_name = f"{uuid.uuid4()}_{photo2.filename}"
-    with open(UPLOAD_DIR / photo1_name, "wb") as f:
+    local_p1 = str(UPLOAD_DIR / photo1_name)
+    local_p2 = str(UPLOAD_DIR / photo2_name)
+    with open(local_p1, "wb") as f:
         shutil.copyfileobj(photo1.file, f)
-    with open(UPLOAD_DIR / photo2_name, "wb") as f:
+    with open(local_p2, "wb") as f:
         shutil.copyfileobj(photo2.file, f)
 
+    # Read photos as base64 for n8n webhook (so n8n can upload to Google Drive)
+    import base64
+    with open(local_p1, "rb") as f:
+        photo1_b64 = base64.b64encode(f.read()).decode()
+    with open(local_p2, "rb") as f:
+        photo2_b64 = base64.b64encode(f.read()).decode()
+
     now = datetime.now(timezone.utc).isoformat()
-    # Get email/phone from the application
     app_doc = await db.applications.find_one({"id": application_id}, {"_id": 0})
     app_email = app_doc.get("email", "") if app_doc else ""
     app_phone = app_doc.get("phone", "") if app_doc else ""
+
+    base_url = os.environ.get("BASE_URL", "https://audition.dpmentertainment.com")
+    photo1_url = f"{base_url}/api/uploads/{photo1_name}"
+    photo2_url = f"{base_url}/api/uploads/{photo2_name}"
 
     profile = {
         "application_id": application_id, "first_name": first_name, "last_name": last_name,
         "age": age, "marital_status": marital_status, "address1": address1, "address2": address2,
         "city": city, "state": state, "postal_code": postal_code, "height": height, "weight": weight,
-        "bust": bust, "waist": waist, "hips": hips, "photo1": photo1_name, "photo2": photo2_name, "created_at": now,
+        "bust": bust, "waist": waist, "hips": hips,
+        "photo1": photo1_name, "photo1_url": photo1_url,
+        "photo2": photo2_name, "photo2_url": photo2_url,
+        "created_at": now,
     }
     await db.profiles.insert_one(profile)
     await db.applications.update_one({"id": application_id}, {"$set": {"profile_submitted": True}})
 
-    base_url = os.environ.get("BASE_URL", "https://audition.dpmentertainment.com")
     # Google Sheet
     fire_and_forget(GOOGLE_SHEET_WEBHOOK, {"type": "profile", "first_name": first_name, "last_name": last_name, "age": age, "marital_status": marital_status, "address1": address1, "address2": address2, "city": city, "state": state, "postal_code": postal_code, "height": height, "weight": weight, "bust": bust, "waist": waist, "hips": hips, "date": now})
-    # n8n profile webhook
+    # n8n profile webhook — includes base64 photos for Drive upload via n8n
     fire_and_forget(N8N_PROFILE, {
         "email": app_email,
         "whatsapp_number": app_phone,
@@ -253,8 +267,12 @@ async def submit_profile(
         "bust": bust,
         "waist": waist,
         "hips": hips,
-        "photo1_url": f"{base_url}/api/uploads/{photo1_name}",
-        "photo2_url": f"{base_url}/api/uploads/{photo2_name}",
+        "photo1_url": photo1_url,
+        "photo2_url": photo2_url,
+        "photo1_filename": photo1_name,
+        "photo2_filename": photo2_name,
+        "photo1_base64": photo1_b64,
+        "photo2_base64": photo2_b64,
         "timestamp": now,
     })
     return {"status": "success", "message": "Profile submitted successfully"}
