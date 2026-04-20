@@ -14,7 +14,7 @@ import razorpay
 import shutil
 import httpx
 
-GOOGLE_SHEET_WEBHOOK = "https://script.google.com/macros/s/AKfycbx_XGu1rx3hIA1tqKt4H_SjYKiMG3MCJWPpO7QjH9Lk0JfQvKyr0-6PVFSLqL9jIxu8/exec"
+GOOGLE_SHEET_WEBHOOK = "https://script.google.com/macros/s/AKfycbxvLA7w7XN77AdypjGSD9n1KjODKYr9aEl7r3pWgEz2v55YONIPg-ot17J7GBk9hqeA/exec"
 
 async def push_to_sheet(data: dict):
     try:
