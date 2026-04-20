@@ -192,6 +192,11 @@ async def submit_profile(
     )
     return {"status": "success", "message": "Profile submitted successfully"}
 
+@api_router.get("/profiles")
+async def get_profiles():
+    profiles = await db.profiles.find({}, {"_id": 0}).to_list(10000)
+    return profiles
+
 app.include_router(api_router)
 
 app.add_middleware(
