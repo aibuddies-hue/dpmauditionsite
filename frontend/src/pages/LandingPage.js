@@ -22,9 +22,9 @@ const JUDGE_IMAGES = [
 ];
 
 const CATEGORY_IMAGES = {
-  mr: "https://images.pexels.com/photos/15269279/pexels-photo-15269279.jpeg?auto=compress&w=600",
+  mr: "https://customer-assets.emergentagent.com/job_page-craft-228/artifacts/cyk7f4fz_566180301_17947332891022044_2524350184055524225_n.jpg",
   mrs: "https://images.unsplash.com/photo-1722561669647-f3c5a5b73e50?w=600",
-  miss: "https://images.unsplash.com/photo-1703008078245-25da3d17fccc?w=600",
+  miss: "https://customer-assets.emergentagent.com/job_page-craft-228/artifacts/iasbcr29_article-2022718416302059420000.webp",
   teen: "https://images.unsplash.com/photo-1584290849779-64e87b8e198c?w=600",
 };
 
