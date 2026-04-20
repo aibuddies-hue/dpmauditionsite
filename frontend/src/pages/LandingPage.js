@@ -22,9 +22,9 @@ const JUDGE_IMAGES = [
 ];
 
 const CATEGORY_IMAGES = {
-  mr: "https://images.unsplash.com/photo-1721593444860-ecb1400f65ca?w=600",
+  mr: "https://images.pexels.com/photos/15269279/pexels-photo-15269279.jpeg?auto=compress&w=600",
   mrs: "https://images.unsplash.com/photo-1722561669647-f3c5a5b73e50?w=600",
-  miss: "https://images.pexels.com/photos/17820511/pexels-photo-17820511.jpeg?auto=compress&w=600",
+  miss: "https://images.unsplash.com/photo-1703008078245-25da3d17fccc?w=600",
   teen: "https://images.unsplash.com/photo-1584290849779-64e87b8e198c?w=600",
 };
 
