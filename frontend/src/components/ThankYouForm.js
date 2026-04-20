@@ -140,15 +140,15 @@ export default function ThankYouForm({ applicationId, name, email, phone }) {
       <div style={{ display: "flex", alignItems: "center", gap: 10, ...sectionTitle }}>Contact Details</div>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
         <div>
-          <label style={labelStyle}>Mobile Number</label>
+          <label style={labelStyle}>Mobile Number *</label>
           <div style={{ display: "flex", gap: 8 }}>
             <span className="dpm-input" style={{ width: 60, textAlign: "center", flexShrink: 0, color: "#C9A84C" }}>+91</span>
-            <input className="dpm-input" value={phone?.replace("+91", "").trim() || ""} readOnly style={{ opacity: 0.6 }} />
+            <input className="dpm-input" placeholder="XXXXX XXXXX" value={contactPhone} onChange={e => setContactPhone(e.target.value)} />
           </div>
         </div>
         <div>
-          <label style={labelStyle}>Email Address</label>
-          <input className="dpm-input" value={email || ""} readOnly style={{ opacity: 0.6 }} />
+          <label style={labelStyle}>Email Address *</label>
+          <input className="dpm-input" placeholder="your@email.com" value={contactEmail} onChange={e => setContactEmail(e.target.value)} />
         </div>
       </div>
 
