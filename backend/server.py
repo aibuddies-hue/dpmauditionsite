@@ -12,6 +12,16 @@ import uuid
 from datetime import datetime, timezone
 import razorpay
 import shutil
+import httpx
+
+GOOGLE_SHEET_WEBHOOK = "https://script.google.com/macros/s/AKfycbx_XGu1rx3hIA1tqKt4H_SjYKiMG3MCJWPpO7QjH9Lk0JfQvKyr0-6PVFSLqL9jIxu8/exec"
+
+async def push_to_sheet(data: dict):
+    try:
+        async with httpx.AsyncClient(timeout=10, follow_redirects=True) as client:
+            await client.post(GOOGLE_SHEET_WEBHOOK, json=data)
+    except Exception as e:
+        logger.error(f"Sheet webhook failed: {e}")
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
@@ -77,6 +87,7 @@ async def save_lead(data: ApplicationCreate):
         "created_at": datetime.now(timezone.utc).isoformat(),
     }
     await db.leads.insert_one(doc)
+    await push_to_sheet({"type": "lead", "name": data.name, "email": data.email, "phone": data.phone, "status": "lead", "date": doc["created_at"]})
     return {"status": "success", "id": doc["id"]}
 
 @api_router.get("/leads")
@@ -131,6 +142,7 @@ async def verify_payment(data: PaymentVerify):
         "created_at": datetime.now(timezone.utc).isoformat(),
     }
     await db.applications.insert_one(doc)
+    await push_to_sheet({"type": "paid", "name": data.name, "email": data.email, "phone": data.phone, "payment_id": data.razorpay_payment_id, "status": "paid", "date": doc["created_at"]})
     return ApplicationResponse(**{k: v for k, v in doc.items() if k != "_id"})
 
 @api_router.get("/applications", response_model=List[ApplicationResponse])
@@ -190,6 +202,7 @@ async def submit_profile(
         {"id": application_id},
         {"$set": {"profile_submitted": True}}
     )
+    await push_to_sheet({"type": "profile", "first_name": first_name, "last_name": last_name, "age": age, "marital_status": marital_status, "address1": address1, "address2": address2, "city": city, "state": state, "postal_code": postal_code, "height": height, "weight": weight, "bust": bust, "waist": waist, "hips": hips, "date": profile["created_at"]})
     return {"status": "success", "message": "Profile submitted successfully"}
 
 @api_router.get("/profiles")
