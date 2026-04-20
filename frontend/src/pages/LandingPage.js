@@ -22,10 +22,10 @@ const JUDGE_IMAGES = [
 ];
 
 const CATEGORY_IMAGES = {
-  teen: "https://images.unsplash.com/photo-1641244063050-d3e34619fd2d?w=600",
-  miss: "https://images.pexels.com/photos/32624644/pexels-photo-32624644.png?auto=compress&w=600",
-  mrs: "https://images.unsplash.com/photo-1768560846736-56ba4f41d3c9?w=600",
-  mr: "https://images.pexels.com/photos/36825477/pexels-photo-36825477.jpeg?auto=compress&w=600",
+  mr: "https://images.unsplash.com/photo-1613509937253-cfd0081794fa?w=600",
+  mrs: "https://images.unsplash.com/photo-1722561669647-f3c5a5b73e50?w=600",
+  miss: "https://images.pexels.com/photos/10234460/pexels-photo-10234460.jpeg?auto=compress&w=600",
+  teen: "https://images.unsplash.com/photo-1584290849779-64e87b8e198c?w=600",
 };
 
 const EVENT_IMAGES = [
@@ -436,10 +436,10 @@ export default function LandingPage() {
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: 20, marginBottom: 32 }}>
             {[
-              { title: "Miss Teen India", age: "Age: 12 - 18 Years", popular: false, img: CATEGORY_IMAGES.teen },
-              { title: "Miss India", age: "Age: 16 - 28 Years", popular: true, img: CATEGORY_IMAGES.miss },
-              { title: "Mrs. India", age: "Age: 23 - 60 Years | Married", popular: false, img: CATEGORY_IMAGES.mrs },
               { title: "Mr. India", age: "Age: 16 - 32 Years", popular: false, img: CATEGORY_IMAGES.mr },
+              { title: "Mrs. India", age: "Age: 23 - 60 Years | Married", popular: false, img: CATEGORY_IMAGES.mrs },
+              { title: "Miss India", age: "Age: 16 - 28 Years", popular: true, img: CATEGORY_IMAGES.miss },
+              { title: "Miss Teen India", age: "Age: 12 - 18 Years", popular: false, img: CATEGORY_IMAGES.teen },
             ].map((cat) => (
               <div key={cat.title} className="category-card" style={{ background: "#111111", border: cat.popular ? "2px solid rgba(201,168,76,0.35)" : "1px solid rgba(201,168,76,0.12)", borderRadius: 8, overflow: "hidden", textAlign: "center", position: "relative" }}>
                 {cat.popular && (
