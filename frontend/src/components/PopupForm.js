@@ -36,7 +36,11 @@ export default function PopupForm({ show, onClose }) {
     <div
       data-testid="popup-overlay"
       className="popup-overlay"
-      style={{ animation: closing ? "overlayFadeOut 0.35s ease forwards" : undefined }}
+      style={{
+        animation: closing ? "overlayFadeOut 0.35s ease forwards" : undefined,
+        padding: "0 16px",
+        boxSizing: "border-box",
+      }}
       onClick={(e) => { if (e.target === e.currentTarget) handleClose(); }}
     >
       <div
@@ -45,9 +49,9 @@ export default function PopupForm({ show, onClose }) {
           background: "#0c0c0c",
           border: "1px solid rgba(201,168,76,0.25)",
           borderRadius: 16,
-          maxWidth: 680,
-          width: "95%",
-          maxHeight: "90vh",
+          maxWidth: 580,
+          width: "100%",
+          maxHeight: "92vh",
           overflowY: "auto",
           position: "relative",
           animation: closing ? "popupSlideOut 0.35s ease forwards" : "popupSlideIn 0.5s cubic-bezier(.34,1.56,.64,1)",
@@ -58,7 +62,7 @@ export default function PopupForm({ show, onClose }) {
           data-testid="popup-close-btn"
           className="popup-close"
           onClick={handleClose}
-          style={{ position: "fixed", top: "calc(5vh + 16px)", right: "calc(50% - 330px)", zIndex: 110 }}
+          style={{ position: "sticky", top: 12, float: "right", marginRight: 12, marginTop: 12, zIndex: 110 }}
         >
           <X size={18} />
         </button>

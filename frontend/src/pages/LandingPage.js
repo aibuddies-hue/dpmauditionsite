@@ -22,10 +22,10 @@ const JUDGE_IMAGES = [
 ];
 
 const CATEGORY_IMAGES = {
-  teen: "https://drive.google.com/thumbnail?id=14VntIA-XDOqHAEg7tVhmlOTbAjdPR7xy&sz=w600",
-  miss: "https://drive.google.com/thumbnail?id=1CXjC4EYz7uZ1JlVgdOZ5T86G7elDflDh&sz=w600",
-  mrs: "https://images.unsplash.com/photo-1639325723366-1759d5d74959?w=600",
-  mr: "https://images.unsplash.com/photo-1584940120505-117038d90b05?w=600",
+  teen: "https://images.unsplash.com/photo-1641244063050-d3e34619fd2d?w=600",
+  miss: "https://images.pexels.com/photos/32624644/pexels-photo-32624644.png?auto=compress&w=600",
+  mrs: "https://images.unsplash.com/photo-1768560846736-56ba4f41d3c9?w=600",
+  mr: "https://images.pexels.com/photos/36825477/pexels-photo-36825477.jpeg?auto=compress&w=600",
 };
 
 const EVENT_IMAGES = [
@@ -447,8 +447,8 @@ export default function LandingPage() {
                     <span style={{ fontSize: "0.55rem", letterSpacing: "0.2em", color: "#0c0c0c", fontWeight: 800, textTransform: "uppercase" }}>Most Popular</span>
                   </div>
                 )}
-                <div style={{ height: 220, background: "#181818", position: "relative", marginTop: cat.popular ? 28 : 0, overflow: "hidden" }}>
-                  <img src={cat.img} alt={cat.title} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", filter: "brightness(0.8) grayscale(20%)", transition: "all 0.5s ease" }} />
+                <div style={{ height: 260, background: "#181818", position: "relative", marginTop: cat.popular ? 28 : 0, overflow: "hidden" }}>
+                  <img src={cat.img} alt={cat.title} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 20%", transition: "all 0.5s ease" }} />
                   <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 60, background: "linear-gradient(to top,#111111,transparent)" }} />
                 </div>
                 <div style={{ padding: 24 }}>

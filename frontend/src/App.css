@@ -349,11 +349,57 @@
   }
   .footer-grid {
     grid-template-columns: 1fr !important;
+    gap: 24px !important;
   }
   .stats-strip {
     gap: 16px !important;
   }
   .stats-divider {
     display: none;
+  }
+  .popup-overlay {
+    align-items: flex-end !important;
+  }
+  .popup-overlay > div {
+    max-height: 95vh !important;
+    border-radius: 16px 16px 0 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .popup-close {
+    position: fixed !important;
+    top: auto !important;
+    right: 16px !important;
+    z-index: 120 !important;
+  }
+  .countdown-box {
+    padding: 8px 12px !important;
+    min-width: 55px !important;
+  }
+  .countdown-box .num {
+    font-size: 1.3rem !important;
+  }
+  .trust-badge {
+    font-size: 0.6rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .popup-overlay > div {
+    padding: 0 !important;
+  }
+  .dpm-input, .dpm-select {
+    padding: 12px 14px !important;
+    font-size: 16px !important;
+  }
+}
+
+/* Responsive grids for Thank You form */
+@media (max-width: 600px) {
+  [data-testid="thankyou-profile-form"] > div > div[style*="grid-template-columns: 1fr 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+  [data-testid="thankyou-profile-form"] > div > div[style*="grid-template-columns: 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
   }
 }
