@@ -127,7 +127,7 @@ async def save_lead(data: ApplicationCreate):
 
 @api_router.get("/leads")
 async def get_leads():
-    return await db.leads.find({}, {"_id": 0}).to_list(10000)
+    return await db.leads.find({}, {"_id": 0}).sort("created_at", -1).to_list(500)
 
 # 2. CREATE ORDER
 @api_router.post("/create-order", response_model=OrderResponse)
@@ -189,7 +189,7 @@ async def payment_failed(data: PaymentFailed):
 
 @api_router.get("/applications", response_model=List[ApplicationResponse])
 async def get_applications():
-    return await db.applications.find({}, {"_id": 0}).to_list(1000)
+    return await db.applications.find({}, {"_id": 0}).sort("created_at", -1).to_list(500)
 
 # 5. PROFILE — fires profile webhook
 @api_router.post("/profile")
@@ -233,7 +233,7 @@ async def submit_profile(
     app_email = app_doc.get("email", "") if app_doc else ""
     app_phone = app_doc.get("phone", "") if app_doc else ""
 
-    base_url = os.environ.get("BASE_URL", "https://audition.dpmentertainment.com")
+    base_url = os.environ.get("BASE_URL", "")
     photo1_url = f"{base_url}/api/uploads/{photo1_name}"
     photo2_url = f"{base_url}/api/uploads/{photo2_name}"
 
@@ -279,7 +279,7 @@ async def submit_profile(
 
 @api_router.get("/profiles")
 async def get_profiles():
-    return await db.profiles.find({}, {"_id": 0}).to_list(10000)
+    return await db.profiles.find({}, {"_id": 0}).sort("created_at", -1).to_list(500)
 
 app.include_router(api_router)
 
