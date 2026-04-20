@@ -13,23 +13,40 @@ from datetime import datetime, timezone
 import razorpay
 import shutil
 import httpx
-
-GOOGLE_SHEET_WEBHOOK = "https://script.google.com/macros/s/AKfycbxvLA7w7XN77AdypjGSD9n1KjODKYr9aEl7r3pWgEz2v55YONIPg-ot17J7GBk9hqeA/exec"
-
-async def push_to_sheet(data: dict):
-    try:
-        async with httpx.AsyncClient(timeout=10, follow_redirects=True) as client:
-            await client.post(GOOGLE_SHEET_WEBHOOK, json=data)
-    except Exception as e:
-        logger.error(f"Sheet webhook failed: {e}")
+import asyncio
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
+# Logging first so logger is available everywhere
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
+
+# Webhooks
+GOOGLE_SHEET_WEBHOOK = "https://script.google.com/macros/s/AKfycbxvLA7w7XN77AdypjGSD9n1KjODKYr9aEl7r3pWgEz2v55YONIPg-ot17J7GBk9hqeA/exec"
+N8N_REGISTRATION = "https://n8n.srv1562813.hstgr.cloud/webhook/registration-form-submit"
+N8N_PROFILE = "https://n8n.srv1562813.hstgr.cloud/webhook/profile-form-submit"
+N8N_PAYMENT_SUCCESS = "https://n8n.srv1562813.hstgr.cloud/webhook/razorpay-payment-success"
+N8N_PAYMENT_FAILED = "https://n8n.srv1562813.hstgr.cloud/webhook/razorpay-payment-failed"
+
+async def fire_webhook(url: str, data: dict):
+    """Fire-and-forget webhook. Never blocks, never fails the caller."""
+    try:
+        async with httpx.AsyncClient(timeout=10, follow_redirects=True) as c:
+            await c.post(url, json=data)
+    except Exception as e:
+        logger.error(f"Webhook {url} failed: {e}")
+
+def fire_and_forget(url: str, data: dict):
+    """Schedule webhook without awaiting — true fire-and-forget."""
+    asyncio.ensure_future(fire_webhook(url, data))
+
+# MongoDB
 mongo_url = os.environ['MONGO_URL']
 client = AsyncIOMotorClient(mongo_url)
 db = client[os.environ['DB_NAME']]
 
+# Razorpay
 razorpay_client = razorpay.Client(auth=(
     os.environ.get('RAZORPAY_KEY_ID', ''),
     os.environ.get('RAZORPAY_KEY_SECRET', '')
@@ -42,6 +59,7 @@ UPLOAD_DIR = ROOT_DIR / "uploads"
 UPLOAD_DIR.mkdir(exist_ok=True)
 app.mount("/api/uploads", StaticFiles(directory=str(UPLOAD_DIR)), name="uploads")
 
+# Models
 class ApplicationCreate(BaseModel):
     name: str
     email: str
@@ -61,6 +79,13 @@ class PaymentVerify(BaseModel):
     email: str
     phone: str
 
+class PaymentFailed(BaseModel):
+    razorpay_order_id: str
+    name: str
+    email: str
+    phone: str
+    error_reason: str = ""
+
 class ApplicationResponse(BaseModel):
     model_config = ConfigDict(extra="ignore")
     id: str
@@ -72,55 +97,56 @@ class ApplicationResponse(BaseModel):
     order_id: str
     created_at: str
 
+# Routes
+
 @api_router.get("/")
 async def root():
     return {"message": "DPM Beauty Pageant 2026 API"}
 
+# 1. LEADS — saves opt-in + fires registration webhook
 @api_router.post("/leads")
 async def save_lead(data: ApplicationCreate):
-    doc = {
-        "id": str(uuid.uuid4()),
-        "name": data.name,
-        "email": data.email,
-        "phone": data.phone,
-        "status": "lead",
-        "created_at": datetime.now(timezone.utc).isoformat(),
-    }
+    now = datetime.now(timezone.utc).isoformat()
+    doc = {"id": str(uuid.uuid4()), "name": data.name, "email": data.email, "phone": data.phone, "status": "lead", "created_at": now}
     await db.leads.insert_one(doc)
-    await push_to_sheet({"type": "lead", "name": data.name, "email": data.email, "phone": data.phone, "status": "lead", "date": doc["created_at"]})
+    # Google Sheet
+    fire_and_forget(GOOGLE_SHEET_WEBHOOK, {"type": "lead", "name": data.name, "email": data.email, "phone": data.phone, "status": "lead", "date": now})
+    # n8n registration webhook
+    fire_and_forget(N8N_REGISTRATION, {
+        "full_name": data.name,
+        "whatsapp_number": data.phone,
+        "email": data.email,
+        "age": "",
+        "city": "",
+        "state": "",
+        "category": "",
+        "source": "organic",
+        "timestamp": now,
+    })
     return {"status": "success", "id": doc["id"]}
 
 @api_router.get("/leads")
 async def get_leads():
-    leads = await db.leads.find({}, {"_id": 0}).to_list(10000)
-    return leads
+    return await db.leads.find({}, {"_id": 0}).to_list(10000)
 
+# 2. CREATE ORDER
 @api_router.post("/create-order", response_model=OrderResponse)
 async def create_order(data: ApplicationCreate):
     try:
         order = razorpay_client.order.create({
-            "amount": 99900,  # ₹999 in paise
+            "amount": 99900,
             "currency": "INR",
             "payment_capture": 1,
-            "notes": {
-                "name": data.name,
-                "email": data.email,
-                "phone": data.phone,
-            }
+            "notes": {"name": data.name, "email": data.email, "phone": data.phone},
         })
-        return OrderResponse(
-            order_id=order["id"],
-            amount=order["amount"],
-            currency=order["currency"],
-            key_id=os.environ.get('RAZORPAY_KEY_ID', '')
-        )
+        return OrderResponse(order_id=order["id"], amount=order["amount"], currency=order["currency"], key_id=os.environ.get('RAZORPAY_KEY_ID', ''))
     except Exception as e:
         logger.error(f"Razorpay order creation failed: {e}")
         raise HTTPException(status_code=500, detail="Failed to create payment order")
 
+# 3. VERIFY PAYMENT — fires payment-success webhook
 @api_router.post("/verify-payment", response_model=ApplicationResponse)
 async def verify_payment(data: PaymentVerify):
-    # Verify signature
     try:
         razorpay_client.utility.verify_payment_signature({
             "razorpay_order_id": data.razorpay_order_id,
@@ -130,26 +156,42 @@ async def verify_payment(data: PaymentVerify):
     except Exception:
         raise HTTPException(status_code=400, detail="Payment verification failed")
 
-    # Save application
-    doc = {
-        "id": str(uuid.uuid4()),
-        "name": data.name,
-        "email": data.email,
-        "phone": data.phone,
-        "status": "paid",
-        "payment_id": data.razorpay_payment_id,
-        "order_id": data.razorpay_order_id,
-        "created_at": datetime.now(timezone.utc).isoformat(),
-    }
+    now = datetime.now(timezone.utc).isoformat()
+    doc = {"id": str(uuid.uuid4()), "name": data.name, "email": data.email, "phone": data.phone, "status": "paid", "payment_id": data.razorpay_payment_id, "order_id": data.razorpay_order_id, "created_at": now}
     await db.applications.insert_one(doc)
-    await push_to_sheet({"type": "paid", "name": data.name, "email": data.email, "phone": data.phone, "payment_id": data.razorpay_payment_id, "status": "paid", "date": doc["created_at"]})
+    # Google Sheet
+    fire_and_forget(GOOGLE_SHEET_WEBHOOK, {"type": "paid", "name": data.name, "email": data.email, "phone": data.phone, "payment_id": data.razorpay_payment_id, "status": "paid", "date": now})
+    # n8n payment success webhook
+    fire_and_forget(N8N_PAYMENT_SUCCESS, {
+        "email": data.email,
+        "whatsapp_number": data.phone,
+        "full_name": data.name,
+        "razorpay_payment_id": data.razorpay_payment_id,
+        "razorpay_order_id": data.razorpay_order_id,
+        "amount": 999,
+        "timestamp": now,
+    })
     return ApplicationResponse(**{k: v for k, v in doc.items() if k != "_id"})
+
+# 4. PAYMENT FAILED — fires payment-failed webhook
+@api_router.post("/payment-failed")
+async def payment_failed(data: PaymentFailed):
+    now = datetime.now(timezone.utc).isoformat()
+    fire_and_forget(N8N_PAYMENT_FAILED, {
+        "email": data.email,
+        "whatsapp_number": data.phone,
+        "full_name": data.name,
+        "razorpay_order_id": data.razorpay_order_id,
+        "error_reason": data.error_reason,
+        "timestamp": now,
+    })
+    return {"status": "logged"}
 
 @api_router.get("/applications", response_model=List[ApplicationResponse])
 async def get_applications():
-    apps = await db.applications.find({}, {"_id": 0}).to_list(1000)
-    return apps
+    return await db.applications.find({}, {"_id": 0}).to_list(1000)
 
+# 5. PROFILE — fires profile webhook
 @api_router.post("/profile")
 async def submit_profile(
     application_id: str = Form(...),
@@ -177,14 +219,32 @@ async def submit_profile(
     with open(UPLOAD_DIR / photo2_name, "wb") as f:
         shutil.copyfileobj(photo2.file, f)
 
+    now = datetime.now(timezone.utc).isoformat()
+    # Get email/phone from the application
+    app_doc = await db.applications.find_one({"id": application_id}, {"_id": 0})
+    app_email = app_doc.get("email", "") if app_doc else ""
+    app_phone = app_doc.get("phone", "") if app_doc else ""
+
     profile = {
-        "application_id": application_id,
+        "application_id": application_id, "first_name": first_name, "last_name": last_name,
+        "age": age, "marital_status": marital_status, "address1": address1, "address2": address2,
+        "city": city, "state": state, "postal_code": postal_code, "height": height, "weight": weight,
+        "bust": bust, "waist": waist, "hips": hips, "photo1": photo1_name, "photo2": photo2_name, "created_at": now,
+    }
+    await db.profiles.insert_one(profile)
+    await db.applications.update_one({"id": application_id}, {"$set": {"profile_submitted": True}})
+
+    base_url = os.environ.get("BASE_URL", "https://audition.dpmentertainment.com")
+    # Google Sheet
+    fire_and_forget(GOOGLE_SHEET_WEBHOOK, {"type": "profile", "first_name": first_name, "last_name": last_name, "age": age, "marital_status": marital_status, "address1": address1, "address2": address2, "city": city, "state": state, "postal_code": postal_code, "height": height, "weight": weight, "bust": bust, "waist": waist, "hips": hips, "date": now})
+    # n8n profile webhook
+    fire_and_forget(N8N_PROFILE, {
+        "email": app_email,
+        "whatsapp_number": app_phone,
         "first_name": first_name,
         "last_name": last_name,
-        "age": age,
-        "marital_status": marital_status,
-        "address1": address1,
-        "address2": address2,
+        "address_line1": address1,
+        "address_line2": address2,
         "city": city,
         "state": state,
         "postal_code": postal_code,
@@ -193,22 +253,15 @@ async def submit_profile(
         "bust": bust,
         "waist": waist,
         "hips": hips,
-        "photo1": photo1_name,
-        "photo2": photo2_name,
-        "created_at": datetime.now(timezone.utc).isoformat(),
-    }
-    await db.profiles.insert_one(profile)
-    await db.applications.update_one(
-        {"id": application_id},
-        {"$set": {"profile_submitted": True}}
-    )
-    await push_to_sheet({"type": "profile", "first_name": first_name, "last_name": last_name, "age": age, "marital_status": marital_status, "address1": address1, "address2": address2, "city": city, "state": state, "postal_code": postal_code, "height": height, "weight": weight, "bust": bust, "waist": waist, "hips": hips, "date": profile["created_at"]})
+        "photo1_url": f"{base_url}/api/uploads/{photo1_name}",
+        "photo2_url": f"{base_url}/api/uploads/{photo2_name}",
+        "timestamp": now,
+    })
     return {"status": "success", "message": "Profile submitted successfully"}
 
 @api_router.get("/profiles")
 async def get_profiles():
-    profiles = await db.profiles.find({}, {"_id": 0}).to_list(10000)
-    return profiles
+    return await db.profiles.find({}, {"_id": 0}).to_list(10000)
 
 app.include_router(api_router)
 
@@ -219,9 +272,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-logger = logging.getLogger(__name__)
 
 @app.on_event("shutdown")
 async def shutdown_db_client():

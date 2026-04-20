@@ -73,6 +73,11 @@ export default function ApplicationForm({ isPopup = false, onSuccess }) {
 
       const rzp = new window.Razorpay(options);
       rzp.on("payment.failed", (response) => {
+        axios.post(`${API}/payment-failed`, {
+          razorpay_order_id: order.order_id,
+          name, email, phone,
+          error_reason: response.error?.description || response.error?.reason || "Payment failed",
+        }).catch(() => {});
         setError("Payment failed. Please try again.");
         setLoading(false);
       });
