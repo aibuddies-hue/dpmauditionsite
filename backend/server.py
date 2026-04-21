@@ -234,48 +234,57 @@ async def get_applications():
 # 5. PROFILE — fires profile webhook
 @api_router.post("/profile")
 async def submit_profile(
-    application_id: str = Form(...),
+    application_id: str = Form(""),
     first_name: str = Form(...),
     last_name: str = Form(""),
-    age: str = Form(...),
-    marital_status: str = Form(...),
-    address1: str = Form(...),
+    age: str = Form(""),
+    marital_status: str = Form(""),
+    address1: str = Form(""),
     address2: str = Form(""),
-    city: str = Form(...),
-    state: str = Form(...),
-    postal_code: str = Form(...),
-    height: str = Form(...),
-    weight: str = Form(...),
+    city: str = Form(""),
+    state: str = Form(""),
+    postal_code: str = Form(""),
+    height: str = Form(""),
+    weight: str = Form(""),
     bust: str = Form(""),
     waist: str = Form(""),
     hips: str = Form(""),
-    photo1: UploadFile = File(...),
-    photo2: UploadFile = File(...),
+    photo1: UploadFile = File(None),
+    photo2: UploadFile = File(None),
 ):
-    photo1_name = f"{uuid.uuid4()}_{photo1.filename}"
-    photo2_name = f"{uuid.uuid4()}_{photo2.filename}"
-    local_p1 = str(UPLOAD_DIR / photo1_name)
-    local_p2 = str(UPLOAD_DIR / photo2_name)
-    with open(local_p1, "wb") as f:
-        shutil.copyfileobj(photo1.file, f)
-    with open(local_p2, "wb") as f:
-        shutil.copyfileobj(photo2.file, f)
-
-    # Read photos as base64 for n8n webhook (so n8n can upload to Google Drive)
     import base64
-    with open(local_p1, "rb") as f:
-        photo1_b64 = base64.b64encode(f.read()).decode()
-    with open(local_p2, "rb") as f:
-        photo2_b64 = base64.b64encode(f.read()).decode()
+    photo1_name = ""
+    photo2_name = ""
+    photo1_b64 = ""
+    photo2_b64 = ""
+    photo1_url = ""
+    photo2_url = ""
+    base_url = os.environ.get("BASE_URL", "")
+
+    UPLOAD_DIR.mkdir(exist_ok=True)
+
+    if photo1 and photo1.filename:
+        photo1_name = f"{uuid.uuid4()}_{photo1.filename}"
+        local_p1 = str(UPLOAD_DIR / photo1_name)
+        with open(local_p1, "wb") as f:
+            shutil.copyfileobj(photo1.file, f)
+        with open(local_p1, "rb") as f:
+            photo1_b64 = base64.b64encode(f.read()).decode()
+        photo1_url = f"{base_url}/api/uploads/{photo1_name}"
+
+    if photo2 and photo2.filename:
+        photo2_name = f"{uuid.uuid4()}_{photo2.filename}"
+        local_p2 = str(UPLOAD_DIR / photo2_name)
+        with open(local_p2, "wb") as f:
+            shutil.copyfileobj(photo2.file, f)
+        with open(local_p2, "rb") as f:
+            photo2_b64 = base64.b64encode(f.read()).decode()
+        photo2_url = f"{base_url}/api/uploads/{photo2_name}"
 
     now = datetime.now(timezone.utc).isoformat()
-    app_doc = await db.applications.find_one({"id": application_id}, {"_id": 0})
+    app_doc = await db.applications.find_one({"id": application_id}, {"_id": 0}) if application_id else None
     app_email = app_doc.get("email", "") if app_doc else ""
     app_phone = app_doc.get("phone", "") if app_doc else ""
-
-    base_url = os.environ.get("BASE_URL", "")
-    photo1_url = f"{base_url}/api/uploads/{photo1_name}"
-    photo2_url = f"{base_url}/api/uploads/{photo2_name}"
 
     profile = {
         "application_id": application_id, "first_name": first_name, "last_name": last_name,
@@ -287,7 +296,8 @@ async def submit_profile(
         "created_at": now,
     }
     await db.profiles.insert_one(profile)
-    await db.applications.update_one({"id": application_id}, {"$set": {"profile_submitted": True}})
+    if application_id:
+        await db.applications.update_one({"id": application_id}, {"$set": {"profile_submitted": True}})
 
     # Google Sheet
     fire_and_forget(GOOGLE_SHEET_WEBHOOK, {"type": "profile", "first_name": first_name, "last_name": last_name, "age": age, "marital_status": marital_status, "address1": address1, "address2": address2, "city": city, "state": state, "postal_code": postal_code, "height": height, "weight": weight, "bust": bust, "waist": waist, "hips": hips, "date": now})
