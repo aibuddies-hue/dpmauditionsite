@@ -115,8 +115,8 @@ class ApplicationResponse(BaseModel):
     email: str
     phone: str
     status: str
-    payment_id: str
-    order_id: str
+    payment_id: str = ""
+    order_id: str = ""
     created_at: str
 
 # Routes
