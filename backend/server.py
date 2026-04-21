@@ -64,6 +64,15 @@ class ApplicationCreate(BaseModel):
     name: str
     email: str
     phone: str
+    utm_source: str = ""
+    utm_medium: str = ""
+    utm_campaign: str = ""
+    utm_term: str = ""
+    utm_content: str = ""
+    utm_id: str = ""
+    fbclid: str = ""
+    gclid: str = ""
+    ref: str = ""
 
 class OrderResponse(BaseModel):
     order_id: str
@@ -78,6 +87,15 @@ class PaymentVerify(BaseModel):
     name: str
     email: str
     phone: str
+    utm_source: str = ""
+    utm_medium: str = ""
+    utm_campaign: str = ""
+    utm_term: str = ""
+    utm_content: str = ""
+    utm_id: str = ""
+    fbclid: str = ""
+    gclid: str = ""
+    ref: str = ""
 
 class PaymentFailed(BaseModel):
     razorpay_order_id: str
@@ -107,20 +125,26 @@ async def root():
 @api_router.post("/leads")
 async def save_lead(data: ApplicationCreate):
     now = datetime.now(timezone.utc).isoformat()
-    doc = {"id": str(uuid.uuid4()), "name": data.name, "email": data.email, "phone": data.phone, "status": "lead", "created_at": now}
+    utm = {"utm_source": data.utm_source, "utm_medium": data.utm_medium, "utm_campaign": data.utm_campaign, "utm_term": data.utm_term, "utm_content": data.utm_content, "utm_id": data.utm_id, "fbclid": data.fbclid, "gclid": data.gclid, "ref": data.ref}
+    doc = {"id": str(uuid.uuid4()), "name": data.name, "email": data.email, "phone": data.phone, "status": "lead", "created_at": now, **utm}
     await db.leads.insert_one(doc)
     # Google Sheet
     fire_and_forget(GOOGLE_SHEET_WEBHOOK, {"type": "lead", "name": data.name, "email": data.email, "phone": data.phone, "status": "lead", "date": now})
-    # n8n registration webhook
+    # n8n registration webhook with UTM
     fire_and_forget(N8N_REGISTRATION, {
         "full_name": data.name,
         "whatsapp_number": data.phone,
         "email": data.email,
-        "age": "",
-        "city": "",
-        "state": "",
-        "category": "",
-        "source": "organic",
+        "source": data.utm_source or "organic",
+        "utm_source": data.utm_source,
+        "utm_medium": data.utm_medium,
+        "utm_campaign": data.utm_campaign,
+        "utm_term": data.utm_term,
+        "utm_content": data.utm_content,
+        "utm_id": data.utm_id,
+        "fbclid": data.fbclid,
+        "gclid": data.gclid,
+        "ref": data.ref,
         "timestamp": now,
     })
     return {"status": "success", "id": doc["id"]}
@@ -157,11 +181,12 @@ async def verify_payment(data: PaymentVerify):
         raise HTTPException(status_code=400, detail="Payment verification failed")
 
     now = datetime.now(timezone.utc).isoformat()
-    doc = {"id": str(uuid.uuid4()), "name": data.name, "email": data.email, "phone": data.phone, "status": "paid", "payment_id": data.razorpay_payment_id, "order_id": data.razorpay_order_id, "created_at": now}
+    utm = {"utm_source": data.utm_source, "utm_medium": data.utm_medium, "utm_campaign": data.utm_campaign, "utm_term": data.utm_term, "utm_content": data.utm_content, "utm_id": data.utm_id, "fbclid": data.fbclid, "gclid": data.gclid, "ref": data.ref}
+    doc = {"id": str(uuid.uuid4()), "name": data.name, "email": data.email, "phone": data.phone, "status": "paid", "payment_id": data.razorpay_payment_id, "order_id": data.razorpay_order_id, "created_at": now, **utm}
     await db.applications.insert_one(doc)
     # Google Sheet
     fire_and_forget(GOOGLE_SHEET_WEBHOOK, {"type": "paid", "name": data.name, "email": data.email, "phone": data.phone, "payment_id": data.razorpay_payment_id, "status": "paid", "date": now})
-    # n8n payment success webhook
+    # n8n payment success webhook with UTM
     fire_and_forget(N8N_PAYMENT_SUCCESS, {
         "email": data.email,
         "whatsapp_number": data.phone,
@@ -169,6 +194,13 @@ async def verify_payment(data: PaymentVerify):
         "razorpay_payment_id": data.razorpay_payment_id,
         "razorpay_order_id": data.razorpay_order_id,
         "amount": 999,
+        "utm_source": data.utm_source,
+        "utm_medium": data.utm_medium,
+        "utm_campaign": data.utm_campaign,
+        "utm_term": data.utm_term,
+        "utm_content": data.utm_content,
+        "fbclid": data.fbclid,
+        "gclid": data.gclid,
         "timestamp": now,
     })
     return ApplicationResponse(**{k: v for k, v in doc.items() if k != "_id"})

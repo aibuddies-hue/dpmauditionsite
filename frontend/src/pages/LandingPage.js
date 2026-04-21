@@ -89,8 +89,8 @@ export default function LandingPage() {
       const applyLink = e.target.closest('a[href="#apply"], button[data-apply]');
       if (applyLink) {
         e.preventDefault();
-        // Meta Pixel: AddToCart (clicked Apply button)
-        if (window.fbq) window.fbq('track', 'AddToCart', { value: 999, currency: 'INR', content_name: 'DPM Beauty Pageant 2026 Registration' });
+        // Meta Pixel: AddToCart (clicked Apply button) — setTimeout ensures Pixel Helper catches it
+        if (window.fbq) setTimeout(() => { window.fbq('track', 'AddToCart', { value: 999, currency: 'INR', content_name: 'DPM Beauty Pageant 2026 Registration' }); }, 0);
         setShowPopup(true);
       }
       const tncLink = e.target.closest('a[href="#tnc"]');

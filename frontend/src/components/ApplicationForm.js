@@ -1,17 +1,38 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import axios from "axios";
 import { CheckCircle, Lock, Shield } from "lucide-react";
-import ThankYouForm from "@/components/ThankYouForm";
 
 const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 const RAZORPAY_KEY = process.env.REACT_APP_RAZORPAY_KEY_ID;
 
+// Extract UTM params from URL
+function getUtmParams() {
+  const params = new URLSearchParams(window.location.search);
+  return {
+    utm_source: params.get("utm_source") || "",
+    utm_medium: params.get("utm_medium") || "",
+    utm_campaign: params.get("utm_campaign") || "",
+    utm_term: params.get("utm_term") || "",
+    utm_content: params.get("utm_content") || "",
+    utm_id: params.get("utm_id") || "",
+    fbclid: params.get("fbclid") || "",
+    gclid: params.get("gclid") || "",
+    ref: params.get("ref") || "",
+  };
+}
+
+// Safe pixel fire — uses setTimeout to ensure Pixel Helper catches it
+function firePixel(event, data) {
+  if (typeof window !== "undefined" && window.fbq) {
+    setTimeout(() => { window.fbq("track", event, data); }, 0);
+  }
+}
+
 export default function ApplicationForm({ isPopup = false, onSuccess }) {
-  const [submitted, setSubmitted] = useState(false);
-  const [appData, setAppData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [form, setForm] = useState({ name: "", email: "", phone: "" });
+  const [utmParams] = useState(() => getUtmParams());
 
   const updateField = useCallback((field, value) => {
     setForm(prev => ({ ...prev, [field]: value }));
@@ -29,18 +50,17 @@ export default function ApplicationForm({ isPopup = false, onSuccess }) {
       return;
     }
 
+    // Meta Pixel: InitiateCheckout
+    firePixel("InitiateCheckout", { value: 999, currency: "INR", content_name: "DPM Beauty Pageant 2026 Registration" });
+
     setLoading(true);
     try {
-      // Meta Pixel: InitiateCheckout (form filled, starting payment)
-      if (window.fbq) window.fbq('track', 'InitiateCheckout', { value: 999, currency: 'INR', content_name: 'DPM Beauty Pageant 2026 Registration' });
-
-      // Save lead (opt-in before payment)
-      await axios.post(`${API}/leads`, { name, email, phone }).catch(() => {});
+      // Save lead with UTM params
+      await axios.post(`${API}/leads`, { name, email, phone, ...utmParams }).catch(() => {});
 
       // Create Razorpay order
       const { data: order } = await axios.post(`${API}/create-order`, { name, email, phone });
 
-      // Open Razorpay checkout
       const options = {
         key: RAZORPAY_KEY,
         amount: order.amount,
@@ -58,10 +78,12 @@ export default function ApplicationForm({ isPopup = false, onSuccess }) {
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_signature: response.razorpay_signature,
               name, email, phone,
+              ...utmParams,
             });
-            // Meta Pixel: Purchase fires on /thankyou page load
-            // Redirect to thank you page
-            window.location.href = `/thankyou?id=${appResult.id}&name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&phone=${encodeURIComponent(phone)}`;
+            // Redirect to thank you page with UTM params
+            const utmQuery = Object.entries(utmParams).filter(([,v]) => v).map(([k,v]) => `${k}=${encodeURIComponent(v)}`).join("&");
+            const base = `/thankyou?id=${appResult.id}&name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&phone=${encodeURIComponent(phone)}`;
+            window.location.href = utmQuery ? `${base}&${utmQuery}` : base;
           } catch (e) {
             setError("Payment verification failed. Please contact support.");
           }
@@ -88,25 +110,6 @@ export default function ApplicationForm({ isPopup = false, onSuccess }) {
       setLoading(false);
     }
   };
-
-  if (submitted) {
-    return (
-      <section id="apply" data-testid="thankyou-section" style={{ padding: "80px 24px 120px", background: "#0c0c0c" }}>
-        <div style={{ maxWidth: 680, margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: 32 }}>
-            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(1.6rem,3vw,2.4rem)", color: "#f0ede6", marginBottom: 8 }}>Complete Your Profile</h2>
-            <p style={{ color: "#857d6e", fontSize: "0.8rem" }}>Fill in your details for the audition process</p>
-          </div>
-          <ThankYouForm
-            applicationId={appData?.id || ""}
-            name={form.name}
-            email={form.email}
-            phone={form.phone}
-          />
-        </div>
-      </section>
-    );
-  }
 
   return (
     <section id="apply" data-testid="application-form-section" style={{ padding: isPopup ? "40px 20px 60px" : "80px 24px 120px", background: "#0c0c0c", position: "relative", zIndex: 10 }}>
