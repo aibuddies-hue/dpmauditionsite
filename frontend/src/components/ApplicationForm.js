@@ -59,8 +59,7 @@ export default function ApplicationForm({ isPopup = false, onSuccess }) {
               razorpay_signature: response.razorpay_signature,
               name, email, phone,
             });
-            // Meta Pixel: Purchase (payment successful)
-            if (window.fbq) window.fbq('track', 'Purchase', { value: 999, currency: 'INR', content_name: 'DPM Beauty Pageant 2026 Registration' });
+            // Meta Pixel: Purchase fires on /thankyou page load
             // Redirect to thank you page
             window.location.href = `/thankyou?id=${appResult.id}&name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&phone=${encodeURIComponent(phone)}`;
           } catch (e) {
