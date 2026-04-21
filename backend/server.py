@@ -70,6 +70,8 @@ class ApplicationCreate(BaseModel):
     utm_term: str = ""
     utm_content: str = ""
     utm_id: str = ""
+    placement: str = ""
+    site_source: str = ""
     fbclid: str = ""
     gclid: str = ""
     ref: str = ""
@@ -93,6 +95,8 @@ class PaymentVerify(BaseModel):
     utm_term: str = ""
     utm_content: str = ""
     utm_id: str = ""
+    placement: str = ""
+    site_source: str = ""
     fbclid: str = ""
     gclid: str = ""
     ref: str = ""
@@ -125,7 +129,7 @@ async def root():
 @api_router.post("/leads")
 async def save_lead(data: ApplicationCreate):
     now = datetime.now(timezone.utc).isoformat()
-    utm = {"utm_source": data.utm_source, "utm_medium": data.utm_medium, "utm_campaign": data.utm_campaign, "utm_term": data.utm_term, "utm_content": data.utm_content, "utm_id": data.utm_id, "fbclid": data.fbclid, "gclid": data.gclid, "ref": data.ref}
+    utm = {"utm_source": data.utm_source, "utm_medium": data.utm_medium, "utm_campaign": data.utm_campaign, "utm_term": data.utm_term, "utm_content": data.utm_content, "utm_id": data.utm_id, "placement": data.placement, "site_source": data.site_source, "fbclid": data.fbclid, "gclid": data.gclid, "ref": data.ref}
     doc = {"id": str(uuid.uuid4()), "name": data.name, "email": data.email, "phone": data.phone, "status": "lead", "created_at": now, **utm}
     await db.leads.insert_one(doc)
     # Google Sheet
@@ -142,6 +146,8 @@ async def save_lead(data: ApplicationCreate):
         "utm_term": data.utm_term,
         "utm_content": data.utm_content,
         "utm_id": data.utm_id,
+        "placement": data.placement,
+        "site_source": data.site_source,
         "fbclid": data.fbclid,
         "gclid": data.gclid,
         "ref": data.ref,
@@ -181,7 +187,7 @@ async def verify_payment(data: PaymentVerify):
         raise HTTPException(status_code=400, detail="Payment verification failed")
 
     now = datetime.now(timezone.utc).isoformat()
-    utm = {"utm_source": data.utm_source, "utm_medium": data.utm_medium, "utm_campaign": data.utm_campaign, "utm_term": data.utm_term, "utm_content": data.utm_content, "utm_id": data.utm_id, "fbclid": data.fbclid, "gclid": data.gclid, "ref": data.ref}
+    utm = {"utm_source": data.utm_source, "utm_medium": data.utm_medium, "utm_campaign": data.utm_campaign, "utm_term": data.utm_term, "utm_content": data.utm_content, "utm_id": data.utm_id, "placement": data.placement, "site_source": data.site_source, "fbclid": data.fbclid, "gclid": data.gclid, "ref": data.ref}
     doc = {"id": str(uuid.uuid4()), "name": data.name, "email": data.email, "phone": data.phone, "status": "paid", "payment_id": data.razorpay_payment_id, "order_id": data.razorpay_order_id, "created_at": now, **utm}
     await db.applications.insert_one(doc)
     # Google Sheet
@@ -199,6 +205,8 @@ async def verify_payment(data: PaymentVerify):
         "utm_campaign": data.utm_campaign,
         "utm_term": data.utm_term,
         "utm_content": data.utm_content,
+        "placement": data.placement,
+        "site_source": data.site_source,
         "fbclid": data.fbclid,
         "gclid": data.gclid,
         "timestamp": now,

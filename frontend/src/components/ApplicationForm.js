@@ -15,6 +15,8 @@ function getUtmParams() {
     utm_term: params.get("utm_term") || "",
     utm_content: params.get("utm_content") || "",
     utm_id: params.get("utm_id") || "",
+    placement: params.get("placement") || "",
+    site_source: params.get("site_source") || params.get("site_source_name") || "",
     fbclid: params.get("fbclid") || "",
     gclid: params.get("gclid") || "",
     ref: params.get("ref") || "",
