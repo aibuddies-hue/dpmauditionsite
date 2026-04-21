@@ -68,6 +68,8 @@ export default function ThankYouForm({ applicationId, name, email, phone }) {
     try {
       const fd = new FormData();
       fd.append("application_id", applicationId);
+      fd.append("contact_email", contactEmail);
+      fd.append("contact_phone", contactPhone);
       Object.entries(form).forEach(([k, v]) => fd.append(k, v));
       fd.append("photo1", photo1Ref.current.files[0]);
       fd.append("photo2", photo2Ref.current.files[0]);

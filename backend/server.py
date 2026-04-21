@@ -235,6 +235,8 @@ async def get_applications():
 @api_router.post("/profile")
 async def submit_profile(
     application_id: str = Form(""),
+    contact_email: str = Form(""),
+    contact_phone: str = Form(""),
     first_name: str = Form(...),
     last_name: str = Form(""),
     age: str = Form(""),
@@ -283,11 +285,13 @@ async def submit_profile(
 
     now = datetime.now(timezone.utc).isoformat()
     app_doc = await db.applications.find_one({"id": application_id}, {"_id": 0}) if application_id else None
-    app_email = app_doc.get("email", "") if app_doc else ""
-    app_phone = app_doc.get("phone", "") if app_doc else ""
+    # Priority: form fields > DB lookup
+    final_email = contact_email or (app_doc.get("email", "") if app_doc else "")
+    final_phone = contact_phone or (app_doc.get("phone", "") if app_doc else "")
 
     profile = {
         "application_id": application_id, "first_name": first_name, "last_name": last_name,
+        "email": final_email, "phone": final_phone,
         "age": age, "marital_status": marital_status, "address1": address1, "address2": address2,
         "city": city, "state": state, "postal_code": postal_code, "height": height, "weight": weight,
         "bust": bust, "waist": waist, "hips": hips,
@@ -300,13 +304,15 @@ async def submit_profile(
         await db.applications.update_one({"id": application_id}, {"$set": {"profile_submitted": True}})
 
     # Google Sheet
-    fire_and_forget(GOOGLE_SHEET_WEBHOOK, {"type": "profile", "first_name": first_name, "last_name": last_name, "age": age, "marital_status": marital_status, "address1": address1, "address2": address2, "city": city, "state": state, "postal_code": postal_code, "height": height, "weight": weight, "bust": bust, "waist": waist, "hips": hips, "date": now})
-    # n8n profile webhook — includes base64 photos for Drive upload via n8n
+    fire_and_forget(GOOGLE_SHEET_WEBHOOK, {"type": "profile", "first_name": first_name, "last_name": last_name, "email": final_email, "phone": final_phone, "age": age, "marital_status": marital_status, "address1": address1, "address2": address2, "city": city, "state": state, "postal_code": postal_code, "height": height, "weight": weight, "bust": bust, "waist": waist, "hips": hips, "date": now})
+    # n8n profile webhook
     fire_and_forget(N8N_PROFILE, {
-        "email": app_email,
-        "whatsapp_number": app_phone,
+        "email": final_email,
+        "whatsapp_number": final_phone,
         "first_name": first_name,
         "last_name": last_name,
+        "category": app_doc.get("category", "") if app_doc else "",
+        "payment_verified": "Yes",
         "address_line1": address1,
         "address_line2": address2,
         "city": city,
