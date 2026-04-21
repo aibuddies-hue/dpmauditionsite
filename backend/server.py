@@ -23,11 +23,11 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(level
 logger = logging.getLogger(__name__)
 
 # Webhooks
-GOOGLE_SHEET_WEBHOOK = "https://script.google.com/macros/s/AKfycbxvLA7w7XN77AdypjGSD9n1KjODKYr9aEl7r3pWgEz2v55YONIPg-ot17J7GBk9hqeA/exec"
-N8N_REGISTRATION = "https://n8n.srv1562813.hstgr.cloud/webhook/registration-form-submit"
-N8N_PROFILE = "https://n8n.srv1562813.hstgr.cloud/webhook/profile-form-submit"
-N8N_PAYMENT_SUCCESS = "https://n8n.srv1562813.hstgr.cloud/webhook/razorpay-payment-success"
-N8N_PAYMENT_FAILED = "https://n8n.srv1562813.hstgr.cloud/webhook/razorpay-payment-failed"
+GOOGLE_SHEET_WEBHOOK = os.environ.get('GOOGLE_SHEET_WEBHOOK', '')
+N8N_REGISTRATION = os.environ.get('N8N_REGISTRATION', '')
+N8N_PROFILE = os.environ.get('N8N_PROFILE', '')
+N8N_PAYMENT_SUCCESS = os.environ.get('N8N_PAYMENT_SUCCESS', '')
+N8N_PAYMENT_FAILED = os.environ.get('N8N_PAYMENT_FAILED', '')
 
 async def fire_webhook(url: str, data: dict):
     """Fire-and-forget webhook. Never blocks, never fails the caller."""

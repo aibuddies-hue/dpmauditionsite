@@ -38,6 +38,8 @@ export default function ThankYouForm({ applicationId, name, email, phone }) {
     waist: "",
     hips: "",
   });
+  const [contactPhone, setContactPhone] = useState(phone?.replace("+91", "").trim() || "");
+  const [contactEmail, setContactEmail] = useState(email || "");
 
   const update = (k, v) => setForm(p => ({ ...p, [k]: v }));
 
