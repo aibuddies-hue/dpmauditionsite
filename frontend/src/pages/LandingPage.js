@@ -87,7 +87,12 @@ export default function LandingPage() {
   useEffect(() => {
     const handler = (e) => {
       const applyLink = e.target.closest('a[href="#apply"], button[data-apply]');
-      if (applyLink) { e.preventDefault(); setShowPopup(true); }
+      if (applyLink) {
+        e.preventDefault();
+        // Meta Pixel: AddToCart (clicked Apply button)
+        if (window.fbq) window.fbq('track', 'AddToCart', { value: 999, currency: 'INR', content_name: 'DPM Beauty Pageant 2026 Registration' });
+        setShowPopup(true);
+      }
       const tncLink = e.target.closest('a[href="#tnc"]');
       if (tncLink) { e.preventDefault(); setShowTnc(true); }
     };

@@ -31,6 +31,9 @@ export default function ApplicationForm({ isPopup = false, onSuccess }) {
 
     setLoading(true);
     try {
+      // Meta Pixel: InitiateCheckout (form filled, starting payment)
+      if (window.fbq) window.fbq('track', 'InitiateCheckout', { value: 999, currency: 'INR', content_name: 'DPM Beauty Pageant 2026 Registration' });
+
       // Save lead (opt-in before payment)
       await axios.post(`${API}/leads`, { name, email, phone }).catch(() => {});
 
@@ -58,6 +61,8 @@ export default function ApplicationForm({ isPopup = false, onSuccess }) {
             });
             setAppData(appResult);
             setSubmitted(true);
+            // Meta Pixel: Purchase (payment successful)
+            if (window.fbq) window.fbq('track', 'Purchase', { value: 999, currency: 'INR', content_name: 'DPM Beauty Pageant 2026 Registration' });
             if (!isPopup) {
               document.getElementById("apply")?.scrollIntoView({ behavior: "smooth" });
             }
