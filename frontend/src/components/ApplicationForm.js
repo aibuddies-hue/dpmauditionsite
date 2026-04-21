@@ -59,13 +59,10 @@ export default function ApplicationForm({ isPopup = false, onSuccess }) {
               razorpay_signature: response.razorpay_signature,
               name, email, phone,
             });
-            setAppData(appResult);
-            setSubmitted(true);
             // Meta Pixel: Purchase (payment successful)
             if (window.fbq) window.fbq('track', 'Purchase', { value: 999, currency: 'INR', content_name: 'DPM Beauty Pageant 2026 Registration' });
-            if (!isPopup) {
-              document.getElementById("apply")?.scrollIntoView({ behavior: "smooth" });
-            }
+            // Redirect to thank you page
+            window.location.href = `/thankyou?id=${appResult.id}&name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&phone=${encodeURIComponent(phone)}`;
           } catch (e) {
             setError("Payment verification failed. Please contact support.");
           }
