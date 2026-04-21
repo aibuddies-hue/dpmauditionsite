@@ -565,17 +565,24 @@ export default function LandingPage() {
           <div className="footer-grid" style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: 48, marginBottom: 48 }}>
             <div>
               <img src={DPM_LOGO} alt="DPM Entertainment" style={{ height: 80, objectFit: "contain", marginBottom: 16, filter: "brightness(1.3)" }} />
-              <p style={{ fontSize: "0.75rem", color: "#857d6e", lineHeight: 1.8, maxWidth: 280 }}>DPM Entertainment | [Address Line 1] | [City, State, PIN]</p>
-              <p style={{ fontSize: "0.75rem", color: "#857d6e", marginTop: 8 }}>dpmentertainment@gmail.com</p>
+              <p style={{ fontSize: "0.75rem", color: "#857d6e", lineHeight: 1.8, maxWidth: 280 }}>DPM Entertainment<br />Allahabad, Uttar Pradesh, India</p>
+              <p style={{ fontSize: "0.75rem", color: "#857d6e", marginTop: 8 }}><a href="mailto:dpmentertainment@gmail.com" style={{ color: "#857d6e", textDecoration: "none" }}>dpmentertainment@gmail.com</a></p>
             </div>
             <div>
               <p style={{ fontSize: "0.6rem", letterSpacing: "0.2em", color: "#C9A84C", textTransform: "uppercase", marginBottom: 16 }}>Quick Links</p>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                {["About Us", "Previous Events", "Contact Us"].map((link) => (
-                  <a key={link} href="#" style={{ fontSize: "0.75rem", color: "#857d6e", textDecoration: "none", transition: "color 0.2s" }}
-                    onMouseOver={e => e.target.style.color = "#C9A84C"}
-                    onMouseOut={e => e.target.style.color = "#857d6e"}>{link}</a>
-                ))}
+                <a href="#about-section" style={{ fontSize: "0.75rem", color: "#857d6e", textDecoration: "none", transition: "color 0.2s" }}
+                  onMouseOver={e => e.target.style.color = "#C9A84C"}
+                  onMouseOut={e => e.target.style.color = "#857d6e"}>About Us</a>
+                <a href="#past-events-section" style={{ fontSize: "0.75rem", color: "#857d6e", textDecoration: "none", transition: "color 0.2s" }}
+                  onMouseOver={e => e.target.style.color = "#C9A84C"}
+                  onMouseOut={e => e.target.style.color = "#857d6e"}>Past Events</a>
+                <a href="#faq-section" style={{ fontSize: "0.75rem", color: "#857d6e", textDecoration: "none", transition: "color 0.2s" }}
+                  onMouseOver={e => e.target.style.color = "#C9A84C"}
+                  onMouseOut={e => e.target.style.color = "#857d6e"}>FAQs</a>
+                <a href="mailto:dpmentertainment@gmail.com" style={{ fontSize: "0.75rem", color: "#857d6e", textDecoration: "none", transition: "color 0.2s" }}
+                  onMouseOver={e => e.target.style.color = "#C9A84C"}
+                  onMouseOut={e => e.target.style.color = "#857d6e"}>Contact Us</a>
               </div>
             </div>
             <div>
@@ -584,14 +591,18 @@ export default function LandingPage() {
                 <a href="#tnc" style={{ fontSize: "0.75rem", color: "#857d6e", textDecoration: "none" }}
                   onMouseOver={e => e.target.style.color = "#C9A84C"}
                   onMouseOut={e => e.target.style.color = "#857d6e"}>Terms & Conditions</a>
-                <a href="#" style={{ fontSize: "0.75rem", color: "#857d6e", textDecoration: "none" }}
+                <a href="#tnc" style={{ fontSize: "0.75rem", color: "#857d6e", textDecoration: "none" }}
                   onMouseOver={e => e.target.style.color = "#C9A84C"}
                   onMouseOut={e => e.target.style.color = "#857d6e"}>Refund Policy</a>
+                <a href="#tnc" style={{ fontSize: "0.75rem", color: "#857d6e", textDecoration: "none" }}
+                  onMouseOver={e => e.target.style.color = "#C9A84C"}
+                  onMouseOut={e => e.target.style.color = "#857d6e"}>Privacy Policy</a>
               </div>
+              <p style={{ fontSize: "0.65rem", color: "#857d6e", marginTop: 16, lineHeight: 1.6 }}>Registration fee of &#8377;999 is<br /><strong style={{ color: "#c8c0ad" }}>non-refundable & non-cancellable</strong></p>
             </div>
           </div>
           <div style={{ borderTop: "1px solid rgba(201,168,76,0.08)", paddingTop: 24, textAlign: "center" }}>
-            <p style={{ fontSize: "0.6rem", color: "#2e2e2e", letterSpacing: "0.1em" }}>Please go through the Rules and Regulations of the contest before registration. By registering and paying the fee, you agree to all Terms & Conditions.</p>
+            <p style={{ fontSize: "0.6rem", color: "#2e2e2e", letterSpacing: "0.1em" }}>Please go through the Terms and Conditions of the contest before registration. By registering and paying the fee, you agree to all T&Cs. Jurisdiction: Courts of Allahabad, Uttar Pradesh, India.</p>
             <p style={{ fontSize: "0.6rem", color: "#2e2e2e", marginTop: 8 }}>&copy; 2026 DPM Entertainment. All Rights Reserved.</p>
           </div>
         </div>
