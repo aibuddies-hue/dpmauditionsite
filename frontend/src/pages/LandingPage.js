@@ -137,7 +137,7 @@ export default function LandingPage() {
 
       {/* STICKY NAV */}
       <nav data-testid="sticky-nav" className="glass" style={{ position: "fixed", top: 0, width: "100%", zIndex: 50, padding: "6px 24px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid rgba(201,168,76,0.2)" }}>
-        <img src={DPM_LOGO} alt="DPM Entertainment" style={{ height: 60, objectFit: "contain", filter: "brightness(1.3) drop-shadow(0 0 12px rgba(255,255,255,0.3))", background: "rgba(255,255,255,0.05)", borderRadius: 8, padding: "4px 8px" }} />
+        <img src={DPM_LOGO} alt="DPM Entertainment" style={{ height: 65, objectFit: "contain", filter: "brightness(1.8)", background: "rgba(255,255,255,0.12)", borderRadius: 10, padding: "6px 12px", boxShadow: "0 0 20px rgba(255,255,255,0.15)" }} />
         <a href="#apply" className="gold-btn" style={{ padding: "10px 24px", borderRadius: 50, fontSize: "0.7rem", textDecoration: "none" }}>Apply Now — &#8377;999</a>
       </nav>
 
@@ -564,7 +564,7 @@ export default function LandingPage() {
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div className="footer-grid" style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: 48, marginBottom: 48 }}>
             <div>
-              <img src={DPM_LOGO} alt="DPM Entertainment" style={{ height: 80, objectFit: "contain", marginBottom: 16, filter: "brightness(1.3)" }} />
+              <img src={DPM_LOGO} alt="DPM Entertainment" style={{ height: 85, objectFit: "contain", marginBottom: 16, filter: "brightness(1.8)", background: "rgba(255,255,255,0.1)", borderRadius: 10, padding: "8px 14px" }} />
               <p style={{ fontSize: "0.75rem", color: "#857d6e", lineHeight: 1.8, maxWidth: 280 }}>DPM Entertainment<br />Allahabad, Uttar Pradesh, India</p>
               <p style={{ fontSize: "0.75rem", color: "#857d6e", marginTop: 8 }}><a href="mailto:dpmentertainment@gmail.com" style={{ color: "#857d6e", textDecoration: "none" }}>dpmentertainment@gmail.com</a></p>
             </div>
