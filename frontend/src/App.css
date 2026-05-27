@@ -396,10 +396,11 @@
 
 /* Responsive grids for Thank You form */
 @media (max-width: 600px) {
-  [data-testid="thankyou-profile-form"] > div > div[style*="grid-template-columns: 1fr 1fr 1fr"] {
+  [data-testid="thankyou-profile-form"] div[style*="grid-template-columns: 1fr 1fr 1fr"],
+  [data-testid="thankyou-profile-form"] div[style*="grid-template-columns: 1fr 1fr"] {
     grid-template-columns: 1fr !important;
   }
-  [data-testid="thankyou-profile-form"] > div > div[style*="grid-template-columns: 1fr 1fr"] {
-    grid-template-columns: 1fr !important;
+  [data-testid="thankyou-profile-form"] textarea {
+    min-height: 100px !important;
   }
 }
