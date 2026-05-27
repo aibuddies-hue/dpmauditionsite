@@ -137,7 +137,7 @@ export default function LandingPage() {
 
       {/* STICKY NAV */}
       <nav data-testid="sticky-nav" className="glass" style={{ position: "fixed", top: 0, width: "100%", zIndex: 50, padding: "6px 24px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid rgba(201,168,76,0.2)" }}>
-        <img src={DPM_LOGO} alt="DPM Entertainment" style={{ height: 60, objectFit: "contain", filter: "brightness(1.3)", background: "rgba(201,168,76,0.06)", borderRadius: 8, padding: "4px 8px" }} />
+        <img src={DPM_LOGO} alt="DPM Entertainment" style={{ height: 60, objectFit: "contain", filter: "brightness(1.3) drop-shadow(0 0 12px rgba(255,255,255,0.3))", background: "rgba(255,255,255,0.05)", borderRadius: 8, padding: "4px 8px" }} />
         <a href="#apply" className="gold-btn" style={{ padding: "10px 24px", borderRadius: 50, fontSize: "0.7rem", textDecoration: "none" }}>Apply Now — &#8377;999</a>
       </nav>
 
