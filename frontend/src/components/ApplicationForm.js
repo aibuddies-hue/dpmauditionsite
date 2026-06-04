@@ -88,6 +88,9 @@ export default function ApplicationForm({ isPopup = false, onSuccess }) {
     // Meta Pixel + CAPI: InitiateCheckout (form filled, starting payment)
     fireTrackedEvent("InitiateCheckout", { value: 999, currency: "INR", content_name: "DPM Beauty Pageant 2026 Registration" }, { email, phone, first_name: name.split(" ")[0], last_name: name.split(" ").slice(1).join(" ") });
 
+    // Small delay to ensure pixel + CAPI complete before Razorpay overlay opens
+    await new Promise(r => setTimeout(r, 500));
+
     setLoading(true);
     try {
       // Save lead with UTM params
