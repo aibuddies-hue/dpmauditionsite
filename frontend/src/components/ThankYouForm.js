@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import axios from "axios";
-import { CheckCircle, Upload, User, MapPin, Ruler, Camera, GraduationCap, Briefcase, Instagram, Facebook, MessageSquare } from "lucide-react";
+import { CheckCircle, Upload, User, MapPin, Ruler, Camera, GraduationCap, Instagram, MessageSquare } from "lucide-react";
 
 const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
@@ -12,7 +12,38 @@ const EYE_COLORS = ["Black","Blue","Green","Hazel","Amber","Brown"];
 const BODY_SHAPES = ["Hour Glass","Pear","Apple","Inverted Triangle","Ruler","Muscular","V-Shape","Trapezoid","Ectomorphic","Mesomorphic","Endomorphic"];
 
 const L = { display: "block", fontSize: "0.65rem", letterSpacing: "0.12em", color: "#857d6e", textTransform: "uppercase", marginBottom: 8 };
-const S = { fontSize: "0.7rem", letterSpacing: "0.25em", color: "#C9A84C", textTransform: "uppercase", fontWeight: 700, marginBottom: 20, marginTop: 36, display: "flex", alignItems: "center", gap: 10 };
+const SEC = { fontSize: "0.7rem", letterSpacing: "0.25em", color: "#C9A84C", textTransform: "uppercase", fontWeight: 700, marginBottom: 20, marginTop: 36, display: "flex", alignItems: "center", gap: 10 };
+
+// Stable components — defined OUTSIDE to prevent re-creation on every render
+function FI({ label, value, onChange, type = "text", placeholder, required }) {
+  return (
+    <div>
+      <label style={L}>{label}{required ? " *" : ""}</label>
+      <input className="dpm-input" type={type} placeholder={placeholder || label} value={value} onChange={onChange} />
+    </div>
+  );
+}
+
+function FS({ label, value, onChange, options, required }) {
+  return (
+    <div>
+      <label style={L}>{label}{required ? " *" : ""}</label>
+      <select className="dpm-select" value={value} onChange={onChange}>
+        <option value="">- Select -</option>
+        {options.map(o => <option key={o}>{o}</option>)}
+      </select>
+    </div>
+  );
+}
+
+function FT({ label, value, onChange, placeholder, required }) {
+  return (
+    <div>
+      <label style={L}>{label}{required ? " *" : ""}</label>
+      <textarea className="dpm-input" rows={3} placeholder={placeholder || label} value={value} onChange={onChange} style={{ resize: "vertical", minHeight: 80 }} />
+    </div>
+  );
+}
 
 export default function ThankYouForm({ applicationId, name, email, phone }) {
   const [submitted, setSubmitted] = useState(false);
@@ -36,7 +67,7 @@ export default function ThankYouForm({ applicationId, name, email, phone }) {
     qa_why_model: "", qa_strengths: "", qa_role_model: "", qa_adventure: "", qa_if_win: "",
   });
 
-  const u = (k, v) => setF(p => ({ ...p, [k]: v }));
+  const u = (k) => (e) => setF(p => ({ ...p, [k]: e.target.value }));
   const handlePhoto = (e, set) => { const file = e.target.files[0]; if (file) { const r = new FileReader(); r.onload = ev => set(ev.target.result); r.readAsDataURL(file); } };
 
   const handleSubmit = async () => {
@@ -70,30 +101,6 @@ export default function ThankYouForm({ applicationId, name, email, phone }) {
     </div>
   );
 
-  const Input = ({ label, k, type = "text", placeholder, required }) => (
-    <div>
-      <label style={L}>{label}{required && " *"}</label>
-      <input className="dpm-input" type={type} placeholder={placeholder || label} value={f[k]} onChange={e => u(k, e.target.value)} />
-    </div>
-  );
-
-  const Select = ({ label, k, options, required }) => (
-    <div>
-      <label style={L}>{label}{required && " *"}</label>
-      <select className="dpm-select" value={f[k]} onChange={e => u(k, e.target.value)}>
-        <option value="">- Select -</option>
-        {options.map(o => <option key={o}>{o}</option>)}
-      </select>
-    </div>
-  );
-
-  const TextArea = ({ label, k, placeholder, required }) => (
-    <div>
-      <label style={L}>{label}{required && " *"}</label>
-      <textarea className="dpm-input" rows={3} placeholder={placeholder || label} value={f[k]} onChange={e => u(k, e.target.value)} style={{ resize: "vertical", minHeight: 80 }} />
-    </div>
-  );
-
   return (
     <div data-testid="thankyou-profile-form">
       <div style={{ background: "rgba(201,168,76,0.08)", border: "1px solid rgba(201,168,76,0.2)", borderRadius: 12, padding: "24px 28px", marginBottom: 32, display: "flex", alignItems: "center", gap: 16 }}>
@@ -108,23 +115,23 @@ export default function ThankYouForm({ applicationId, name, email, phone }) {
 
       {/* CATEGORY */}
       <div style={{ marginBottom: 20 }}>
-        <Select label="Category" k="category" required options={["Mr. India","Miss India","Mrs. India","Miss Teen India"]} />
+        <FS label="Category" value={f.category} onChange={u("category")} required options={["Mr. India","Miss India","Mrs. India","Miss Teen India"]} />
       </div>
 
       {/* PERSONAL INFORMATION */}
-      <div style={S}><User size={14} /> Personal Information</div>
+      <div style={SEC}><User size={14} /> Personal Information</div>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
-        <Input label="First Name" k="first_name" required />
-        <Input label="Last Name" k="last_name" />
+        <FI label="First Name" value={f.first_name} onChange={u("first_name")} required />
+        <FI label="Last Name" value={f.last_name} onChange={u("last_name")} />
       </div>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16, marginBottom: 16 }}>
-        <Input label="Date of Birth" k="dob" type="date" required />
-        <Input label="Age" k="age" type="number" required />
-        <Select label="Marital Status" k="marital_status" required options={["Single","Married","Divorced","Widowed"]} />
+        <FI label="Date of Birth" value={f.dob} onChange={u("dob")} type="date" required />
+        <FI label="Age" value={f.age} onChange={u("age")} type="number" required />
+        <FS label="Marital Status" value={f.marital_status} onChange={u("marital_status")} required options={["Single","Married","Divorced","Widowed"]} />
       </div>
 
       {/* CONTACT DETAILS */}
-      <div style={S}>Contact Details</div>
+      <div style={SEC}>Contact Details</div>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
         <div>
           <label style={L}>Mobile Number *</label>
@@ -133,7 +140,7 @@ export default function ThankYouForm({ applicationId, name, email, phone }) {
             <input className="dpm-input" placeholder="XXXXX XXXXX" value={contactPhone} onChange={e => setContactPhone(e.target.value)} />
           </div>
         </div>
-        <Input label="Alternative No." k="alt_phone" type="tel" placeholder="Alternative Number" />
+        <FI label="Alternative No." value={f.alt_phone} onChange={u("alt_phone")} type="tel" placeholder="Alternative Number" />
       </div>
       <div style={{ marginBottom: 16 }}>
         <label style={L}>Email Address *</label>
@@ -141,62 +148,62 @@ export default function ThankYouForm({ applicationId, name, email, phone }) {
       </div>
 
       {/* ADDRESS */}
-      <div style={S}><MapPin size={14} /> Communication Address</div>
+      <div style={SEC}><MapPin size={14} /> Communication Address</div>
       <div style={{ display: "grid", gap: 16, marginBottom: 16 }}>
-        <Input label="Full Address" k="address1" required placeholder="Address Line 1" />
+        <FI label="Full Address" value={f.address1} onChange={u("address1")} required placeholder="Address Line 1" />
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16 }}>
-          <Input label="City" k="city" required />
-          <Select label="State" k="state" required options={STATES} />
-          <Input label="Postal Code" k="postal_code" required />
+          <FI label="City" value={f.city} onChange={u("city")} required />
+          <FS label="State" value={f.state} onChange={u("state")} required options={STATES} />
+          <FI label="Postal Code" value={f.postal_code} onChange={u("postal_code")} required />
         </div>
       </div>
 
       {/* QUALIFICATION & PROFESSIONAL */}
-      <div style={S}><GraduationCap size={14} /> Qualification & Professional Details</div>
+      <div style={SEC}><GraduationCap size={14} /> Qualification & Professional Details</div>
       <div style={{ display: "grid", gap: 16, marginBottom: 16 }}>
-        <Input label="Qualification Details" k="qualification" required placeholder="e.g. B.A., MBA, 12th Pass" />
-        <Input label="Professional Detail" k="professional_detail" required placeholder="e.g. Fashion Designer, Student, Engineer" />
+        <FI label="Qualification Details" value={f.qualification} onChange={u("qualification")} required placeholder="e.g. B.A., MBA, 12th Pass" />
+        <FI label="Professional Detail" value={f.professional_detail} onChange={u("professional_detail")} required placeholder="e.g. Fashion Designer, Student, Engineer" />
       </div>
 
       {/* SOCIAL MEDIA */}
-      <div style={S}><Instagram size={14} /> Social Media</div>
+      <div style={SEC}><Instagram size={14} /> Social Media</div>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
-        <Input label="Instagram URL" k="instagram_url" placeholder="https://instagram.com/yourprofile" required />
-        <Input label="Facebook URL" k="facebook_url" placeholder="https://facebook.com/yourprofile" required />
+        <FI label="Instagram URL" value={f.instagram_url} onChange={u("instagram_url")} placeholder="https://instagram.com/yourprofile" required />
+        <FI label="Facebook URL" value={f.facebook_url} onChange={u("facebook_url")} placeholder="https://facebook.com/yourprofile" required />
       </div>
 
       {/* PHYSICAL ATTRIBUTES */}
-      <div style={S}><Ruler size={14} /> Physical Attributes</div>
+      <div style={SEC}><Ruler size={14} /> Physical Attributes</div>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
-        <Select label="Height" k="height" required options={HEIGHTS} />
-        <Input label="Weight (KGs)" k="weight" type="number" required />
+        <FS label="Height" value={f.height} onChange={u("height")} required options={HEIGHTS} />
+        <FI label="Weight (KGs)" value={f.weight} onChange={u("weight")} type="number" required />
       </div>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
-        <Select label="Hair Color" k="hair_color" required options={HAIR_COLORS} />
-        <Select label="Skin Tone" k="skin_tone" required options={SKIN_TONES} />
+        <FS label="Hair Color" value={f.hair_color} onChange={u("hair_color")} required options={HAIR_COLORS} />
+        <FS label="Skin Tone" value={f.skin_tone} onChange={u("skin_tone")} required options={SKIN_TONES} />
       </div>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
-        <Select label="Eye Color" k="eye_color" required options={EYE_COLORS} />
-        <Select label="Body Shape" k="body_shape" required options={BODY_SHAPES} />
+        <FS label="Eye Color" value={f.eye_color} onChange={u("eye_color")} required options={EYE_COLORS} />
+        <FS label="Body Shape" value={f.body_shape} onChange={u("body_shape")} required options={BODY_SHAPES} />
       </div>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16, marginBottom: 16 }}>
-        <Input label="Waist (inches)" k="waist" required />
-        <Input label="Hip (inches)" k="hip" required />
-        <Input label="Chest Size (inches)" k="chest" required />
+        <FI label="Waist (inches)" value={f.waist} onChange={u("waist")} required />
+        <FI label="Hip (inches)" value={f.hip} onChange={u("hip")} required />
+        <FI label="Chest Size (inches)" value={f.chest} onChange={u("chest")} required />
       </div>
 
       {/* Q&A */}
-      <div style={S}><MessageSquare size={14} /> Q & A</div>
+      <div style={SEC}><MessageSquare size={14} /> Q & A</div>
       <div style={{ display: "grid", gap: 20, marginBottom: 16 }}>
-        <TextArea label="Why do you want to be a Model? Why do you want to participate in this show?" k="qa_why_model" required />
-        <TextArea label="What Are Your Strengths & Weaknesses?" k="qa_strengths" required />
-        <TextArea label="Who is Your Role Model & Why?" k="qa_role_model" required />
-        <TextArea label="Which Is the Most Adventurous Incident In Your Life?" k="qa_adventure" required />
-        <TextArea label="What Will You Do If You Win The Pageant?" k="qa_if_win" required />
+        <FT label="Why do you want to be a Model? Why do you want to participate in this show?" value={f.qa_why_model} onChange={u("qa_why_model")} required />
+        <FT label="What Are Your Strengths & Weaknesses?" value={f.qa_strengths} onChange={u("qa_strengths")} required />
+        <FT label="Who is Your Role Model & Why?" value={f.qa_role_model} onChange={u("qa_role_model")} required />
+        <FT label="Which Is the Most Adventurous Incident In Your Life?" value={f.qa_adventure} onChange={u("qa_adventure")} required />
+        <FT label="What Will You Do If You Win The Pageant?" value={f.qa_if_win} onChange={u("qa_if_win")} required />
       </div>
 
       {/* PHOTOS */}
-      <div style={S}><Camera size={14} /> Upload Photos</div>
+      <div style={SEC}><Camera size={14} /> Upload Photos</div>
       <p style={{ fontSize: "0.75rem", color: "#857d6e", marginBottom: 16 }}>Upload professional and recent photographs *</p>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 32 }}>
         {[{ label: "Photo 1 *", ref: p1Ref, preview: p1Preview, set: setP1Preview, tid: "profile-photo1" },
