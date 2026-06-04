@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter, HTTPException, File, UploadFile, Form
+from fastapi import FastAPI, APIRouter, HTTPException, File, UploadFile, Form, Request
 from fastapi.staticfiles import StaticFiles
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
@@ -14,6 +14,7 @@ import razorpay
 import shutil
 import httpx
 import asyncio
+from meta_capi import fire_capi, build_user_data
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
@@ -125,6 +126,38 @@ class ApplicationResponse(BaseModel):
 async def root():
     return {"message": "DPM Beauty Pageant 2026 API"}
 
+# CAPI RELAY — frontend sends event_id + user info, backend fires server-side event
+class CapiEvent(BaseModel):
+    event_name: str
+    event_id: str
+    event_source_url: str = ""
+    email: str = ""
+    phone: str = ""
+    first_name: str = ""
+    last_name: str = ""
+    city: str = ""
+    state: str = ""
+    zip_code: str = ""
+    external_id: str = ""
+    fbc: str = ""
+    fbp: str = ""
+    value: float = 0
+    currency: str = "INR"
+
+@api_router.post("/capi-event")
+async def capi_event(data: CapiEvent, request: Request):
+    from starlette.requests import Request as Req
+    client_ip = request.headers.get("x-forwarded-for", request.client.host if request.client else "")
+    client_ua = request.headers.get("user-agent", "")
+    ud = build_user_data(
+        email=data.email, phone=data.phone, first_name=data.first_name, last_name=data.last_name,
+        city=data.city, state=data.state, zip_code=data.zip_code, external_id=data.external_id,
+        client_ip=client_ip, client_ua=client_ua, fbc=data.fbc, fbp=data.fbp,
+    )
+    cd = {"value": data.value, "currency": data.currency} if data.value else None
+    fire_capi(data.event_name, data.event_id, data.event_source_url, ud, cd)
+    return {"status": "ok"}
+
 # 1. LEADS — saves opt-in + fires registration webhook
 @api_router.post("/leads")
 async def save_lead(data: ApplicationCreate):
@@ -211,6 +244,10 @@ async def verify_payment(data: PaymentVerify):
         "gclid": data.gclid,
         "timestamp": now,
     })
+    # CAPI: Purchase event (server-side) — event_id = payment_id for dedup
+    base_url = os.environ.get("BASE_URL", "")
+    ud = build_user_data(email=data.email, phone=data.phone, first_name=data.name.split(" ")[0], last_name=" ".join(data.name.split(" ")[1:]))
+    fire_capi("Purchase", data.razorpay_payment_id, base_url, ud, {"value": 999, "currency": "INR"})
     return ApplicationResponse(**{k: v for k, v in doc.items() if k != "_id"})
 
 # 4. PAYMENT FAILED — fires payment-failed webhook

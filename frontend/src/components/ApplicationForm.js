@@ -23,11 +23,44 @@ function getUtmParams() {
   };
 }
 
-// Safe pixel fire — uses setTimeout to ensure Pixel Helper catches it
-function firePixel(event, data) {
-  if (typeof window !== "undefined" && window.fbq) {
-    setTimeout(() => { window.fbq("track", event, data); }, 0);
+// Generate deterministic event_id for dedup between pixel + CAPI
+function genEventId(prefix) {
+  return `${prefix}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+}
+
+// Get fbc/fbp cookies for EMQ
+function getCookie(name) {
+  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+  return match ? match[2] : '';
+}
+function getFbc() {
+  let fbc = getCookie('_fbc');
+  if (!fbc) {
+    const fbclid = new URLSearchParams(window.location.search).get('fbclid');
+    if (fbclid) fbc = `fb.1.${Date.now()}.${fbclid}`;
   }
+  return fbc || '';
+}
+function getFbp() { return getCookie('_fbp') || ''; }
+
+// Fire pixel + CAPI together with shared event_id for dedup
+function fireTrackedEvent(eventName, customData, userData = {}) {
+  const eventId = genEventId(eventName);
+  // Browser pixel with eventID
+  if (window.fbq) {
+    setTimeout(() => { window.fbq('track', eventName, customData, { eventID: eventId }); }, 0);
+  }
+  // Server-side CAPI relay (fire-and-forget)
+  axios.post(`${API}/capi-event`, {
+    event_name: eventName,
+    event_id: eventId,
+    event_source_url: window.location.href,
+    fbc: getFbc(),
+    fbp: getFbp(),
+    value: customData?.value || 0,
+    currency: customData?.currency || 'INR',
+    ...userData,
+  }).catch(() => {});
 }
 
 export default function ApplicationForm({ isPopup = false, onSuccess }) {
@@ -52,8 +85,8 @@ export default function ApplicationForm({ isPopup = false, onSuccess }) {
       return;
     }
 
-    // Meta Pixel: InitiateCheckout
-    firePixel("InitiateCheckout", { value: 999, currency: "INR", content_name: "DPM Beauty Pageant 2026 Registration" });
+    // Meta Pixel + CAPI: InitiateCheckout (form filled, starting payment)
+    fireTrackedEvent("InitiateCheckout", { value: 999, currency: "INR", content_name: "DPM Beauty Pageant 2026 Registration" }, { email, phone, first_name: name.split(" ")[0], last_name: name.split(" ").slice(1).join(" ") });
 
     setLoading(true);
     try {

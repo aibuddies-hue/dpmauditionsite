@@ -11,11 +11,21 @@ export default function ThankYouPage() {
   const email = searchParams.get("email") || "";
   const phone = searchParams.get("phone") || "";
 
-  // Fire Purchase pixel on thank you page load
+  // Fire Purchase pixel + CAPI on thank you page load
   useEffect(() => {
+    const eid = 'Purchase_' + Date.now() + '_' + Math.random().toString(36).substr(2,9);
     if (window.fbq) {
-      window.fbq('track', 'Purchase', { value: 999, currency: 'INR', content_name: 'DPM Beauty Pageant 2026 Registration' });
+      window.fbq('track', 'Purchase', { value: 999, currency: 'INR', content_name: 'DPM Beauty Pageant 2026 Registration' }, { eventID: eid });
     }
+    // CAPI server-side Purchase
+    const API = process.env.REACT_APP_BACKEND_URL + '/api';
+    const fbc = document.cookie.match(/(^| )_fbc=([^;]+)/)?.[2] || '';
+    const fbp = document.cookie.match(/(^| )_fbp=([^;]+)/)?.[2] || '';
+    fetch(`${API}/capi-event`, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({
+      event_name: 'Purchase', event_id: eid, event_source_url: window.location.href,
+      email, phone, first_name: name.split(' ')[0], last_name: name.split(' ').slice(1).join(' '),
+      fbc, fbp, value: 999, currency: 'INR', external_id: id,
+    })}).catch(() => {});
   }, []);
 
   return (
