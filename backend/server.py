@@ -167,8 +167,9 @@ async def save_lead(data: ApplicationCreate):
     await db.leads.insert_one(doc)
     # Google Sheet
     fire_and_forget(GOOGLE_SHEET_WEBHOOK, {"type": "lead", "name": data.name, "email": data.email, "phone": data.phone, "status": "lead", "date": now})
-    # n8n registration webhook with UTM
-    fire_and_forget(N8N_REGISTRATION, {
+    # n8n registration webhook with UTM — hardcoded URL as fallback
+    n8n_reg_url = N8N_REGISTRATION or "https://n8n.srv1562813.hstgr.cloud/webhook/registration-form-submit"
+    fire_and_forget(n8n_reg_url, {
         "full_name": data.name,
         "whatsapp_number": data.phone,
         "email": data.email,
@@ -225,8 +226,9 @@ async def verify_payment(data: PaymentVerify):
     await db.applications.insert_one(doc)
     # Google Sheet
     fire_and_forget(GOOGLE_SHEET_WEBHOOK, {"type": "paid", "name": data.name, "email": data.email, "phone": data.phone, "payment_id": data.razorpay_payment_id, "status": "paid", "date": now})
-    # n8n payment success webhook with UTM
-    fire_and_forget(N8N_PAYMENT_SUCCESS, {
+    # n8n payment success webhook with UTM — hardcoded URL as fallback
+    n8n_pay_url = N8N_PAYMENT_SUCCESS or "https://n8n.srv1562813.hstgr.cloud/webhook/razorpay-payment-success"
+    fire_and_forget(n8n_pay_url, {
         "email": data.email,
         "whatsapp_number": data.phone,
         "full_name": data.name,
@@ -254,7 +256,8 @@ async def verify_payment(data: PaymentVerify):
 @api_router.post("/payment-failed")
 async def payment_failed(data: PaymentFailed):
     now = datetime.now(timezone.utc).isoformat()
-    fire_and_forget(N8N_PAYMENT_FAILED, {
+    n8n_fail_url = N8N_PAYMENT_FAILED or "https://n8n.srv1562813.hstgr.cloud/webhook/razorpay-payment-failed"
+    fire_and_forget(n8n_fail_url, {
         "email": data.email,
         "whatsapp_number": data.phone,
         "full_name": data.name,
@@ -367,8 +370,9 @@ async def submit_profile(
 
     # Google Sheet
     fire_and_forget(GOOGLE_SHEET_WEBHOOK, {"type": "profile", "first_name": first_name, "last_name": last_name, "email": final_email, "phone": final_phone, "age": age, "marital_status": marital_status, "address1": address1, "address2": address2, "city": city, "state": state, "postal_code": postal_code, "height": height, "weight": weight, "bust": bust, "waist": waist, "hips": hips, "date": now})
-    # n8n profile webhook
-    fire_and_forget(N8N_PROFILE, {
+    # n8n profile webhook — hardcoded URL as fallback
+    n8n_prof_url = N8N_PROFILE or "https://n8n.srv1562813.hstgr.cloud/webhook/profile-form-submit"
+    fire_and_forget(n8n_prof_url, {
         "email": final_email,
         "whatsapp_number": final_phone,
         "first_name": first_name,
