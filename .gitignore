@@ -87,3 +87,5 @@ android-sdk/service-account.json
 credentials.json
 *.key
 .credentials
+/public/api/uploads/
+
