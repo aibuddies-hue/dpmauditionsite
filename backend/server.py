@@ -164,7 +164,10 @@ async def save_lead(data: ApplicationCreate):
     now = datetime.now(timezone.utc).isoformat()
     utm = {"utm_source": data.utm_source, "utm_medium": data.utm_medium, "utm_campaign": data.utm_campaign, "utm_term": data.utm_term, "utm_content": data.utm_content, "utm_id": data.utm_id, "placement": data.placement, "site_source": data.site_source, "fbclid": data.fbclid, "gclid": data.gclid, "ref": data.ref}
     doc = {"id": str(uuid.uuid4()), "name": data.name, "email": data.email, "phone": data.phone, "status": "lead", "created_at": now, **utm}
-    await db.leads.insert_one(doc)
+    try:
+        await db.leads.insert_one(doc)
+    except Exception as e:
+        logger.error(f"MongoDB save_lead error: {e}")
     # Google Sheet
     fire_and_forget(GOOGLE_SHEET_WEBHOOK, {"type": "lead", "name": data.name, "email": data.email, "phone": data.phone, "status": "lead", "date": now})
     # n8n registration webhook with UTM — hardcoded URL as fallback
@@ -223,7 +226,10 @@ async def verify_payment(data: PaymentVerify):
     now = datetime.now(timezone.utc).isoformat()
     utm = {"utm_source": data.utm_source, "utm_medium": data.utm_medium, "utm_campaign": data.utm_campaign, "utm_term": data.utm_term, "utm_content": data.utm_content, "utm_id": data.utm_id, "placement": data.placement, "site_source": data.site_source, "fbclid": data.fbclid, "gclid": data.gclid, "ref": data.ref}
     doc = {"id": str(uuid.uuid4()), "name": data.name, "email": data.email, "phone": data.phone, "status": "paid", "payment_id": data.razorpay_payment_id, "order_id": data.razorpay_order_id, "created_at": now, **utm}
-    await db.applications.insert_one(doc)
+    try:
+        await db.applications.insert_one(doc)
+    except Exception as e:
+        logger.error(f"MongoDB verify_payment error: {e}")
     # Google Sheet
     fire_and_forget(GOOGLE_SHEET_WEBHOOK, {"type": "paid", "name": data.name, "email": data.email, "phone": data.phone, "payment_id": data.razorpay_payment_id, "status": "paid", "date": now})
     # n8n payment success webhook with UTM — hardcoded URL as fallback
@@ -342,7 +348,12 @@ async def submit_profile(
         photo2_url = f"{base_url}/api/uploads/{photo2_name}"
 
     now = datetime.now(timezone.utc).isoformat()
-    app_doc = await db.applications.find_one({"id": application_id}, {"_id": 0}) if application_id else None
+    app_doc = None
+    if application_id:
+        try:
+            app_doc = await db.applications.find_one({"id": application_id}, {"_id": 0})
+        except Exception as e:
+            logger.error(f"MongoDB find application error: {e}")
     # Priority: form fields > DB lookup
     final_email = contact_email or (app_doc.get("email", "") if app_doc else "")
     final_phone = contact_phone or (app_doc.get("phone", "") if app_doc else "")
@@ -364,9 +375,12 @@ async def submit_profile(
         "photo2": photo2_name, "photo2_url": photo2_url,
         "created_at": now,
     }
-    await db.profiles.insert_one(profile)
-    if application_id:
-        await db.applications.update_one({"id": application_id}, {"$set": {"profile_submitted": True}})
+    try:
+        await db.profiles.insert_one(profile)
+        if application_id:
+            await db.applications.update_one({"id": application_id}, {"$set": {"profile_submitted": True}})
+    except Exception as e:
+        logger.error(f"MongoDB submit_profile error: {e}")
 
     # Google Sheet
     fire_and_forget(GOOGLE_SHEET_WEBHOOK, {"type": "profile", "first_name": first_name, "last_name": last_name, "email": final_email, "phone": final_phone, "age": age, "marital_status": marital_status, "address1": address1, "address2": address2, "city": city, "state": state, "postal_code": postal_code, "height": height, "weight": weight, "bust": bust, "waist": waist, "hips": hips, "date": now})
