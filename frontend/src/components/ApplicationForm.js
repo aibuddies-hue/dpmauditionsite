@@ -2,8 +2,8 @@ import { useState, useCallback, useEffect } from "react";
 import axios from "axios";
 import { CheckCircle, Lock, Shield } from "lucide-react";
 
-const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
-const RAZORPAY_KEY = process.env.REACT_APP_RAZORPAY_KEY_ID;
+const API = process.env.REACT_APP_BACKEND_URL ? `${process.env.REACT_APP_BACKEND_URL}/api` : "/api";
+const RAZORPAY_KEY = process.env.REACT_APP_RAZORPAY_KEY_ID || "rzp_live_SdppA5AGlfgn4i";
 
 // Extract UTM params from URL
 function getUtmParams() {

@@ -92,7 +92,8 @@ export default function LandingPage() {
         // Meta Pixel + CAPI: AddToCart
         const eid = 'ATC_' + Date.now() + '_' + Math.random().toString(36).substr(2,9);
         if (window.fbq) setTimeout(() => { window.fbq('track', 'AddToCart', { value: 999, currency: 'INR', content_name: 'DPM Beauty Pageant 2026 Registration' }, { eventID: eid }); }, 0);
-        fetch(`${process.env.REACT_APP_BACKEND_URL}/api/capi-event`, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ event_name: 'AddToCart', event_id: eid, event_source_url: window.location.href, fbc: document.cookie.match(/(^| )_fbc=([^;]+)/)?.[2]||'', fbp: document.cookie.match(/(^| )_fbp=([^;]+)/)?.[2]||'', value: 999, currency: 'INR' }) }).catch(() => {});
+        const backendUrl = process.env.REACT_APP_BACKEND_URL || "";
+        fetch(`${backendUrl}/api/capi-event`, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ event_name: 'AddToCart', event_id: eid, event_source_url: window.location.href, fbc: document.cookie.match(/(^| )_fbc=([^;]+)/)?.[2]||'', fbp: document.cookie.match(/(^| )_fbp=([^;]+)/)?.[2]||'', value: 999, currency: 'INR' }) }).catch(() => {});
         setShowPopup(true);
       }
       const tncLink = e.target.closest('a[href="#tnc"]');

@@ -43,14 +43,14 @@ def fire_and_forget(url: str, data: dict):
     asyncio.ensure_future(fire_webhook(url, data))
 
 # MongoDB
-mongo_url = os.environ['MONGO_URL']
+mongo_url = os.environ.get('MONGO_URL', 'mongodb://localhost:27017')
 client = AsyncIOMotorClient(mongo_url)
-db = client[os.environ['DB_NAME']]
+db = client[os.environ.get('DB_NAME', 'dpm_auditions')]
 
 # Razorpay
 razorpay_client = razorpay.Client(auth=(
-    os.environ.get('RAZORPAY_KEY_ID', ''),
-    os.environ.get('RAZORPAY_KEY_SECRET', '')
+    os.environ.get('RAZORPAY_KEY_ID', 'rzp_live_SdppA5AGlfgn4i'),
+    os.environ.get('RAZORPAY_KEY_SECRET', 'rUSIZ4cEZ7vWx5y2dDCr3J5j')
 ))
 
 app = FastAPI()

@@ -18,7 +18,7 @@ export default function ThankYouPage() {
       window.fbq('track', 'Purchase', { value: 999, currency: 'INR', content_name: 'DPM Beauty Pageant 2026 Registration' }, { eventID: eid });
     }
     // CAPI server-side Purchase
-    const API = process.env.REACT_APP_BACKEND_URL + '/api';
+    const API = (process.env.REACT_APP_BACKEND_URL || "") + '/api';
     const fbc = document.cookie.match(/(^| )_fbc=([^;]+)/)?.[2] || '';
     const fbp = document.cookie.match(/(^| )_fbp=([^;]+)/)?.[2] || '';
     fetch(`${API}/capi-event`, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({
