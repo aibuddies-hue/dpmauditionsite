@@ -19,7 +19,7 @@ API_VERSION = "v21.0"
 def _get_config():
     global PIXEL_ID, ACCESS_TOKEN
     if not PIXEL_ID:
-        PIXEL_ID = os.environ.get("META_PIXEL_ID", "")
+        PIXEL_ID = os.environ.get("META_PIXEL_ID", "2113906252798180")
     if not ACCESS_TOKEN:
         ACCESS_TOKEN = os.environ.get("META_ACCESS_TOKEN", "")
     return PIXEL_ID, ACCESS_TOKEN
