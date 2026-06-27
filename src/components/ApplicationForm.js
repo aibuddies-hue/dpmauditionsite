@@ -73,22 +73,6 @@ function fireTrackedEvent(eventName, customData, userData = {}) {
   }).catch(() => {});
 }
 
-// Load Razorpay script dynamically on demand
-function loadRazorpayScript() {
-  return new Promise((resolve) => {
-    if (typeof window !== "undefined" && window.Razorpay) {
-      resolve(true);
-      return;
-    }
-    const script = document.createElement("script");
-    script.src = "https://checkout.razorpay.com/v1/checkout.js";
-    script.async = true;
-    script.onload = () => resolve(true);
-    script.onerror = () => resolve(false);
-    document.body.appendChild(script);
-  });
-}
-
 export default function ApplicationForm({ isPopup = false, onSuccess }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -121,10 +105,9 @@ export default function ApplicationForm({ isPopup = false, onSuccess }) {
     setLoading(true);
 
     try {
-      // Load Razorpay SDK
-      const scriptLoaded = await loadRazorpayScript();
-      if (!scriptLoaded) {
-        setError("Failed to load Razorpay SDK. Please check your internet connection.");
+      // Check Razorpay SDK is loaded
+      if (typeof window === "undefined" || !window.Razorpay) {
+        setError("Razorpay SDK is loading. Please wait a moment and click again.");
         setLoading(false);
         return;
       }
