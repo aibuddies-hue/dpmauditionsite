@@ -19,6 +19,8 @@ export async function POST(request) {
         currency: 'INR',
         payment_capture: 1,
         notes: {
+          payment_type: "dpm_pageant_2026",
+          site_source: "auditions.dpmentertainment.com",
           name: data.name,
           email: data.email,
           phone: data.phone

@@ -25,6 +25,15 @@ function saveBase64Image(dataUrl, folder) {
   return { filename, base64: base64Data };
 }
 
+function parseBase64(dataUrl) {
+  if (!dataUrl) return { base64: '', mime: '' };
+  const matches = dataUrl.match(/^data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+);base64,(.+)$/);
+  if (!matches || matches.length !== 3) {
+    return { base64: dataUrl, mime: 'image/jpeg' };
+  }
+  return { base64: matches[2], mime: matches[1] };
+}
+
 export async function POST(request) {
   try {
     const data = await request.json();
@@ -91,28 +100,53 @@ export async function POST(request) {
     const payloads = [];
 
     if (sheetWebhook) {
+      const p1Parsed = parseBase64(photo1);
+      const p2Parsed = parseBase64(photo2);
+
       payloads.push(
         fetch(sheetWebhook, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            type: "profile",
+            sheet_name: "Profiles",
+            application_id,
             first_name,
             last_name,
+            full_name: `${first_name} ${last_name}`.trim(),
             email: contact_email,
-            phone: contact_phone,
+            whatsapp_number: contact_phone,
+            dob,
             age,
+            category,
             marital_status,
+            alt_phone,
             address1,
             address2,
             city,
             state,
             postal_code,
+            qualification,
+            professional_detail,
+            instagram_url,
+            facebook_url,
             height,
             weight,
+            hair_color,
+            skin_tone,
+            eye_color,
+            body_shape,
             waist,
-            hips: hip, // mapping hips to hip for sheet compatibility
-            date: now
+            hip,
+            chest,
+            qa_why_model,
+            qa_strengths,
+            qa_role_model,
+            qa_adventure,
+            qa_if_win,
+            photo1_base64: p1Parsed.base64,
+            photo1_mime: p1Parsed.mime,
+            photo2_base64: p2Parsed.base64,
+            photo2_mime: p2Parsed.mime
           })
         }).catch(err => console.error("Sheet profile webhook error:", err))
       );

@@ -40,28 +40,8 @@ export async function POST(request) {
     const now = new Date().toISOString();
     const appId = crypto.randomUUID();
 
-    const sheetWebhook = process.env.GOOGLE_SHEET_WEBHOOK;
     const n8nSuccessUrl = "https://n8n.srv1562813.hstgr.cloud/webhook/razorpay-payment-success";
-
     const payloads = [];
-
-    if (sheetWebhook) {
-      payloads.push(
-        fetch(sheetWebhook, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            type: "paid",
-            name,
-            email,
-            phone,
-            payment_id: razorpay_payment_id,
-            status: "paid",
-            date: now
-          })
-        }).catch(err => console.error("Sheet webhook error:", err))
-      );
-    }
 
     payloads.push(
       fetch(n8nSuccessUrl, {

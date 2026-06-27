@@ -17,12 +17,24 @@ export async function POST(request) {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            type: "lead",
-            name: data.name,
+            lead_id: leadId,
+            full_name: data.name,
             email: data.email,
-            phone: data.phone,
-            status: "lead",
-            date: now
+            whatsapp_number: data.phone,
+            utm_source: data.utm_source || "",
+            utm_medium: data.utm_medium || "",
+            utm_campaign: data.utm_campaign || "",
+            utm_term: data.utm_term || "",
+            utm_content: data.utm_content || "",
+            utm_id: data.utm_id || "",
+            placement: data.placement || "",
+            site_source: data.site_source || "auditions.dpmentertainment.com",
+            fbclid: data.fbclid || "",
+            gclid: data.gclid || "",
+            ref: data.ref || "",
+            payment_status: "Pending",
+            follow_up_stage: "Initiated",
+            timestamp: now
           })
         }).catch(err => console.error("Sheet webhook error:", err))
       );
