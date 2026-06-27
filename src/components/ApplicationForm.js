@@ -73,6 +73,22 @@ function fireTrackedEvent(eventName, customData, userData = {}) {
   }).catch(() => {});
 }
 
+// Load Razorpay script dynamically on demand
+function loadRazorpayScript() {
+  return new Promise((resolve) => {
+    if (typeof window !== "undefined" && window.Razorpay) {
+      resolve(true);
+      return;
+    }
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.body.appendChild(script);
+  });
+}
+
 export default function ApplicationForm({ isPopup = false, onSuccess }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -102,14 +118,23 @@ export default function ApplicationForm({ isPopup = false, onSuccess }) {
       return;
     }
 
-    // Meta Pixel + CAPI: InitiateCheckout (form filled, starting payment)
-    fireTrackedEvent("InitiateCheckout", { value: 999, currency: "INR", content_name: "DPM Beauty Pageant 2026 Registration" }, { email, phone, first_name: name.split(" ")[0], last_name: name.split(" ").slice(1).join(" ") });
-
-    // Small delay to ensure pixel + CAPI complete before Razorpay overlay opens
-    await new Promise(r => setTimeout(r, 500));
-
     setLoading(true);
+
     try {
+      // Load Razorpay SDK
+      const scriptLoaded = await loadRazorpayScript();
+      if (!scriptLoaded) {
+        setError("Failed to load Razorpay SDK. Please check your internet connection.");
+        setLoading(false);
+        return;
+      }
+
+      // Meta Pixel + CAPI: InitiateCheckout (form filled, starting payment)
+      fireTrackedEvent("InitiateCheckout", { value: 999, currency: "INR", content_name: "DPM Beauty Pageant 2026 Registration" }, { email, phone, first_name: name.split(" ")[0], last_name: name.split(" ").slice(1).join(" ") });
+
+      // Small delay to ensure pixel + CAPI complete before Razorpay overlay opens
+      await new Promise(r => setTimeout(r, 500));
+
       // Save lead with UTM params
       await axios.post(`${API}/leads`, { name, email, phone, ...utmParams }).catch(() => {});
 
@@ -117,7 +142,7 @@ export default function ApplicationForm({ isPopup = false, onSuccess }) {
       const { data: order } = await axios.post(`${API}/create-order`, { name, email, phone });
 
       const options = {
-        key: RAZORPAY_KEY,
+        key: order.key_id || RAZORPAY_KEY,
         amount: order.amount,
         currency: order.currency,
         order_id: order.order_id,
@@ -141,8 +166,8 @@ export default function ApplicationForm({ isPopup = false, onSuccess }) {
             window.location.href = utmQuery ? `${base}&${utmQuery}` : base;
           } catch (e) {
             setError("Payment verification failed. Please contact support.");
+            setLoading(false);
           }
-          setLoading(false);
         },
         modal: {
           ondismiss: () => { setLoading(false); },
