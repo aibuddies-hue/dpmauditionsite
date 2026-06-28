@@ -118,8 +118,8 @@ export default function ApplicationForm({ isPopup = false, onSuccess }) {
       // Small delay to ensure pixel + CAPI complete before Razorpay overlay opens
       await new Promise(r => setTimeout(r, 500));
 
-      // Save lead with UTM params
-      await axios.post(`${API}/leads`, { name, email, phone, ...utmParams }).catch(() => {});
+      // Save lead with UTM params and full utm_link
+      await axios.post(`${API}/leads`, { name, email, phone, ...utmParams, utm_link: typeof window !== "undefined" ? window.location.href : "" }).catch(() => {});
 
       // Create Razorpay order
       const { data: order } = await axios.post(`${API}/create-order`, { name, email, phone });

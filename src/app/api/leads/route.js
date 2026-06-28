@@ -32,6 +32,7 @@ export async function POST(request) {
             fbclid: data.fbclid || "",
             gclid: data.gclid || "",
             ref: data.ref || "",
+            utm_link: data.utm_link || "",
             payment_status: "Pending",
             follow_up_stage: "Initiated",
             timestamp: now
