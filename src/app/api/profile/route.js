@@ -106,7 +106,8 @@ export async function POST(request) {
       payloads.push(
         fetch(sheetWebhook, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          redirect: 'follow',
           body: JSON.stringify({
             sheet_name: "Profiles",
             application_id,
