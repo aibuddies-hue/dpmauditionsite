@@ -205,7 +205,8 @@ export async function POST(request) {
 
     return NextResponse.json({
       status: "success",
-      message: "Profile submitted successfully"
+      message: "Profile submitted successfully",
+      webhook_configured: !!sheetWebhook
     });
   } catch (error) {
     console.error("Profile submission API error:", error);

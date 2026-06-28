@@ -69,7 +69,7 @@ export async function POST(request) {
 
     await Promise.allSettled(payloads);
 
-    return NextResponse.json({ status: "success", id: leadId });
+    return NextResponse.json({ status: "success", id: leadId, webhook_configured: !!sheetWebhook });
   } catch (error) {
     console.error("Leads API error:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
