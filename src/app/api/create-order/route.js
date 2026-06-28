@@ -20,7 +20,8 @@ export async function POST(request) {
         payment_capture: 1,
         notes: {
           payment_type: "dpm_pageant_2026",
-          site_source: "auditions.dpmentertainment.com",
+          ref: data.ref || "auditions.dpmentertainment.com",
+          site_source: data.site_source || "",
           name: data.name,
           email: data.email,
           phone: data.phone

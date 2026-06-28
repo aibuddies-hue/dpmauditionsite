@@ -122,7 +122,7 @@ export default function ApplicationForm({ isPopup = false, onSuccess }) {
       await axios.post(`${API}/leads`, { name, email, phone, ...utmParams, utm_link: typeof window !== "undefined" ? window.location.href : "" }).catch(() => {});
 
       // Create Razorpay order
-      const { data: order } = await axios.post(`${API}/create-order`, { name, email, phone });
+      const { data: order } = await axios.post(`${API}/create-order`, { name, email, phone, ...utmParams });
 
       const options = {
         key: order.key_id || RAZORPAY_KEY,
