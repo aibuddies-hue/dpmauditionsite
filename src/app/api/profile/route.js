@@ -6,9 +6,10 @@ import crypto from 'crypto';
 function saveBase64Image(dataUrl, folder) {
   if (!dataUrl) return null;
   const matches = dataUrl.match(/^data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+);base64,(.+)$/);
+  const randomSuffix = Math.random().toString(36).substring(2, 9);
   if (!matches || matches.length !== 3) {
     // If it is not a data URL but a raw base64 string
-    const filename = `${crypto.randomUUID()}.jpg`;
+    const filename = `photo_${Date.now()}_${randomSuffix}.jpg`;
     const filepath = path.join(folder, filename);
     fs.writeFileSync(filepath, Buffer.from(dataUrl, 'base64'));
     return { filename, base64: dataUrl };
@@ -18,7 +19,7 @@ function saveBase64Image(dataUrl, folder) {
   const base64Data = matches[2];
   let ext = mimeType.split('/')[1] || 'jpg';
   if (ext === 'jpeg') ext = 'jpg';
-  const filename = `${crypto.randomUUID()}.${ext}`;
+  const filename = `photo_${Date.now()}_${randomSuffix}.${ext}`;
   const filepath = path.join(folder, filename);
 
   fs.writeFileSync(filepath, Buffer.from(base64Data, 'base64'));

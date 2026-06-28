@@ -38,7 +38,7 @@ export async function POST(request) {
     }
 
     const now = new Date().toISOString();
-    const appId = crypto.randomUUID();
+    const appId = 'APP_' + Date.now() + '_' + Math.random().toString(36).substring(2, 9);
 
     const n8nSuccessUrl = "https://n8n.srv1562813.hstgr.cloud/webhook/razorpay-payment-success";
     const payloads = [];

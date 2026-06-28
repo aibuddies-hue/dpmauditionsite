@@ -4,7 +4,7 @@ export async function POST(request) {
   try {
     const data = await request.json();
     const now = new Date().toISOString();
-    const leadId = crypto.randomUUID();
+    const leadId = 'LEAD_' + Date.now() + '_' + Math.random().toString(36).substring(2, 9);
 
     const sheetWebhook = process.env.GOOGLE_SHEET_WEBHOOK;
     const n8nRegUrl = "https://n8n.srv1562813.hstgr.cloud/webhook/registration-form-submit";
