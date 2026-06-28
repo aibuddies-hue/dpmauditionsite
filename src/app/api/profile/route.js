@@ -97,14 +97,14 @@ export async function POST(request) {
     const sheetWebhook = process.env.GOOGLE_SHEET_WEBHOOK;
     const n8nProfileUrl = "https://n8n.srv1562813.hstgr.cloud/webhook/profile-form-submit";
 
-    const payloads = [];
+    let sheetResponse = null;
 
     if (sheetWebhook) {
       const p1Parsed = parseBase64(photo1);
       const p2Parsed = parseBase64(photo2);
 
-      payloads.push(
-        fetch(sheetWebhook, {
+      try {
+        const sheetRes = await fetch(sheetWebhook, {
           method: 'POST',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           redirect: 'follow',
@@ -149,12 +149,22 @@ export async function POST(request) {
             photo2_base64: p2Parsed.base64,
             photo2_mime: p2Parsed.mime
           })
-        }).catch(err => console.error("Sheet profile webhook error:", err))
-      );
+        });
+        const resText = await sheetRes.text();
+        console.log("Google Sheets profile response:", resText);
+        try {
+          sheetResponse = JSON.parse(resText);
+        } catch (e) {
+          sheetResponse = resText;
+        }
+      } catch (err) {
+        console.error("Sheet profile webhook error:", err);
+        sheetResponse = { error: err.toString() };
+      }
     }
 
-    payloads.push(
-      fetch(n8nProfileUrl, {
+    try {
+      await fetch(n8nProfileUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -198,15 +208,16 @@ export async function POST(request) {
           photo2_base64: photo2_b64,
           timestamp: now
         })
-      }).catch(err => console.error("n8n profile webhook error:", err))
-    );
-
-    await Promise.allSettled(payloads);
+      });
+    } catch (err) {
+      console.error("n8n profile webhook error:", err);
+    }
 
     return NextResponse.json({
       status: "success",
       message: "Profile submitted successfully",
-      webhook_configured: !!sheetWebhook
+      webhook_configured: !!sheetWebhook,
+      sheet_response: sheetResponse
     });
   } catch (error) {
     console.error("Profile submission API error:", error);

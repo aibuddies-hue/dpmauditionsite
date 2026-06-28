@@ -11,9 +11,11 @@ export async function POST(request) {
 
     const payloads = [];
 
+    let sheetResponse = null;
+
     if (sheetWebhook) {
-      payloads.push(
-        fetch(sheetWebhook, {
+      try {
+        const sheetRes = await fetch(sheetWebhook, {
           method: 'POST',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           redirect: 'follow',
@@ -38,12 +40,22 @@ export async function POST(request) {
             follow_up_stage: "Initiated",
             timestamp: now
           })
-        }).catch(err => console.error("Sheet webhook error:", err))
-      );
+        });
+        const resText = await sheetRes.text();
+        console.log("Google Sheets response:", resText);
+        try {
+          sheetResponse = JSON.parse(resText);
+        } catch (e) {
+          sheetResponse = resText;
+        }
+      } catch (err) {
+        console.error("Sheet webhook error:", err);
+        sheetResponse = { error: err.toString() };
+      }
     }
 
-    payloads.push(
-      fetch(n8nRegUrl, {
+    try {
+      await fetch(n8nRegUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -64,12 +76,12 @@ export async function POST(request) {
           ref: data.ref,
           timestamp: now,
         })
-      }).catch(err => console.error("n8n registration webhook error:", err))
-    );
+      });
+    } catch (err) {
+      console.error("n8n registration webhook error:", err);
+    }
 
-    await Promise.allSettled(payloads);
-
-    return NextResponse.json({ status: "success", id: leadId, webhook_configured: !!sheetWebhook });
+    return NextResponse.json({ status: "success", id: leadId, webhook_configured: !!sheetWebhook, sheet_response: sheetResponse });
   } catch (error) {
     console.error("Leads API error:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
