@@ -74,7 +74,12 @@ function useCountdown() {
 export default function LandingPage() {
   const [showPopup, setShowPopup] = useState(false);
   const [showTnc, setShowTnc] = useState(false);
+  const [spotsRemaining, setSpotsRemaining] = useState(45);
   const countdown = useCountdown();
+
+  useEffect(() => {
+    setSpotsRemaining(Math.floor(Math.random() * 21) + 30);
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -219,7 +224,7 @@ export default function LandingPage() {
             {/* Spots Remaining + Countdown */}
             <div style={{ marginTop: 20, display: "flex", alignItems: "center", gap: 12, justifyContent: "center" }}>
               <span className="spots-dot" />
-              <span style={{ fontSize: "0.75rem", color: "#ef4444", fontWeight: 700 }}>Only {Math.floor(Math.random() * 21) + 30} spots remaining</span>
+              <span style={{ fontSize: "0.75rem", color: "#ef4444", fontWeight: 700 }}>Only {spotsRemaining} spots remaining</span>
             </div>
             <div style={{ marginTop: 16, display: "flex", gap: 10, justifyContent: "center" }}>
               {[
