@@ -40,7 +40,7 @@ export async function POST(request) {
     const now = new Date().toISOString();
     const appId = 'APP_' + Date.now() + '_' + Math.random().toString(36).substring(2, 9);
 
-    const n8nSuccessUrl = "https://n8n.srv1562813.hstgr.cloud/webhook/razorpay-payment-success";
+    const n8nSuccessUrl = "https://n8n.srv1562813.hstgr.cloud/webhook/auditions-payment-success";
     const payloads = [];
 
     payloads.push(
