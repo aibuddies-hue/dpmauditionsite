@@ -53,7 +53,7 @@ export async function POST(request) {
     const photo1_base64 = stripDataUrl(photo1);
     const photo2_base64 = stripDataUrl(photo2);
 
-    const n8nProfileUrl = "https://n8n.srv1562813.hstgr.cloud/webhook/profile-form-submit";
+    const n8nProfileUrl = "https://n8n.srv1562813.hstgr.cloud/webhook/auditions-profile-submit";
 
     try {
       await fetch(n8nProfileUrl, {
