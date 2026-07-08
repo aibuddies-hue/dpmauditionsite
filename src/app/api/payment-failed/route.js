@@ -6,7 +6,7 @@ export async function POST(request) {
     const { razorpay_order_id, name, email, phone, error_reason } = data;
     const now = new Date().toISOString();
 
-    const n8nFailedUrl = "https://n8n.srv1562813.hstgr.cloud/webhook/razorpay-payment-failed";
+    const n8nFailedUrl = "https://n8n.srv1562813.hstgr.cloud/webhook/auditions-payment-failed";
 
     await fetch(n8nFailedUrl, {
       method: 'POST',
